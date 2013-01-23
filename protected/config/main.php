@@ -8,6 +8,13 @@
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 
+	// i18n
+	'language'=>'en_us',//en_us
+    'sourceLanguage'=>'en_us',
+
+    // time zone
+    'timeZone'=>'Asia/Chongqing',
+
 	// system name
 	'name'=>'Nerr Smart Trader Management System',
 	
