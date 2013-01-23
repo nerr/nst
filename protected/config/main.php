@@ -9,7 +9,7 @@ return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 
 	// system name
-	'name'=>'Nerr Smart Trader Managment System',
+	'name'=>'Nerr Smart Trader Management System',
 	
 	// default controller
 	'defaultController'=>'site',
