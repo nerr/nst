@@ -23,9 +23,9 @@
 		<aside class="sidebar">
 			<ul class="tab_nav">
 				<li class="active_tab i_32_dashboard">
-					<a href="index.html" title="General Info">
-						<span class="tab_label">摘要</span>
-						<span class="tab_info">General Info</span>
+					<a href="index.html" title="<?php echo Yii::t('common', 'General Info'); ?>">
+						<span class="tab_label"><?php echo Yii::t('common', 'General'); ?></span>
+						<span class="tab_info"><?php echo Yii::t('common', 'General Info'); ?></span>
 					</a>
 				</li>
 				<li class="i_32_inbox">
@@ -65,8 +65,8 @@
 			<div class="grid_wrapper">
 
 				<div class="g_6 contents_header">
-					<h3 class="i_16_dashboard tab_label">摘要</h3>
-					<div><span class="label">账户基本信息概况</span></div>
+					<h3 class="i_16_dashboard tab_label"><?php echo Yii::t('common', 'General'); ?></h3>
+					<div><span class="label"><?php echo Yii::t('common', 'General information and Summary'); ?></span></div>
 				</div>
 				<div class="g_6 contents_options">
 					<div class="simple_buttons">

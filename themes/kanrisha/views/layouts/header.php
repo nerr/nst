@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
+	<title><?php echo Yii::t('common', CHtml::encode($this->pageTitle)); ?></title>
 	<link rel="shortcut icon" href="<?php echo $imgpath; ?>favicon.ico" />
 	<!--[if lt IE 9]>
 		<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
