@@ -142,7 +142,7 @@
 	<header class="main_header">
 		<div class="wrapper">
 			<div class="logo">
-				<a href="#" Title="Home">
+				<a href="<?php echo Yii::app()->request->baseUrl; ?>" Title="Home">
 					<img src="<?php echo $imgpath; ?>logo.png" alt="logo">
 				</a>
 			</div>
