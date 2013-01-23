@@ -19,7 +19,7 @@ return array(
 	'name'=>'Nerr Smart Trader Management System',
 	
 	// default controller
-	'defaultController'=>'site',
+	'defaultController'=>'default',
 
 	// preloading 'log' component
 	'preload'=>array('log'),
@@ -75,7 +75,7 @@ return array(
 		*/
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
-			'errorAction'=>'site/error',
+			'errorAction'=>'default/error',
 		),
 		'log'=>array(
 			'class'=>'CLogRouter',

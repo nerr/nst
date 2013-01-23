@@ -1,6 +1,6 @@
 <?php
 
-class SiteController extends Controller
+class DefaultController extends Controller
 {
 	/**
 	 * Declares class-based actions.
