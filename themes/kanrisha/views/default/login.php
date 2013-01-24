@@ -56,15 +56,6 @@
 	<script src="<?php echo $jspath; ?>kanrisha.js"></script>
 </head>
 <body>
-	<!-- Change Pattern -->
-	<div class="changePattern">
-		<span id="pattern1"></span>
-		<span id="pattern2"></span>
-		<span id="pattern3"></span>
-		<span id="pattern4"></span>
-		<span id="pattern5"></span>
-		<span id="pattern6"></span>
-	</div>
 	<!-- Top Panel -->
 	<div class="top_panel">
 		<div class="wrapper">
