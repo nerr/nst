@@ -70,25 +70,25 @@
 		
 		<div class="login">
 			<div class="widget_header">
-				<h4 class="widget_header_title wwIcon i_16_login">Login 登录</h4>
+				<h4 class="widget_header_title wwIcon i_16_login"><?php echo Yii::t('common', 'Login'); ?></h4>
 			</div>
 			<div class="widget_contents lgNoPadding">
 				<form action="index.html">
 				<div class="line_grid">
-					<div class="g_2 g_2M"><span class="label">User 用户名</span></div>
+					<div class="g_2 g_2M"><span class="label"><?php echo Yii::t('common', 'User'); ?></span></div>
 					<div class="g_10 g_10M">
 						<input class="simple_field tooltip" title="Your Username" type="text" placeholder="Username"></div>
 					<div class="clear"></div>
 				</div>
 				<div class="line_grid">
-					<div class="g_2 g_2M"><span class="label">Pass 密码</span></div>
+					<div class="g_2 g_2M"><span class="label"><?php echo Yii::t('common', 'Pass'); ?></span></div>
 					<div class="g_10 g_10M">
 						<input class="simple_field tooltip" title="Your Password" type="password" value="password">
 					</div>
 					<div class="clear"></div>
 				</div>
 				<div class="line_grid">
-					<div class="g_6"><input class="submitIt simple_buttons" value="Log In" type="submit">
+					<div class="g_6"><input class="submitIt simple_buttons" value="<?php echo Yii::t('common', 'Login In'); ?>" type="submit">
 					</div>
 					<div class="clear"></div>
 				</div>
