@@ -2367,3 +2367,11 @@
 	#pattern6 {
 		background: url("../img/Patterns/pattern6.png") no-repeat 0 0;
 	}
+	
+	
+	.logo_left {
+		display: block;
+		float: left;
+		margin: 5px 7px 0 0;
+		height: 32px;
+	}
