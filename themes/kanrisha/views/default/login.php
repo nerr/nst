@@ -9,7 +9,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title><?php echo Yii::t('common', CHtml::encode($this->pageTitle)); ?></title>
+	<title>Login | <?php echo Yii::t('common', CHtml::encode($this->pageTitle)); ?></title>
 	<link rel="shortcut icon" href="<?php echo $imgpath; ?>favicon.ico" />
 	<!--[if lt IE 9]>
 		<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
@@ -60,8 +60,8 @@
 	<div class="top_panel">
 		<div class="wrapper">
 			<div class="user">
-				<img src="<?php echo $imgpath; ?>user_avatar.png" alt="user_avatar" class="user_avatar">
-				<span class="label"><a href="#">Sign Up</a></span>
+				<img src="<?php echo $imgpath; ?>logo_left.png" alt="user_avatar" class="logo_left">
+				<span class="label"><a href="#">Nerr Smart Trader | Login</a></span>
 			</div>
 		</div>
 	</div>
