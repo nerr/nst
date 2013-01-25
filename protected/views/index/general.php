@@ -94,25 +94,25 @@
 				<!-- Quick Statistics -->
 				<div class="g_3 quick_stats">
 					<div class="big_stats visitor_stats">
-						<?php echo $params['summary']['balance']; ?>
+						<?php echo $summary['balance']; ?>
 					</div>
 					<h5 class="stats_info"><?php echo Yii::t('common', 'Balance'); ?></h5>
 				</div>
 				<div class="g_3 quick_stats">
 					<div class="big_stats tickets_stats">
-						23
+						<?php echo $summary['equity']; ?>
 					</div>
 					<h5 class="stats_info"><?php echo Yii::t('common', 'Equity'); ?></h5>
 				</div>
 				<div class="g_3 quick_stats">
 					<div class="big_stats users_stats">
-						982
+						<?php echo $summary['swap']; ?>
 					</div>
 					<h5 class="stats_info"><?php echo Yii::t('common', 'Swap'); ?></h5>
 				</div>
 				<div class="g_3 quick_stats">
 					<div class="big_stats orders_stats">
-						2045
+						<?php echo $summary['profit']; ?>
 					</div>
 					<h5 class="stats_info"><?php echo Yii::t('common', 'Profit'); ?></h5>
 				</div>
