@@ -9,7 +9,7 @@ return array(
     'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 
     // i18n
-    'language'=>'zh-cn',//en_us or zh_cn
+    'language'=>'zh_cn',//en_us or zh_cn
     'sourceLanguage'=>'en_us',
 
     // time zone
