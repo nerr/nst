@@ -35,10 +35,16 @@ class IndexController extends Controller
 	 */
 	public function actionGeneral()
 	{
-		// renders the view file 'protected/views/site/index.php'
-		// using the default layout 'protected/views/layouts/main.php'
+		$userid = 1;
 
-		$params['imgpath'] = Yii::app()->request->baseUrl."/themes/kanrisha/img/";
+
+		$params['summary'] = array(
+			'balance' => '111',
+			'equity' => '100',
+			'swap' => '20',
+			'profit' => '-1'
+			);
+		//$params['imgpath'] = Yii::app()->request->baseUrl."/themes/kanrisha/img/";
 		$this->render('general', $params);
 	}
 }
