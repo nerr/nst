@@ -27,19 +27,7 @@ class DefaultController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$this->redirect('index.php?r=default/general');
-	}
-
-	/**
-	 * This is the user general action
-	 */
-	public function actionGeneral()
-	{
-		// renders the view file 'protected/views/site/index.php'
-		// using the default layout 'protected/views/layouts/main.php'
-
-		$params['imgpath'] = Yii::app()->request->baseUrl."/themes/kanrisha/img/";
-		$this->render('general', $params);
+		$this->redirect('index.php?r=index/general');
 	}
 
 	/**
