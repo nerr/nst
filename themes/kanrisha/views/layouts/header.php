@@ -54,9 +54,9 @@
 	<div class="top_panel">
 		<div class="wrapper">
 			<div class="user">
-				<img src="<?php echo $imgpath; ?>user_avatar.png" alt="user_avatar" class="user_avatar">
-				<span class="label">John Alex</span>
+				<span class="label"><?php echo Yii::t('common', 'Welcome'); ?>,&nbsp;John Alex</span>
 				<!-- Top Tooltip -->
+				<!-- 
 				<div class="top_tooltip">
 					<div>
 						<ul class="user_options">
@@ -67,10 +67,11 @@
 							<li class="i_16_logout"><a href="#" title="Log-Out"></a></li>
 						</ul>
 					</div>
-				</div>
+				</div> -->
 			</div>
 			<div class="top_links">
 				<ul>
+					<!--
 					<li class="i_22_search search_icon">
 						<div class="top_tooltip right_direction">
 							<div>
@@ -89,9 +90,9 @@
 					<li class="i_22_upload">
 						<a href="#" title="Upload">
 							<span class="label">Upload</span>
-						</a>
+						</a> -->
 						<!-- Drop Menu -->
-						<ul class="drop_menu menu_with_icons right_direction">
+						<!--<ul class="drop_menu menu_with_icons right_direction">
 							<li>
 								<a class="i_16_add" href="#" title="New Flie">
 									<span class="label">New File</span>
@@ -119,8 +120,9 @@
 					<li class="i_22_pages">
 						<a href="#" title="Pages">
 							<span class="label">Pages</span>
-						</a>
+						</a> -->
 						<!-- Drop Menu -->
+						<!--
 						<ul class="drop_menu menu_without_icons">
 							<li>
 								<a title="403 Page" href="403.html">
@@ -133,7 +135,7 @@
 								</a>
 							</li>
 						</ul>
-					</li>
+					</li>-->
 				</ul>
 			</div>
 		</div>
@@ -152,7 +154,7 @@
 						<div class="out_border">
 							<div class="button_wrapper">
 								<div class="in_border">
-									<a href="#" title="Analytics" class="the_button">
+									<a href="#" title="<?php echo Yii::t('common', 'Exit'); ?>" class="the_button">
 										<span class="i_32_statistic"></span>
 									</a>
 								</div>
@@ -160,19 +162,20 @@
 						</div>
 					</li>
 					<li class="big_button">
-						<div class="big_count">
+						<!-- <div class="big_count">
 							<span>7</span>
-						</div>
+						</div> -->
 						<div class="out_border">
 							<div class="button_wrapper">
 								<div class="in_border">
-									<a href="#" title="Support" class="the_button">
+									<a href="#" title="<?php echo Yii::t('common', 'Support'); ?>" class="the_button">
 										<span class="i_32_support"></span>
 									</a>
 								</div>
 							</div>
 						</div>
 					</li>
+					<!--
 					<li class="big_button">
 						<div class="out_border">
 							<div class="button_wrapper">
@@ -194,7 +197,7 @@
 								</div>
 							</div>
 						</div>
-					</li>
+					</li>-->
 				</ul>
 			</nav>
 		</div>
