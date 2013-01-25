@@ -24,6 +24,14 @@ return array(
     
     'Your Username' => '您的用户名',
     'Your Password' => '您的密码',
+
+    // general
+    'Balance' => '账户余额',
+    'Equity' => '账户净值',
+    'Swap' => '累计利息收益',
+    'Profit' => '总收益',
+
+    'Help' => '帮助',
 );
 
 ?>
