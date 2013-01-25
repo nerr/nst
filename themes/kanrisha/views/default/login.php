@@ -73,17 +73,17 @@
 				<h4 class="widget_header_title wwIcon i_16_login"><?php echo Yii::t('common', 'Login'); ?></h4>
 			</div>
 			<div class="widget_contents lgNoPadding">
-				<form action="index.html">
+				<form action="">
 				<div class="line_grid">
 					<div class="g_2 g_2M"><span class="label"><?php echo Yii::t('common', 'User'); ?></span></div>
 					<div class="g_10 g_10M">
-						<input class="simple_field tooltip" title="Your Username" type="text" placeholder="Username"></div>
+						<input class="simple_field tooltip" title="<?php echo Yii::t('common', 'Your Username'); ?>" type="text" placeholder=""></div>
 					<div class="clear"></div>
 				</div>
 				<div class="line_grid">
 					<div class="g_2 g_2M"><span class="label"><?php echo Yii::t('common', 'Pass'); ?></span></div>
 					<div class="g_10 g_10M">
-						<input class="simple_field tooltip" title="Your Password" type="password" value="password">
+						<input class="simple_field tooltip" title="<?php echo Yii::t('common', 'Your Password'); ?>" type="password" value="">
 					</div>
 					<div class="clear"></div>
 				</div>

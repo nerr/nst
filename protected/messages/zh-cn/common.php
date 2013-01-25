@@ -12,9 +12,12 @@ return array(
     
     // login
     'Login' => '登录',
-    'Login in' => '登录',
+    'Login In' => '确认登录',
     'User' => '用户',
     'Pass' => '密码',
+    
+    'Your Username' => '您的用户名',
+    'Your Password' => '您的密码',
 );
 
 ?>
