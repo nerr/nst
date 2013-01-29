@@ -27,9 +27,10 @@ return array(
 
     // general
     'Balance' => '账户余额',
-    'Equity' => '账户净值',
+    'Net Earning' => '净收益',
     'Swap' => '累计利息收益',
-    'Profit' => '总收益',
+    //'Profit' => '总收益',
+    'Cost' => '交易成本',
 
     'Help' => '帮助',
 );

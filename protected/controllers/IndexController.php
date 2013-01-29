@@ -27,7 +27,7 @@ class IndexController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$this->redirect('index.php?r=default/general');
+		$this->redirect('index.php?r=index/general');
 	}
 
 	/**
@@ -37,14 +37,84 @@ class IndexController extends Controller
 	{
 		$userid = 1;
 
+		$params['summary'] = $this->getOrderInfo($userid);
 
-		$params['summary'] = array(
-			'balance' => '111',
-			'equity' => '100',
-			'swap' => '20',
-			'profit' => '-1'
-			);
-		//$params['imgpath'] = Yii::app()->request->baseUrl."/themes/kanrisha/img/";
 		$this->render('general', $params);
+
+		$this->getOrderInfo($userid);
+	}
+
+	private function getBalance($uid)
+	{
+		$criteria = new CDbCriteria;
+		$criteria->select='amount,direction';
+		$criteria->condition='userid=:userid';
+		$criteria->params=array(':userid' => $uid);
+		$result = SysCapitalFlow::model()->findAll($criteria);
+
+		$balance = 0;
+		foreach($result as $val)
+		{
+			if($val->direction == 0)
+				$balance += $val->amount;
+			elseif($val->direction == 1)
+				$balance -= $val->amount;
+		}
+		return $balance;
+	}
+
+	private function getCommission($uid)
+	{
+		$criteria = new CDbCriteria;
+		$criteria->select='commission';
+		$criteria->condition='userid=:userid';
+		$criteria->params=array(':userid' => $uid);
+		$result = TaSwapOrder::model()->findAll($criteria);
+
+		$commission = 0;
+		foreach($result as $val)
+		{
+			$commission += $val->commission;
+		}
+
+		return $commission;
+	}
+
+	private function getOrderInfo($userid)
+	{
+		$criteria = new CDbCriteria;
+		$criteria->select = 'logdatetime';
+		$criteria->order = 'logdatetime DESC';
+		$criteria->limit = 1;
+		$lastdate = TaSwapOrderDailySettlement::model()->find($criteria);
+
+		$criteria = new CDbCriteria;
+		$criteria->select = 'profit,swap';
+		$criteria->condition = 'logdatetime=:logdatetime';
+		$criteria->params = array(':logdatetime' => $lastdate->logdatetime);
+		$result = TaSwapOrderDailySettlement::model()->findAll($criteria);
+
+		$summary = array();
+		$summary['balance'] = 0;
+		$summary['swap'] = 0;
+		$summary['cost'] = 0;
+		$summary['netearning'] = 0;
+		$summary['lastupdatedate'] = $lastdate->logdatetime;
+
+		foreach($result as $val)
+		{
+			$summary['swap'] += $val->swap;
+			$summary['cost'] += $val->profit;
+		}
+
+		$summary['cost'] -= $this->getCommission($userid);
+		$summary['netearning'] = $summary['swap'] + $summary['cost'];
+		$summary['netearning'] = number_format($summary['netearning'], 1);
+		$summary['swap'] = number_format($summary['swap'], 1);
+		$summary['cost'] = number_format($summary['cost'], 1);
+		$summary['balance'] = number_format($this->getBalance($userid), 1);
+
+
+		return $summary;
 	}
 }

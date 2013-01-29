@@ -99,10 +99,10 @@
 					<h5 class="stats_info"><?php echo Yii::t('common', 'Balance'); ?></h5>
 				</div>
 				<div class="g_3 quick_stats">
-					<div class="big_stats tickets_stats">
-						<?php echo $summary['equity']; ?>
+					<div class="big_stats orders_stats">
+						<?php echo $summary['cost']; ?>
 					</div>
-					<h5 class="stats_info"><?php echo Yii::t('common', 'Equity'); ?></h5>
+					<h5 class="stats_info"><?php echo Yii::t('common', 'Cost'); ?></h5>
 				</div>
 				<div class="g_3 quick_stats">
 					<div class="big_stats users_stats">
@@ -111,10 +111,10 @@
 					<h5 class="stats_info"><?php echo Yii::t('common', 'Swap'); ?></h5>
 				</div>
 				<div class="g_3 quick_stats">
-					<div class="big_stats orders_stats">
-						<?php echo $summary['profit']; ?>
+					<div class="big_stats tickets_stats">
+						<?php echo $summary['netearning']; ?>
 					</div>
-					<h5 class="stats_info"><?php echo Yii::t('common', 'Profit'); ?></h5>
+					<h5 class="stats_info"><?php echo Yii::t('common', 'Net Earning'); ?></h5>
 				</div>
 
 				<div class="g_12 separator under_stat"><span></span></div>
