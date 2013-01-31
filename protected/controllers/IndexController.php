@@ -36,8 +36,10 @@ class IndexController extends Controller
 	public function actionGeneral()
 	{
 		$userid = 1;
+		$usergroupid = 2;
 
 		$params = $this->getSummaryData($userid);
+		//$params['menu'] = SysMenu::make($usergroupid, 'General');
 
 		$this->render('general', $params);
 	}
@@ -133,5 +135,16 @@ class IndexController extends Controller
 		}
 
 		return $data;
+	}
+
+
+	public function actionTest()
+	{
+
+		echo "it is just a test";
+
+		$params['menu'] = SysMenu::make($usergroupid, 'General');
+
+		echo $params['menu'];
 	}
 }
