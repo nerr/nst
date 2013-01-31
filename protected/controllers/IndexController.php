@@ -78,15 +78,17 @@ class IndexController extends Controller
 		//-- get profit swap
 		$criteria = new CDbCriteria;
 		$criteria->select = 'logdatetime';
-		$criteria->order = 'logdatetime DESC';
-		$criteria->limit = 1;
-		$lastdate = TaSwapOrderDailySettlement::model()->find($criteria);
+		$criteria->condition='userid=:userid';
+		$criteria->params=array(':userid' => $uid);
+		$criteria->order  = 'logdatetime DESC';
+		$criteria->limit  = 1;
+		$lastdate = ViewTaSwapOrderDetail::model()->find($criteria);
 
 		$criteria = new CDbCriteria;
 		$criteria->select = 'profit,swap,logdatetime';
-		//$criteria->condition = 'logdatetime=:logdatetime';
-		//$criteria->params = array(':logdatetime' => $lastdate->logdatetime);
-		$result = TaSwapOrderDailySettlement::model()->findAll($criteria);
+		$criteria->condition='userid=:userid';
+		$criteria->params=array(':userid' => $uid);
+		$result = ViewTaSwapOrderDetail::model()->findAll($criteria);
 
 		$data['summary']['lastuptodate'] = $lastdate->logdatetime;
 
