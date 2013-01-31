@@ -33,6 +33,9 @@ return array(
     'Cost' => '交易成本',
 
     'Help' => '帮助',
+    'Charts' => '图表',
+
+    'Last up to date:' => '最后更新：',
 );
 
 ?>

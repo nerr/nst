@@ -25,7 +25,7 @@ $(function () {
 
 	$(".changePattern span").on("click", function(){
 		var id = $(this).attr("id");
-		$("body").css("background-image", "url('../Images/Textures/"+ id +".png')");
+		$("body").css("background-image", "url('../img/Textures/"+ id +".png')");
 	});
 
 /* Opera Fix ========================================= */
@@ -37,7 +37,7 @@ $(function () {
 /* Charts ============================================ */
 	
 	if (!!$(".charts").offset() ) {
-		var sin = [];
+		/*var sin = [];
 		var cos = [];
 
 		for (var i = 0; i <= 20; i += 0.5){
@@ -46,37 +46,37 @@ $(function () {
 		}
 
 		// Display the Sin and Cos Functions
-		$.plot($(".charts"), [ { label: "Cos", data: cos }, { label: "Sin", data: sin } ],
-			{
-				colors: ["#00AADD", "#FF6347"],
+		$.plot($(".charts"), [ { label: "Swap", data: cos }, { label: "Cast", data: sin } ],
+		{
+			colors: ["#00AADD", "#FF6347"],
 
-				series: {
-					lines: {
-							show: true,
-							lineWidth: 2,
-						   },
-					points: {show: true},
-					shadowSize: 2,
-				},
+			series: {
+				lines: {
+						show: true,
+						lineWidth: 2,
+					   },
+				points: {show: true},
+				shadowSize: 2,
+			},
 
-				grid: {
-					hoverable: true,
-					show: true,
-					borderWidth: 0,
-					tickColor: "#d2d2d2",
-					labelMargin: 12,
-				},
+			grid: {
+				hoverable: true,
+				show: true,
+				borderWidth: 0,
+				tickColor: "#d2d2d2",
+				labelMargin: 12,
+			},
 
-				legend: {
-					show: true,
-					margin: [0,-24],
-					noColumns: 0,
-					labelBoxBorderColor: null,
-				},
+			legend: {
+				show: true,
+				margin: [0,-24],
+				noColumns: 0,
+				labelBoxBorderColor: null,
+			},
 
-				yaxis: { min: -1.2, max: 1.2},
-				xaxis: {},
-			});
+			yaxis: {},
+			xaxis: {},
+		});*/
 
 		// Tooltip Show
 		var previousPoint = null;

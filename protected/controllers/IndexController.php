@@ -37,51 +37,45 @@ class IndexController extends Controller
 	{
 		$userid = 1;
 
-		$params['summary'] = $this->getOrderInfo($userid);
+		$params = $this->getSummaryData($userid);
 
 		$this->render('general', $params);
-
-		$this->getOrderInfo($userid);
 	}
 
-	private function getBalance($uid)
+	private function getSummaryData($uid)
 	{
+		$data = array();
+
+		//-- get balance
 		$criteria = new CDbCriteria;
 		$criteria->select='amount,direction';
 		$criteria->condition='userid=:userid';
 		$criteria->params=array(':userid' => $uid);
 		$result = SysCapitalFlow::model()->findAll($criteria);
 
-		$balance = 0;
 		foreach($result as $val)
 		{
 			if($val->direction == 0)
-				$balance += $val->amount;
+				$data['summary']['balance'] += $val->amount;
 			elseif($val->direction == 1)
-				$balance -= $val->amount;
+				$data['summary']['balance'] -= $val->amount;
 		}
-		return $balance;
-	}
 
-	private function getCommission($uid)
-	{
+		//-- get commission
 		$criteria = new CDbCriteria;
 		$criteria->select='commission';
 		$criteria->condition='userid=:userid';
 		$criteria->params=array(':userid' => $uid);
 		$result = TaSwapOrder::model()->findAll($criteria);
 
-		$commission = 0;
+		$i = 0;
 		foreach($result as $val)
 		{
-			$commission += $val->commission;
+			$data['summary']['commission'] += $val->commission;
+			$i++;
 		}
 
-		return $commission;
-	}
-
-	private function getOrderInfo($userid)
-	{
+		//-- get profit swap
 		$criteria = new CDbCriteria;
 		$criteria->select = 'logdatetime';
 		$criteria->order = 'logdatetime DESC';
@@ -89,32 +83,53 @@ class IndexController extends Controller
 		$lastdate = TaSwapOrderDailySettlement::model()->find($criteria);
 
 		$criteria = new CDbCriteria;
-		$criteria->select = 'profit,swap';
-		$criteria->condition = 'logdatetime=:logdatetime';
-		$criteria->params = array(':logdatetime' => $lastdate->logdatetime);
+		$criteria->select = 'profit,swap,logdatetime';
+		//$criteria->condition = 'logdatetime=:logdatetime';
+		//$criteria->params = array(':logdatetime' => $lastdate->logdatetime);
 		$result = TaSwapOrderDailySettlement::model()->findAll($criteria);
 
-		$summary = array();
-		$summary['balance'] = 0;
-		$summary['swap'] = 0;
-		$summary['cost'] = 0;
-		$summary['netearning'] = 0;
-		$summary['lastupdatedate'] = $lastdate->logdatetime;
+		$data['summary']['lastuptodate'] = $lastdate->logdatetime;
 
 		foreach($result as $val)
 		{
-			$summary['swap'] += $val->swap;
-			$summary['cost'] += $val->profit;
+			if($val->logdatetime == $lastdate->logdatetime)
+			{
+				$data['summary']['swap'] += $val->swap;
+				$data['summary']['cost'] += $val->profit;
+			}
+
+			$tm = strtotime(date('Y-m-d', strtotime($val->logdatetime)));
+			$charts['swap'][$tm] += $val->swap;
+			$charts['cost'][$tm] += $val->profit;
 		}
 
-		$summary['cost'] -= $this->getCommission($userid);
-		$summary['netearning'] = $summary['swap'] + $summary['cost'];
-		$summary['netearning'] = number_format($summary['netearning'], 1);
-		$summary['swap'] = number_format($summary['swap'], 1);
-		$summary['cost'] = number_format($summary['cost'], 1);
-		$summary['balance'] = number_format($this->getBalance($userid), 1);
+		$data['charts']['swap'] = array();
+		$data['charts']['cost'] = array();
+		$data['charts']['netearning'] = array();
+		foreach($charts['swap'] as $d=>$v)
+		{
+			array_push($data['charts']['swap'], array($d, $v));
+			array_push($data['charts']['cost'], array($d, $charts['cost'][$d]));
+			array_push($data['charts']['netearning'], array($d, $v + $charts['cost'][$d] - $data['summary']['commission']));
+		}
 
+		$data['summary']['cost'] -= $data['summary']['commission']; // adjust the cost value
 
-		return $summary;
+		//-- get net earning
+		$data['summary']['netearning'] = $data['summary']['swap'] + $data['summary']['cost'];
+		$data['summary']['balance'] += $data['summary']['netearning'];
+
+		//-- data format
+		foreach($data['summary'] as $key=>$val)
+		{
+			if($key!='lastuptodate')
+			$data['summary'][$key] = number_format($val, 1);
+		}
+		foreach($data['charts'] as $key=>$val)
+		{
+			$data['charts'][$key] = json_encode($val);
+		}
+
+		return $data;
 	}
 }
