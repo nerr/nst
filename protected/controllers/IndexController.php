@@ -65,7 +65,7 @@ class IndexController extends Controller
 
 		//-- get commission
 		$criteria = new CDbCriteria;
-		$criteria->select='commission';
+		$criteria->select='commission,opendate';
 		$criteria->condition='userid=:userid';
 		$criteria->params=array(':userid' => $uid);
 		$result = TaSwapOrder::model()->findAll($criteria);
@@ -74,6 +74,7 @@ class IndexController extends Controller
 		foreach($result as $val)
 		{
 			$data['summary']['commission'] += $val->commission;
+			$commission[$val->opendate] += $val->commission;
 			$i++;
 		}
 
@@ -113,11 +114,11 @@ class IndexController extends Controller
 		foreach($charts['swap'] as $d=>$v)
 		{
 			array_push($data['charts']['swap'], array($d, $v));
-			array_push($data['charts']['cost'], array($d, $charts['cost'][$d]));
-			array_push($data['charts']['netearning'], array($d, $v + $charts['cost'][$d] - $data['summary']['commission']));
+			array_push($data['charts']['cost'], array($d, $charts['cost'][$d] + $data['summary']['commission']));
+			array_push($data['charts']['netearning'], array($d, $v + $charts['cost'][$d] + $data['summary']['commission']));
 		}
 
-		$data['summary']['cost'] -= $data['summary']['commission']; // adjust the cost value
+		$data['summary']['cost'] += $data['summary']['commission']; // adjust the cost value
 
 		//-- get net earning
 		$data['summary']['netearning'] = $data['summary']['swap'] + $data['summary']['cost'];
@@ -127,7 +128,7 @@ class IndexController extends Controller
 		foreach($data['summary'] as $key=>$val)
 		{
 			if($key!='lastuptodate')
-			$data['summary'][$key] = number_format($val, 1);
+				$data['summary'][$key] = number_format($val, 1);
 		}
 		foreach($data['charts'] as $key=>$val)
 		{
