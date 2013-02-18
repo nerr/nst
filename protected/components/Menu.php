@@ -1,45 +1,54 @@
 <?php
 
-class SysMenu
+class Menu
 {
-	const ACTIVEITEM = 'active_tab ';
+	//const ACTIVEITEM = 'active_tab ';
 	
 	//
-	public static function make($groupid, $activeitem)
+	public static function make($gid, $activeitem)
 	{
-		$menuArr = SysMenu::getMenuData($groupid);
-		$menuhtml = SysMenu::structureMenu($menuArr, $selectItem);
-		$menuhtml = '<ul class="tab_nav">'.$menu.'</ul>';
+		$menudata = Menu::getMenuData($gid);
+		$menuhtml = Menu::structureMenu($menudata, $activeitem);
 
 		return $menuhtml;
 	}
 
 	public static function getMenuData($gid)
 	{
+		$criteria = new CDbCriteria;
+		$criteria->select = 'menuname,menuurl,icon,title';
+		$criteria->condition='usergroupid=:usergroupid';
+		$criteria->params=array(':usergroupid' => $gid);
+		$criteria->order  = 'menusort';
+		$result = SysMenu::model()->findAll($criteria);
 
+		return $result;
 	}
 	
-	public static function structureMenu($menudata, $active)
+	public static function structureMenu($mdata, $active)
 	{
-		if(count($data)==0)
+		if(count($mdata)==0)
 			return 'Load menu data error.';
 
 		$menu = '';
 		
-		foreach($menudata as $val)
+		foreach($mdata as $val)
 		{
-			if($val->menuname==$active)
+			if($val->menuname == $active)
 				$a = 'active_tab ';
 			else
 				$a = '';
 
-			$menu = $menu.'<li class="'.$a.'i_32_'.$val->icon.'">
-					<a href="inbox.html" title="">
-						<span class="tab_label">'.Yii::t('common', $val->menuname);.'</span>
-						<span class="tab_info">'.Yii::t('common', $val->menuname);.'</span>
+
+			$url = Yii::app()->createUrl($val->menuurl);
+			$menu .= '<li class="'.$a.$val->icon.'">
+					<a href="'.$url.'" title="">
+						<span class="tab_label">'.Yii::t('common', $val->menuname).'</span>
+						<span class="tab_info">'.Yii::t('common', $val->title).'</span>
 					</a>
 				</li>';
 		}
+
 		return $menu;
 	}
 
