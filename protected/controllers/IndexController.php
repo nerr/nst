@@ -123,6 +123,7 @@ class IndexController extends Controller
 		//-- get net earning
 		$data['summary']['netearning'] = $data['summary']['swap'] + $data['summary']['cost'];
 		$data['summary']['balance'] += $data['summary']['netearning'];
+		$data['menu'] = Menu::make(2, 'General');
 
 		//-- data format
 		foreach($data['summary'] as $key=>$val)
@@ -141,11 +142,13 @@ class IndexController extends Controller
 
 	public function actionTest()
 	{
+		/*echo "begin..."."<br>";
 
-		echo "it is just a test";
+		$menu = Menu::make(2, 'General');
 
-		$params['menu'] = SysMenu::make($usergroupid, 'General');
+		echo $menu;
 
-		echo $params['menu'];
+
+		echo Yii::t('common', 'General');*/
 	}
 }
