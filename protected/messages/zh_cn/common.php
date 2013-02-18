@@ -7,13 +7,20 @@ return array(
     'Welcome' => '欢迎',
     'Support' => '支持',
     'Exit'    => '退出系统',
-    
 
 
     // menu
     'General' => '摘要',
     'General Info' => '信息摘要',
     'General information and Summary' => '信息摘要和汇总',
+
+    'Report' => '报表',
+    'Daily Report' => '每日收益',
+    '' => '',
+
+    'Funds' => '资金',
+    'Funds Record' => '资金记录',
+    '' => '',
     
     
     // login
