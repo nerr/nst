@@ -27,7 +27,7 @@ class IndexController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$this->redirect('index.php?r=index/general');
+		$this->redirect('index/general');
 	}
 
 	/**
@@ -39,9 +39,27 @@ class IndexController extends Controller
 		$usergroupid = 2;
 
 		$params = $this->getSummaryData($userid);
-		//$params['menu'] = SysMenu::make($usergroupid, 'General');
+		$params['menu'] = Menu::make($usergroupid, 'General');
 
 		$this->render('general', $params);
+	}
+
+	public function actionReport()
+	{
+		$userid = 1;
+		$usergroupid = 2;
+
+		$params['menu'] = Menu::make($usergroupid, 'Report');
+		$this->render('report', $params);
+	}
+
+	public function actionFunds()
+	{
+		$userid = 1;
+		$usergroupid = 2;
+
+		$params['menu'] = Menu::make($usergroupid, 'Funds');
+		$this->render('funds', $params);
 	}
 
 	private function getSummaryData($uid)
@@ -123,7 +141,6 @@ class IndexController extends Controller
 		//-- get net earning
 		$data['summary']['netearning'] = $data['summary']['swap'] + $data['summary']['cost'];
 		$data['summary']['balance'] += $data['summary']['netearning'];
-		$data['menu'] = Menu::make(2, 'General');
 
 		//-- data format
 		foreach($data['summary'] as $key=>$val)
@@ -139,16 +156,16 @@ class IndexController extends Controller
 		return $data;
 	}
 
-
+	/*
 	public function actionTest()
 	{
-		/*echo "begin..."."<br>";
+		echo "begin..."."<br>";
 
 		$menu = Menu::make(2, 'General');
 
 		echo $menu;
 
 
-		echo Yii::t('common', 'General');*/
-	}
+		echo Yii::t('common', 'General');
+	}*/
 }
