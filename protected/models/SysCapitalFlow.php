@@ -8,8 +8,13 @@
  * @property integer $accountid
  * @property integer $userid
  * @property double $amount
- * @property integer $direction
- * @property string $when
+ * @property integer $directionid
+ * @property string $flowtime
+ *
+ * The followings are the available model relations:
+ * @property SysCapitalDirection $direction
+ * @property SysAccount $account
+ * @property SysUser $user
  */
 class SysCapitalFlow extends CActiveRecord
 {
@@ -39,12 +44,12 @@ class SysCapitalFlow extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('accountid, userid, amount, direction, when', 'required'),
-			array('accountid, userid, direction', 'numerical', 'integerOnly'=>true),
+			array('accountid, userid, amount, directionid, flowtime', 'required'),
+			array('accountid, userid, directionid', 'numerical', 'integerOnly'=>true),
 			array('amount', 'numerical'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, accountid, userid, amount, direction, when', 'safe', 'on'=>'search'),
+			array('id, accountid, userid, amount, directionid, flowtime', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,6 +61,9 @@ class SysCapitalFlow extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'direction' => array(self::BELONGS_TO, 'SysCapitalDirection', 'directionid'),
+			'account' => array(self::BELONGS_TO, 'SysAccount', 'accountid'),
+			'user' => array(self::BELONGS_TO, 'SysUser', 'userid'),
 		);
 	}
 
@@ -69,8 +77,8 @@ class SysCapitalFlow extends CActiveRecord
 			'accountid' => 'Accountid',
 			'userid' => 'Userid',
 			'amount' => 'Amount',
-			'direction' => 'Direction',
-			'when' => 'When',
+			'directionid' => 'Directionid',
+			'flowtime' => 'Flowtime',
 		);
 	}
 
@@ -89,8 +97,8 @@ class SysCapitalFlow extends CActiveRecord
 		$criteria->compare('accountid',$this->accountid);
 		$criteria->compare('userid',$this->userid);
 		$criteria->compare('amount',$this->amount);
-		$criteria->compare('direction',$this->direction);
-		$criteria->compare('when',$this->when,true);
+		$criteria->compare('directionid',$this->directionid);
+		$criteria->compare('flowtime',$this->flowtime,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
