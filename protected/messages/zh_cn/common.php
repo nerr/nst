@@ -42,7 +42,7 @@ return array(
     'Help' => '帮助',
     'Charts' => '图表',
 
-    'Last up to date:' => '最后更新：',
+    'Last up to date: ' => '最后更新：',
 
 
 
