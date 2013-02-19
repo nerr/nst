@@ -9,6 +9,7 @@
  * @property integer $userid
  * @property string $flowtime
  * @property double $amount
+ * @property string $memo
  * @property string $directioinname
  */
 class ViewTaSwapCapitalFlow extends CActiveRecord
@@ -42,10 +43,11 @@ class ViewTaSwapCapitalFlow extends CActiveRecord
 			array('accountid, userid, flowtime, amount', 'required'),
 			array('id, accountid, userid', 'numerical', 'integerOnly'=>true),
 			array('amount', 'numerical'),
+			array('memo', 'length', 'max'=>256),
 			array('directioinname', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, accountid, userid, flowtime, amount, directioinname', 'safe', 'on'=>'search'),
+			array('id, accountid, userid, flowtime, amount, memo, directioinname', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -71,6 +73,7 @@ class ViewTaSwapCapitalFlow extends CActiveRecord
 			'userid' => 'Userid',
 			'flowtime' => 'Flowtime',
 			'amount' => 'Amount',
+			'memo' => 'Memo',
 			'directioinname' => 'Directioinname',
 		);
 	}
@@ -91,6 +94,7 @@ class ViewTaSwapCapitalFlow extends CActiveRecord
 		$criteria->compare('userid',$this->userid);
 		$criteria->compare('flowtime',$this->flowtime,true);
 		$criteria->compare('amount',$this->amount);
+		$criteria->compare('memo',$this->memo,true);
 		$criteria->compare('directioinname',$this->directioinname,true);
 
 		return new CActiveDataProvider($this, array(

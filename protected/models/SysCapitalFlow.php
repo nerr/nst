@@ -10,10 +10,11 @@
  * @property double $amount
  * @property integer $directionid
  * @property string $flowtime
+ * @property string $memo
  *
  * The followings are the available model relations:
- * @property SysCapitalDirection $direction
  * @property SysAccount $account
+ * @property SysCapitalDirection $direction
  * @property SysUser $user
  */
 class SysCapitalFlow extends CActiveRecord
@@ -47,9 +48,10 @@ class SysCapitalFlow extends CActiveRecord
 			array('accountid, userid, amount, directionid, flowtime', 'required'),
 			array('accountid, userid, directionid', 'numerical', 'integerOnly'=>true),
 			array('amount', 'numerical'),
+			array('memo', 'length', 'max'=>256),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, accountid, userid, amount, directionid, flowtime', 'safe', 'on'=>'search'),
+			array('id, accountid, userid, amount, directionid, flowtime, memo', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -61,8 +63,8 @@ class SysCapitalFlow extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'direction' => array(self::BELONGS_TO, 'SysCapitalDirection', 'directionid'),
 			'account' => array(self::BELONGS_TO, 'SysAccount', 'accountid'),
+			'direction' => array(self::BELONGS_TO, 'SysCapitalDirection', 'directionid'),
 			'user' => array(self::BELONGS_TO, 'SysUser', 'userid'),
 		);
 	}
@@ -79,6 +81,7 @@ class SysCapitalFlow extends CActiveRecord
 			'amount' => 'Amount',
 			'directionid' => 'Directionid',
 			'flowtime' => 'Flowtime',
+			'memo' => 'Memo',
 		);
 	}
 
@@ -99,6 +102,7 @@ class SysCapitalFlow extends CActiveRecord
 		$criteria->compare('amount',$this->amount);
 		$criteria->compare('directionid',$this->directionid);
 		$criteria->compare('flowtime',$this->flowtime,true);
+		$criteria->compare('memo',$this->memo,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
