@@ -116,6 +116,7 @@ class IndexController extends Controller
 		{
 			$params['summary'][$k] = number_format($v, 2);
 		}
+		$params['url']['funds'] = $this->createUrl('index/funds');
 
 		$this->render('report', $params);
 	}

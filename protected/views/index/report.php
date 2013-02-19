@@ -37,7 +37,7 @@
 							</thead>
 							<tbody>
 								<tr>
-									<td><?php echo $summary['capital']; ?></td>
+									<td><a href="<?php echo $url['funds'];?>"><?php echo $summary['capital']; ?></a></td>
 									<td><?php echo $summary['yield']; ?></td>
 									<td><?php echo $summary['yieldrate']; ?>%</td>
 								</tr>
