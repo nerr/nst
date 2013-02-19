@@ -126,7 +126,16 @@ class IndexController extends Controller
 		$uid = 1;
 		$gid = 2;
 
+		//-- get log
+		$criteria = new CDbCriteria;
+		$criteria->select = 'amount,directioinname,flowtime,memo';
+		$criteria->condition='userid=:userid';
+		$criteria->params=array(':userid' => $uid);
+		$criteria->order  = 'flowtime DESC';
+		$result = ViewTaSwapCapitalFlow::model()->findAll($criteria);
+
 		$params['menu'] = Menu::make($gid, 'Funds');
+		$params['table'] = $result;
 		$this->render('funds', $params);
 	}
 
@@ -136,16 +145,16 @@ class IndexController extends Controller
 
 		//-- get balance
 		$criteria = new CDbCriteria;
-		$criteria->select='amount,direction';
+		$criteria->select='amount,directionid';
 		$criteria->condition='userid=:userid';
 		$criteria->params=array(':userid' => $uid);
 		$result = SysCapitalFlow::model()->findAll($criteria);
 
 		foreach($result as $val)
 		{
-			if($val->direction == 0)
+			if($val->direction == 1)
 				$data['summary']['balance'] += $val->amount;
-			elseif($val->direction == 1)
+			elseif($val->direction == 2)
 				$data['summary']['balance'] -= $val->amount;
 		}
 

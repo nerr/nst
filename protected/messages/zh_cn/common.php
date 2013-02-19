@@ -60,6 +60,18 @@ return array(
 
     'Yield' => '收益',
     'Capital' => '本金',
+
+    // funds
+    'Funds options log' => '资金操作记录',
+
+    'search' => '搜索',
+    'Direction' => '类型',
+    'Amount' => '金额',
+    'Description' => '说明',
+    'List' => '列表',
+    'Option Time' => '操作时间',
+    'Withdraw' => '出金',
+    'Deposit' => '入金',
 );
 
 ?>
