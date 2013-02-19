@@ -109,8 +109,8 @@ class IndexController extends Controller
 				$params['detail'][$k][$key] = number_format($val, 2);
 		}
 
-		$params['summary']['capital'] = $data['summary']['balance'];
-		$params['summary']['yieldrate'] = $params['summary']['yield'] / $data['summary']['balance'] * 100;
+		$params['summary']['capital'] = $data['summary']['capital'];
+		$params['summary']['yieldrate'] = $params['summary']['yield'] / $data['summary']['capital'] * 100;
 
 		foreach($params['summary'] as $k=>$v)
 		{
@@ -147,6 +147,8 @@ class IndexController extends Controller
 			elseif($val->direction == 1)
 				$data['summary']['balance'] -= $val->amount;
 		}
+
+		$data['summary']['capital'] = $data['summary']['balance'];
 
 		//-- get commission
 		$criteria = new CDbCriteria;
