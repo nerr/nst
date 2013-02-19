@@ -35,34 +35,101 @@ class IndexController extends Controller
 	 */
 	public function actionGeneral()
 	{
-		$userid = 1;
-		$usergroupid = 2;
+		$uid = 1;
+		$gid = 2;
 
-		$params = $this->getSummaryData($userid);
-		$params['menu'] = Menu::make($usergroupid, 'General');
+		$params = $this->getGeneralSummaryData($uid);
+		//-- params data format
+		foreach($params['summary'] as $key=>$val)
+		{
+			if($key!='lastuptodate')
+				$params['summary'][$key] = number_format($val, 1);
+		}
+		foreach($params['charts'] as $key=>$val)
+		{
+			$params['charts'][$key] = json_encode($val);
+		}
+
+		$params['menu'] = Menu::make($gid, 'General');
 
 		$this->render('general', $params);
 	}
 
 	public function actionReport()
 	{
-		$userid = 1;
-		$usergroupid = 2;
+		$uid = 1;
+		$gid = 2;
 
-		$params['menu'] = Menu::make($usergroupid, 'Report');
+		$params['menu'] = Menu::make($gid, 'Report');
+
+		$criteria = new CDbCriteria;
+		$criteria->select = 'profit,swap,logdatetime';
+		$criteria->condition='userid=:userid';
+		$criteria->order = 'logdatetime desc';
+		$criteria->params=array(':userid' => $uid);
+		$result = ViewTaSwapOrderDetail::model()->findAll($criteria);
+
+		$dateArr = array();
+		foreach($result as $val)
+		{
+			$date = date('Y-m-d', strtotime($val->logdatetime));
+			$detail[$date]['totalswap'] += $val->swap;
+			$detail[$date]['pl'] += $val->profit;
+
+			if(!in_array($date, $dateArr))
+				$dateArr[] = $date;
+			
+			if(count($detail) > 11)
+				break;
+		}
+
+		$data = $this->getGeneralSummaryData($uid);
+
+		$i = 0;
+		while (list($k, $v) = each($detail))
+		{
+			$params['detail'][$k] = $v;
+			$params['detail'][$k]['newswap'] = $v['totalswap'] - $detail[$dateArr[$i+1]]['totalswap'];
+			$params['detail'][$k]['totalpl'] = $v['totalswap'] + $v['pl'] + $data['summary']['commission'];
+
+			if($i == 0)
+				$params['summary']['yield'] = $params['detail'][$k]['totalpl'];
+
+			if($i >= 9)
+				break;
+			else
+				$i++;
+		}
+
+
+		// adjust detail data format
+		foreach($params['detail'] as $k=>$v)
+		{
+			foreach($v as $key => $val)
+				$params['detail'][$k][$key] = number_format($val, 2);
+		}
+
+		$params['summary']['capital'] = $data['summary']['balance'];
+		$params['summary']['yieldrate'] = $params['summary']['yield'] / $data['summary']['balance'] * 100;
+
+		foreach($params['summary'] as $k=>$v)
+		{
+			$params['summary'][$k] = number_format($v, 2);
+		}
+
 		$this->render('report', $params);
 	}
 
 	public function actionFunds()
 	{
-		$userid = 1;
-		$usergroupid = 2;
+		$uid = 1;
+		$gid = 2;
 
-		$params['menu'] = Menu::make($usergroupid, 'Funds');
+		$params['menu'] = Menu::make($gid, 'Funds');
 		$this->render('funds', $params);
 	}
 
-	private function getSummaryData($uid)
+	private function getGeneralSummaryData($uid)
 	{
 		$data = array();
 
@@ -142,16 +209,7 @@ class IndexController extends Controller
 		$data['summary']['netearning'] = $data['summary']['swap'] + $data['summary']['cost'];
 		$data['summary']['balance'] += $data['summary']['netearning'];
 
-		//-- data format
-		foreach($data['summary'] as $key=>$val)
-		{
-			if($key!='lastuptodate')
-				$data['summary'][$key] = number_format($val, 1);
-		}
-		foreach($data['charts'] as $key=>$val)
-		{
-			$data['charts'][$key] = json_encode($val);
-		}
+		
 
 		return $data;
 	}

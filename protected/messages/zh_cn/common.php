@@ -43,6 +43,23 @@ return array(
     'Charts' => '图表',
 
     'Last up to date:' => '最后更新：',
+
+
+
+    // report
+    'Report of daily P/L' => '每日收益情况报表',
+
+    'Date' => '日期',
+    'New SWAP' => '新增掉期',
+    'Total SWAP' => '累计掉期',
+    'Total P/L' => '总损益',
+    'Detail' => '明细表',
+    'Summary' => '汇总表',
+    'Last 10 days' => '最近10天',
+    'Yield Rate' => '收益率',
+
+    'Yield' => '收益',
+    'Capital' => '本金',
 );
 
 ?>
