@@ -48,6 +48,11 @@ return array(
             'user'=>array(
                 // enable cookie-based authentication
                 'allowAutoLogin' => false,
+                'loginUrl'=>array('default/login'),
+                'returnUrl'=>array('default/login'),
+                'authTimeout'=>1800,
+                'name'=>'username',
+                'id'=>'id',
             ),
             // uncomment the following to enable URLs in path-format
             /*

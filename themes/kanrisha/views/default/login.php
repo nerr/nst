@@ -61,7 +61,7 @@
 		<div class="wrapper">
 			<div class="user">
 				<img src="<?php echo $imgpath; ?>logo_left.png" alt="user_avatar" class="logo_left">
-				<span class="label"><a href="#">Nerr Smart Trader | Login</a></span>
+				<span class="label"><a href="###">Nerr Smart Trader</a></span>
 			</div>
 		</div>
 	</div>
@@ -73,7 +73,7 @@
 				<h4 class="widget_header_title wwIcon i_16_login"><?php echo Yii::t('common', 'Login'); ?></h4>
 			</div>
 			<div class="widget_contents lgNoPadding">
-				<form action="">
+				<form action="<?php ecoh $formSubmitUrl; ?>" method="get" id="login-form">
 				<div class="line_grid">
 					<div class="g_2 g_2M"><span class="label"><?php echo Yii::t('common', 'User'); ?></span></div>
 					<div class="g_10 g_10M">

@@ -35,7 +35,7 @@ class IndexController extends Controller
 	 */
 	public function actionGeneral()
 	{
-		$uid = 1;
+		$uid = 2;
 		$gid = 2;
 
 		$params = $this->getGeneralSummaryData($uid);
@@ -57,7 +57,7 @@ class IndexController extends Controller
 
 	public function actionReport()
 	{
-		$uid = 1;
+		$uid = 2;
 		$gid = 2;
 
 		$params['menu'] = Menu::make($gid, 'Report');
@@ -123,7 +123,7 @@ class IndexController extends Controller
 
 	public function actionFunds()
 	{
-		$uid = 1;
+		$uid = 2;
 		$gid = 2;
 
 		//-- get log
