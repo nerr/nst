@@ -34,7 +34,7 @@ return array(
     'Your Password' => '您的密码',
     'Your email' => '您的邮箱地址',
 
-    'Please input the right email address.' => '请输入正确的邮箱地址',
+    'Please enter the right email address.' => '请输入正确的邮箱地址',
     'Please enter the password' => '请输入密码',
 
 
