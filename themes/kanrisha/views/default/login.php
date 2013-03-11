@@ -22,38 +22,6 @@
 	<link rel="stylesheet" href="<?php echo $csspath; ?>style.css">
 	<!-- jQuery -->
 	<script src="<?php echo $jspath; ?>jQuery/jquery-1.7.2.min.js"></script>
-	<!-- Flot -->
-	<script src="<?php echo $jspath; ?>Flot/jquery.flot.js"></script>
-	<script src="<?php echo $jspath; ?>Flot/jquery.flot.resize.js"></script>
-	<script src="<?php echo $jspath; ?>Flot/jquery.flot.pie.js"></script>
-	<!-- DataTables -->
-	<script src="<?php echo $jspath; ?>DataTables/jquery.dataTables.min.js"></script>
-	<!-- ColResizable -->
-	<script src="<?php echo $jspath; ?>ColResizable/colResizable-1.3.js"></script>
-	<!-- jQuryUI -->
-	<script src="<?php echo $jspath; ?>jQueryUI/jquery-ui-1.8.21.min.js"></script>
-	<!-- Uniform -->
-	<script src="<?php echo $jspath; ?>Uniform/jquery.uniform.js"></script>
-	<!-- Tipsy -->
-	<script src="<?php echo $jspath; ?>Tipsy/jquery.tipsy.js"></script>
-	<!-- Elastic -->
-	<script src="<?php echo $jspath; ?>Elastic/jquery.elastic.js"></script>
-	<!-- ColorPicker -->
-	<script src="<?php echo $jspath; ?>ColorPicker/colorpicker.js"></script>
-	<!-- SuperTextarea -->
-	<script src="<?php echo $jspath; ?>SuperTextarea/jquery.supertextarea.min.js"></script>
-	<!-- UISpinner -->
-	<script src="<?php echo $jspath; ?>UISpinner/ui.spinner.js"></script>
-	<!-- MaskedInput -->
-	<script src="<?php echo $jspath; ?>MaskedInput/jquery.maskedinput-1.3.js"></script>
-	<!-- ClEditor -->
-	<script src="<?php echo $jspath; ?>ClEditor/jquery.cleditor.js"></script>
-	<!-- Full Calendar -->
-	<script src="<?php echo $jspath; ?>FullCalendar/fullcalendar.js"></script>
-	<!-- Color Box -->
-	<script src="<?php echo $jspath; ?>ColorBox/jquery.colorbox.js"></script>
-	<!-- Kanrisha Script -->
-	<script src="<?php echo $jspath; ?>kanrisha.js"></script>
 </head>
 <body>
 	<!-- Top Panel -->
@@ -61,7 +29,7 @@
 		<div class="wrapper">
 			<div class="user">
 				<img src="<?php echo $imgpath; ?>logo_left.png" alt="user_avatar" class="logo_left">
-				<span class="label"><a href="###">Nerr Smart Trader</a></span>
+				<span class="label"><a href="###">Nerr Smart Trader | Login</a></span>
 			</div>
 		</div>
 	</div>
@@ -73,17 +41,17 @@
 				<h4 class="widget_header_title wwIcon i_16_login"><?php echo Yii::t('common', 'Login'); ?></h4>
 			</div>
 			<div class="widget_contents lgNoPadding">
-				<form action="<?php ecoh $formSubmitUrl; ?>" method="get" id="login-form">
+				<form action="<?php echo $formSubmitUrl; ?>" method="get" id="login-form">
 				<div class="line_grid">
-					<div class="g_2 g_2M"><span class="label"><?php echo Yii::t('common', 'User'); ?></span></div>
+					<div class="g_2 g_2M"><span class="label"><?php echo Yii::t('common', 'E-mail'); ?></span></div>
 					<div class="g_10 g_10M">
-						<input class="simple_field tooltip" title="<?php echo Yii::t('common', 'Your Username'); ?>" type="text" placeholder=""></div>
+						<input class="simple_field tooltip" title="<?php echo Yii::t('common', 'Your email'); ?>" type="text" placeholder="" id="email"></div>
 					<div class="clear"></div>
 				</div>
 				<div class="line_grid">
 					<div class="g_2 g_2M"><span class="label"><?php echo Yii::t('common', 'Pass'); ?></span></div>
 					<div class="g_10 g_10M">
-						<input class="simple_field tooltip" title="<?php echo Yii::t('common', 'Your Password'); ?>" type="password" value="">
+						<input class="simple_field tooltip" title="<?php echo Yii::t('common', 'Your Password'); ?>" type="password" value="" id="password">
 					</div>
 					<div class="clear"></div>
 				</div>
@@ -93,9 +61,41 @@
 					<div class="clear"></div>
 				</div>
 				</form>
+
+				<div class="g_12"><div class="alert iDialog">dialog</div></div>
 			</div>
 		</div>
 
 	</div>
 </body>
 </html>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('.iDialog').hide();
+
+		var emailformat = /^[A-Za-z0-9+]+[A-Za-z0-9\.\_\-+]*@([A-Za-z0-9\-]+\.)+[A-Za-z0-9]+$/;
+		$('#login-form').submit(function(){
+			$('.iDialog').hide();
+			$('.iDialog').removeClass('alert error');
+
+			var email = $.trim($('#email').val());
+			var pass  = $.trim($('#password').val());
+
+			// checking the form
+			if(!email.match(emailformat))
+			{
+				$('.iDialog').html('<?php echo Yii::t('common', 'Please enter the right email address.'); ?>').addClass('alert').show();
+				return false;
+			}
+			if(pass=='')
+			{
+				$('.iDialog').html('<?php echo Yii::t('common', 'Please enter the password'); ?>').addClass('alert').show();
+				$('.iDialog').show();
+				return false;
+			}
+			
+
+		});
+	});
+</script>

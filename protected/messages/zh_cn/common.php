@@ -27,10 +27,18 @@ return array(
     'Login' => '登录',
     'Login In' => '确认登录',
     'User' => '用户',
+    'E-mail' => '邮箱',
     'Pass' => '密码',
     
     'Your Username' => '您的用户名',
     'Your Password' => '您的密码',
+    'Your email' => '您的邮箱地址',
+
+    'Please input the right email address.' => '请输入正确的邮箱地址',
+    'Please enter the password' => '请输入密码',
+
+
+
 
     // general
     'Balance' => '账户余额',

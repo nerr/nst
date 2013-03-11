@@ -54,7 +54,7 @@
 	<div class="top_panel">
 		<div class="wrapper">
 			<div class="user">
-				<span class="label"><?php echo Yii::t('common', 'Welcome'); ?>,&nbsp;Leon Zhuang</span>
+				<span class="label"><?php echo Yii::t('common', 'Welcome'); ?>,&nbsp;leon@nerrsoft.com</span>
 				<!-- Top Tooltip -->
 				<!-- 
 				<div class="top_tooltip">

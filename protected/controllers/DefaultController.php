@@ -49,7 +49,7 @@ class DefaultController extends Controller
 	 */
 	public function actionLogin()
 	{
-		var_dump(Yii::app()->user);
+		//var_dump(Yii::app()->user);
 
 		if(!Yii::app()->user->isGuest)
 			$this->redirect(Yii::app()->homeUrl);
@@ -57,7 +57,7 @@ class DefaultController extends Controller
 		$formSubmitUrl = $this->createUrl('default/auth');
 		$sucessUrl = Yii::app()->user->returnUrl;
 		// display the login page
-		$this->renderPartial('login',array('formSubmitUrl'=>$formSubmitUrl, 'sucessUrl'=>$sucessUrl));
+		$this->renderPartial('login', array('formSubmitUrl'=>$formSubmitUrl, 'sucessUrl'=>$sucessUrl));
 	}
 
 	/**
