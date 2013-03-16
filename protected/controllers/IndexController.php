@@ -2,6 +2,27 @@
 
 class IndexController extends Controller
 {
+	public function filters()
+	{
+		return array(
+			'accessControl',
+		);
+	}
+
+	public function accessRules()
+	{
+		return array(
+			array('deny',
+				'actions'=>array('index', 'general', 'report', 'funds'),
+				'users'=>array('?'),
+			),
+			array('allow',
+				'actions'=>array('index', 'general', 'report', 'funds'),
+				'users'=>array('@'),
+			),
+		);
+	}
+
 	/**
 	 * Declares class-based actions.
 	 */
@@ -35,6 +56,8 @@ class IndexController extends Controller
 	 */
 	public function actionGeneral()
 	{
+		var_dump(Yii::app()->user->isGuest);
+
 		$uid = 2;
 		$gid = 2;
 

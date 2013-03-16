@@ -56,8 +56,27 @@ class DefaultController extends Controller
 
 		$formSubmitUrl = $this->createUrl('default/auth');
 		$sucessUrl = Yii::app()->user->returnUrl;
+
 		// display the login page
-		$this->renderPartial('login', array('formSubmitUrl'=>$formSubmitUrl, 'sucessUrl'=>$sucessUrl));
+		$this->renderPartial('login', array('formSubmitUrl'=>$formSubmitUrl, 
+											'sucessUrl'=>$sucessUrl)
+		);
+	}
+
+	/**
+	 * Displays the login page
+	 */
+	public function actionAuth()
+	{
+		$authproof = $_POST['proof'];
+
+		$criteria = new CDbCriteria;
+		$criteria->select='id,usergroupid';
+		$criteria->condition='email=:email AND password=:password';
+		$criteria->params=array(':email'=>$authproof['email'], ':password'=>$authproof['password']);
+		$result = SysUser::model()->find($criteria);
+		//echo $authproof['password'];
+		echo count($result);
 	}
 
 	/**

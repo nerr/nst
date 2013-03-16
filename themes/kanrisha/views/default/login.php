@@ -22,6 +22,7 @@
 	<link rel="stylesheet" href="<?php echo $csspath; ?>style.css">
 	<!-- jQuery -->
 	<script src="<?php echo $jspath; ?>jQuery/jquery-1.7.2.min.js"></script>
+	<script src="<?php echo $jspath; ?>jQueryPlugin/jquery.md5.js"></script>
 </head>
 <body>
 	<!-- Top Panel -->
@@ -41,17 +42,18 @@
 				<h4 class="widget_header_title wwIcon i_16_login"><?php echo Yii::t('common', 'Login'); ?></h4>
 			</div>
 			<div class="widget_contents lgNoPadding">
-				<form action="<?php echo $formSubmitUrl; ?>" method="get" id="login-form">
+				<form action="<?php echo $formSubmitUrl; ?>" method="post" id="login-form">
 				<div class="line_grid">
 					<div class="g_2 g_2M"><span class="label"><?php echo Yii::t('common', 'E-mail'); ?></span></div>
 					<div class="g_10 g_10M">
-						<input class="simple_field tooltip" title="<?php echo Yii::t('common', 'Your email'); ?>" type="text" placeholder="" id="email"></div>
+						<input name="email" class="simple_field tooltip" title="<?php echo Yii::t('common', 'Your email'); ?>" type="text" placeholder="" id="email">
+					</div>
 					<div class="clear"></div>
 				</div>
 				<div class="line_grid">
 					<div class="g_2 g_2M"><span class="label"><?php echo Yii::t('common', 'Pass'); ?></span></div>
 					<div class="g_10 g_10M">
-						<input class="simple_field tooltip" title="<?php echo Yii::t('common', 'Your Password'); ?>" type="password" value="" id="password">
+						<input name="password" class="simple_field tooltip" title="<?php echo Yii::t('common', 'Your Password'); ?>" type="password" value="" id="password">
 					</div>
 					<div class="clear"></div>
 				</div>
@@ -62,7 +64,7 @@
 				</div>
 				</form>
 
-				<div class="g_12"><div class="alert iDialog">dialog</div></div>
+				<div class="g_12"><div class="alert iDialog"></div></div>
 			</div>
 		</div>
 
@@ -95,6 +97,19 @@
 				return false;
 			}
 			
+			$.post($('#login-form').attr('action'), {proof:{'password':$.md5($.md5(pass)), 'email':email}}, function(data){
+				if(data>0)
+				{
+					$('.iDialog').html('<?php echo Yii::t('common', 'Passed'); ?>').addClass('success').show();
+					window.location.href = '<?php echo $sucessUrl?>';
+				}
+				else
+					$('.iDialog').html('<?php echo Yii::t('common', 'Auth failed'); ?>').addClass('error').show();
+			});
+
+
+			//$.ajax(
+			return false;
 
 		});
 	});
