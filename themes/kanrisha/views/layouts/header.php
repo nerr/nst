@@ -54,7 +54,7 @@
 	<div class="top_panel">
 		<div class="wrapper">
 			<div class="user">
-				<span class="label"><?php echo Yii::t('common', 'Welcome'); ?>,&nbsp;leon@nerrsoft.com</span>
+				<span class="label"><?php echo Yii::t('common', 'Welcome'); ?>,&nbsp;<?php echo Yii::app()->user->email; ?></span>
 				<!-- Top Tooltip -->
 				<!-- 
 				<div class="top_tooltip">
@@ -154,7 +154,7 @@
 						<div class="out_border">
 							<div class="button_wrapper">
 								<div class="in_border">
-									<a href="#" title="<?php echo Yii::t('common', 'Exit'); ?>" class="the_button">
+									<a href="<?php echo $this->createUrl('default/logout');?> " title="<?php echo Yii::t('common', 'Exit'); ?>" class="the_button">
 										<span class="i_32_statistic"></span>
 									</a>
 								</div>

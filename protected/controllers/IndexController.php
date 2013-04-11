@@ -56,10 +56,10 @@ class IndexController extends Controller
 	 */
 	public function actionGeneral()
 	{
-		var_dump(Yii::app()->user->isGuest);
+		//var_dump(Yii::app()->user->gid);
 
-		$uid = 2;
-		$gid = 2;
+		$uid = Yii::app()->user->id;
+		$gid = Yii::app()->user->gid;
 
 		$params = $this->getGeneralSummaryData($uid);
 		//-- params data format
@@ -80,8 +80,8 @@ class IndexController extends Controller
 
 	public function actionReport()
 	{
-		$uid = 2;
-		$gid = 2;
+		$uid = Yii::app()->user->id;
+		$gid = Yii::app()->user->gid;
 
 		$params['menu'] = Menu::make($gid, 'Report');
 
@@ -146,8 +146,8 @@ class IndexController extends Controller
 
 	public function actionFunds()
 	{
-		$uid = 2;
-		$gid = 2;
+		$uid = Yii::app()->user->id;
+		$gid = Yii::app()->user->gid;
 
 		//-- get log
 		$criteria = new CDbCriteria;

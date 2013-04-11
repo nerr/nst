@@ -49,8 +49,6 @@ class DefaultController extends Controller
 	 */
 	public function actionLogin()
 	{
-		//var_dump(Yii::app()->user);
-
 		if(!Yii::app()->user->isGuest)
 			$this->redirect(Yii::app()->homeUrl);
 
@@ -70,13 +68,19 @@ class DefaultController extends Controller
 	{
 		$authproof = $_POST['proof'];
 
-		$criteria = new CDbCriteria;
+		$identity = new UserIdentity($authproof['email'], $authproof['password']);
+		$result = $identity->authenticate();
+		if($result==100)
+			Yii::app()->user->login($identity);
+		echo $result;
+
+		/*$criteria = new CDbCriteria;
 		$criteria->select='id,usergroupid';
 		$criteria->condition='email=:email AND password=:password';
 		$criteria->params=array(':email'=>$authproof['email'], ':password'=>$authproof['password']);
 		$result = SysUser::model()->find($criteria);
 		//echo $authproof['password'];
-		echo count($result);
+		echo count($result);*/
 	}
 
 	/**
