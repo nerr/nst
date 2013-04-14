@@ -175,9 +175,9 @@ class IndexController extends Controller
 
 		foreach($result as $val)
 		{
-			if($val->direction == 1)
+			if($val->directionid == 1)
 				$data['summary']['balance'] += $val->amount;
-			elseif($val->direction == 2)
+			elseif($val->directionid == 2)
 				$data['summary']['balance'] -= $val->amount;
 		}
 
