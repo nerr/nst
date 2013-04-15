@@ -69,18 +69,14 @@ class DefaultController extends Controller
 		$authproof = $_POST['proof'];
 
 		$identity = new UserIdentity($authproof['email'], $authproof['password']);
-		$result = $identity->authenticate();
-		if($result==100)
+		$authproof['loginstatus'] = $identity->authenticate();
+		if($authproof['loginstatus']==100)
 			Yii::app()->user->login($identity);
-		echo $result;
 
-		/*$criteria = new CDbCriteria;
-		$criteria->select='id,usergroupid';
-		$criteria->condition='email=:email AND password=:password';
-		$criteria->params=array(':email'=>$authproof['email'], ':password'=>$authproof['password']);
-		$result = SysUser::model()->find($criteria);
-		//echo $authproof['password'];
-		echo count($result);*/
+		$authproof['ipaddress'] = $this->getClientIp();
+		$this->logLogin($authproof);
+
+		echo $authproof['loginstatus'];
 	}
 
 	/**
@@ -90,5 +86,27 @@ class DefaultController extends Controller
 	{
 		Yii::app()->user->logout();
 		$this->redirect(Yii::app()->homeUrl);
+	}
+
+
+	private function logLogin($attr)
+	{
+		$model = new SysLoginLog;
+		$model->attributes = $attr;
+		$model->save();
+	}
+
+	private function getClientIp()
+	{
+		if (isset($_SERVER['HTTP_CLIENT_IP']) && !empty($_SERVER['HTTP_CLIENT_IP']))
+			return $_SERVER['HTTP_CLIENT_IP'];
+		if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && !empty($_SERVER['HTTP_X_FORWARDED_FOR']))
+			return strtok($_SERVER['HTTP_X_FORWARDED_FOR'], ',');
+		if (isset($_SERVER['HTTP_PROXY_USER']) && !empty($_SERVER['HTTP_PROXY_USER']))
+			return $_SERVER['HTTP_PROXY_USER'];
+		if (isset($_SERVER['REMOTE_ADDR']) && !empty($_SERVER['REMOTE_ADDR']))
+			return $_SERVER['REMOTE_ADDR'];
+		else
+			return "0.0.0.0";
 	}
 }
