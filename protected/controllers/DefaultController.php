@@ -27,7 +27,10 @@ class DefaultController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$this->redirect('index.php?r=index/general');
+		if(Yii::app()->user->gid==1)
+			$this->redirect('index.php?r=admin/general');
+		else
+			$this->redirect('index.php?r=index/general');
 	}
 
 	/**
