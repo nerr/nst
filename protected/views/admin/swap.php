@@ -10,8 +10,8 @@
 			<div class="grid_wrapper">
 
 				<div class="g_6 contents_header">
-					<h3 class="i_16_table tab_label"><?php echo Yii::t('common', 'Report'); ?></h3>
-					<div><span class="label"><?php echo Yii::t('common', 'Report of daily P/L'); ?></span></div>
+					<h3 class="i_16_dashboard tab_label"><?php echo Yii::t('common', 'Swap'); ?></h3>
+					<div><span class="label"><?php echo Yii::t('common', 'Swap Rate Chart'); ?></span></div>
 				</div>
 				<div class="g_6 contents_options">
 					<div class="simple_buttons">
@@ -21,69 +21,24 @@
 
 				<div class="g_12 separator"><span></span></div>
 
-				<!-- Summary Table -->
+				<!-- Charts -->
 				<div class="g_12">
 					<div class="widget_header">
-						<h4 class="widget_header_title wwIcon i_16_tables"><?php echo Yii::t('common', 'Summary'); ?></h4>
+						<h4 class="widget_header_title wwIcon i_16_charts"><?php echo Yii::t('common', 'Charts'); ?></h4>
 					</div>
-					<div class="widget_contents noPadding">
-						<table class="tables">
-							<thead>
-								<tr>
-									<th><?php echo Yii::t('common', 'Capital'); ?></th>
-									<th><?php echo Yii::t('common', 'Yield'); ?></th>
-									<th><?php echo Yii::t('common', 'Yield Rate'); ?></th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td><a href="<?php echo $url['funds'];?>"><?php echo $summary['capital']; ?></a></td>
-									<td><?php echo $summary['yield']; ?></td>
-									<td><?php echo $summary['yieldrate']; ?>%</td>
-								</tr>
-							</tbody>
-						</table>
+					<div class="widget_contents">
+						<div class="charts"></div>
 					</div>
 				</div>
-
-				<!-- Detail Table -->
-				<div class="g_12">
-					<div class="widget_header">
-						<h4 class="widget_header_title wwIcon i_16_tables"><?php echo Yii::t('common', 'Detail'); ?>&nbsp;(<?php echo Yii::t('common', 'Last 10 days'); ?>)</h4>
-					</div>
-					<div class="widget_contents noPadding">
-						<table class="tables">
-							<thead>
-								<tr>
-									<th><?php echo Yii::t('common', 'Date'); ?></th>
-									<th><?php echo Yii::t('common', 'New SWAP'); ?></th>
-									<th><?php echo Yii::t('common', 'Total SWAP'); ?></th>
-									<th><?php echo Yii::t('common', 'Total P/L'); ?></th>
-								</tr>
-							</thead>
-							<tbody>
-								<?php foreach($detail as $key=>$val){ ?>
-								<tr>
-									<td><?php echo $key.' ('.date('D', strtotime($key)).')'; ?></td>
-									<td><?php echo $val['newswap']; ?></td>
-									<td><?php echo $val['totalswap']; ?></td>
-									<td><?php echo $val['totalpl']; ?></td>
-								</tr>
-								<?php } ?>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>		
+			</div>
 		</div>
 
 	</div>
 
 	<script type="text/javascript">
 	if (!!$(".charts").offset()){
-		var swap = <?php echo $charts['swap']; ?>;
-		var net = <?php echo $charts['netearning']; ?>;
-		var cost = <?php echo $charts['cost']; ?>;
+		var EURMXN = <?php echo $charts['swap']; ?>;
+		var USDMXN = <?php echo $charts['netearning']; ?>;
 		//-- adjust timestamp
 		for(var i = 0; i < swap.length; i++)
 		{

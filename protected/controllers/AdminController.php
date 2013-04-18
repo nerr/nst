@@ -62,4 +62,27 @@ class AdminController extends Controller
 		$params['menu'] = Menu::make($gid, 'General');
 		$this->render('general', $params);
 	}
+
+	public function actionUser()
+	{
+		//var_dump(Yii::app()->user->gid);
+
+		$uid = Yii::app()->user->id;
+		$gid = Yii::app()->user->gid;
+
+		$params['menu'] = Menu::make($gid, 'User');
+		$this->render('User', $params);
+	}
+
+	public function actionSwap()
+	{	
+		$uid = Yii::app()->user->id;
+		$gid = Yii::app()->user->gid;
+
+		$params['menu'] = Menu::make($gid, 'Swap');
+		$this->render('swap', $params);
+
+
+		
+	}
 }

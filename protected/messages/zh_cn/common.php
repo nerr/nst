@@ -43,7 +43,7 @@ return array(
     // general
     'Balance' => '账户余额',
     'Net Earning' => '净收益',
-    'Swap' => '累计利息收益',
+    'Swap' => '掉期',
     //'Profit' => '总收益',
     'Cost' => '交易成本',
 
@@ -80,6 +80,12 @@ return array(
     'Option Time' => '操作时间',
     'Withdraw' => '出金',
     'Deposit' => '入金',
+
+
+
+    /*admin*/
+    'User Management' => '用户管理',
+    'Swap Rate Chart' => '掉期走势情况',
 );
 
 ?>

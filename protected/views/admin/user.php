@@ -10,8 +10,8 @@
 			<div class="grid_wrapper">
 
 				<div class="g_6 contents_header">
-					<h3 class="i_16_forms tab_label"><?php echo Yii::t('common', 'Funds'); ?></h3>
-					<div><span class="label"><?php echo Yii::t('common', 'Funds options log'); ?></span></div>
+					<h3 class="i_16_forms tab_label"><?php echo Yii::t('common', 'User'); ?></h3>
+					<div><span class="label"><?php echo Yii::t('common', 'User Management'); ?></span></div>
 				</div>
 				<div class="g_6 contents_options">
 					<div class="simple_buttons">
@@ -35,14 +35,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<?php foreach($table as $v){ ?>
-								<tr>
-									<td><?php echo $v->flowtime; ?></td>
-									<td><?php echo Yii::t('common', $v->directioinname); ?></td>
-									<td><?php echo $v->amount; ?></td>
-									<td><?php echo $v->memo; ?></td>
-								</tr>
-								<?php } ?>
+								
 							</tbody>
 						</table>
 					</div>
