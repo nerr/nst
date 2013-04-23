@@ -5,3 +5,4 @@ protected/runtime/*
 protected/data/*.db
 protected/config/main.php
 /index.php
+/index-test.php
