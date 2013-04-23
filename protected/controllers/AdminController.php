@@ -54,7 +54,7 @@ class AdminController extends Controller
 
 	public function actionGeneral()
 	{
-		var_dump(Yii::app()->user->gid);
+		//var_dump(Yii::app()->user->gid);
 
 		$uid = Yii::app()->user->id;
 		$gid = Yii::app()->user->gid;
