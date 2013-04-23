@@ -13,11 +13,11 @@ class AdminController extends Controller
 	{
 		return array(
 			array('deny',
-				'actions'=>array('index', 'general', 'report', 'funds'),
+				'actions'=>array('index', 'general', 'report', 'funds','swap'),
 				'users'=>array('?'),
 			),
 			array('allow',
-				'actions'=>array('index', 'general', 'report', 'funds'),
+				'actions'=>array('index', 'general', 'swap', 'user'),
 				'users'=>array('@'),
 			),
 		);
@@ -54,7 +54,7 @@ class AdminController extends Controller
 
 	public function actionGeneral()
 	{
-		//var_dump(Yii::app()->user->gid);
+		var_dump(Yii::app()->user->gid);
 
 		$uid = Yii::app()->user->id;
 		$gid = Yii::app()->user->gid;
