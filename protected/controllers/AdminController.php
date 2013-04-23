@@ -71,7 +71,7 @@ class AdminController extends Controller
 		$gid = Yii::app()->user->gid;
 
 		$params['menu'] = Menu::make($gid, 'User');
-		$this->render('User', $params);
+		$this->render('user', $params);
 	}
 
 	public function actionSwap()
