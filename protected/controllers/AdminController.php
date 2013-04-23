@@ -12,13 +12,13 @@ class AdminController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('deny',
-				'actions'=>array('index', 'general', 'report', 'funds','swap'),
-				'users'=>array('?'),
-			),
 			array('allow',
 				'actions'=>array('index', 'general', 'swap', 'user'),
-				'users'=>array('@'),
+				'users'=>array('leon@nerrsoft.com'),
+			),
+			array('deny',
+				'actions'=>array('index', 'general', 'report', 'funds','swap'),
+				'users'=>array('?','@'),
 			),
 		);
 	}
