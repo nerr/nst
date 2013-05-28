@@ -62,14 +62,16 @@
 								</tr>
 							</thead>
 							<tbody>
-								<?php foreach($detail as $key=>$val){ ?>
+								<?php 
+								if(count($detail) > 0){
+								foreach($detail as $key=>$val){ ?>
 								<tr>
 									<td><?php echo $key.' ('.date('D', strtotime($key)).')'; ?></td>
 									<td><?php echo $val['newswap']; ?></td>
 									<td><?php echo $val['totalswap']; ?></td>
 									<td><?php echo $val['totalpl']; ?></td>
 								</tr>
-								<?php } ?>
+								<?php } } ?>
 							</tbody>
 						</table>
 					</div>

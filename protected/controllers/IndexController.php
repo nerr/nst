@@ -56,12 +56,7 @@ class IndexController extends Controller
 	 */
 	public function actionGeneral()
 	{
-		//var_dump(Yii::app()->user->gid);
-
-		$uid = Yii::app()->user->id;
-		$gid = Yii::app()->user->gid;
-
-		$params = $this->getGeneralSummaryData($uid);
+		$params = $this->getGeneralSummaryData(Yii::app()->user->id);
 		//-- params data format
 		foreach($params['summary'] as $key=>$val)
 		{
@@ -73,7 +68,7 @@ class IndexController extends Controller
 			$params['charts'][$key] = json_encode($val);
 		}
 
-		$params['menu'] = Menu::make($gid, 'General');
+		$params['menu'] = Menu::make(Yii::app()->user->gid, 'General');
 
 		$this->render('general', $params);
 	}
@@ -109,31 +104,38 @@ class IndexController extends Controller
 		$data = $this->getGeneralSummaryData($uid);
 
 		$i = 0;
-		while (list($k, $v) = each($detail))
+		if(count($detail) > 0)
 		{
-			$params['detail'][$k] = $v;
-			$params['detail'][$k]['newswap'] = $v['totalswap'] - $detail[$dateArr[$i+1]]['totalswap'];
-			$params['detail'][$k]['totalpl'] = $v['totalswap'] + $v['pl'] + $data['summary']['commission'];
+			while (list($k, $v) = each($detail))
+			{
+				$params['detail'][$k] = $v;
+				$params['detail'][$k]['newswap'] = $v['totalswap'] - $detail[$dateArr[$i+1]]['totalswap'];
+				$params['detail'][$k]['totalpl'] = $v['totalswap'] + $v['pl'] + $data['summary']['commission'];
 
-			if($i == 0)
-				$params['summary']['yield'] = $params['detail'][$k]['totalpl'];
+				if($i == 0)
+					$params['summary']['yield'] = $params['detail'][$k]['totalpl'];
 
-			if($i >= 9)
-				break;
-			else
-				$i++;
+				if($i >= 9)
+					break;
+				else
+					$i++;
+			}
 		}
 
 
 		// adjust detail data format
-		foreach($params['detail'] as $k=>$v)
+		if(count($params['detail']) > 0)
 		{
-			foreach($v as $key => $val)
-				$params['detail'][$k][$key] = number_format($val, 2);
+			foreach($params['detail'] as $k=>$v)
+			{
+				foreach($v as $key => $val)
+					$params['detail'][$k][$key] = number_format($val, 2);
+			}
 		}
 
 		$params['summary']['capital'] = $data['summary']['capital'];
-		$params['summary']['yieldrate'] = $params['summary']['yield'] / $data['summary']['capital'] * 100;
+		if($data['summary']['capital'] > 0)
+			$params['summary']['yieldrate'] = $params['summary']['yield'] / $data['summary']['capital'] * 100;
 
 		foreach($params['summary'] as $k=>$v)
 		{
@@ -231,11 +233,15 @@ class IndexController extends Controller
 		$data['charts']['swap'] = array();
 		$data['charts']['cost'] = array();
 		$data['charts']['netearning'] = array();
-		foreach($charts['swap'] as $d=>$v)
+
+		if(count($charts['swap']) > 0)
 		{
-			array_push($data['charts']['swap'], array($d, $v));
-			array_push($data['charts']['cost'], array($d, $charts['cost'][$d] + $data['summary']['commission']));
-			array_push($data['charts']['netearning'], array($d, $v + $charts['cost'][$d] + $data['summary']['commission']));
+			foreach($charts['swap'] as $d=>$v)
+			{
+				array_push($data['charts']['swap'], array($d, $v));
+				array_push($data['charts']['cost'], array($d, $charts['cost'][$d] + $data['summary']['commission']));
+				array_push($data['charts']['netearning'], array($d, $v + $charts['cost'][$d] + $data['summary']['commission']));
+			}
 		}
 
 		$data['summary']['cost'] += $data['summary']['commission']; // adjust the cost value
@@ -243,8 +249,6 @@ class IndexController extends Controller
 		//-- get net earning
 		$data['summary']['netearning'] = $data['summary']['swap'] + $data['summary']['cost'];
 		$data['summary']['balance'] += $data['summary']['netearning'];
-
-		
 
 		return $data;
 	}
