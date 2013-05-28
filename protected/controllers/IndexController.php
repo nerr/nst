@@ -180,7 +180,6 @@ class IndexController extends Controller
 		{
 			$data['summary']['closed'] += $val->getswap + $val->endprofit;
 		}
-		var_dump($data['summary']['closed']);
 
 		//-- get balance
 		$criteria = new CDbCriteria;
