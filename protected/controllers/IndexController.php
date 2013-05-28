@@ -170,7 +170,7 @@ class IndexController extends Controller
 
 		//-- get closed ring profit (proft+getswap)
 		$criteria = new CDbCriteria;
-		$criteria->select = 'getswap,endprofit';
+		$criteria->select = 'getswap,endprofit,commission';
 		$criteria->condition = 'userid=:userid and orderstatus=:orderstatus';
 		$criteria->params = array(':userid' => $uid, 
 								':orderstatus' => 1);
@@ -178,7 +178,7 @@ class IndexController extends Controller
 
 		foreach($result as $val)
 		{
-			$data['summary']['closed'] += $val->getswap + $val->endprofit;
+			$data['summary']['closed'] += $val->getswap + $val->endprofit + $val->commission;
 		}
 
 		//-- get balance
