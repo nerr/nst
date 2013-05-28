@@ -10,6 +10,7 @@
  * @property double $profit
  * @property double $swap
  * @property integer $userid
+ * @property integer $orderstatus
  */
 class ViewTaSwapOrderDetail extends CActiveRecord
 {
@@ -39,12 +40,12 @@ class ViewTaSwapOrderDetail extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('orderticket, logdatetime, currentprice, profit, swap', 'required'),
-			array('orderticket, userid', 'numerical', 'integerOnly'=>true),
+			array('orderticket, userid, orderstatus', 'numerical', 'integerOnly'=>true),
 			array('currentprice, profit, swap', 'numerical'),
+			array('logdatetime', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('orderticket, logdatetime, currentprice, profit, swap, userid', 'safe', 'on'=>'search'),
+			array('orderticket, logdatetime, currentprice, profit, swap, userid, orderstatus', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -71,6 +72,7 @@ class ViewTaSwapOrderDetail extends CActiveRecord
 			'profit' => 'Profit',
 			'swap' => 'Swap',
 			'userid' => 'Userid',
+			'orderstatus' => 'Orderstatus',
 		);
 	}
 
@@ -91,6 +93,7 @@ class ViewTaSwapOrderDetail extends CActiveRecord
 		$criteria->compare('profit',$this->profit);
 		$criteria->compare('swap',$this->swap);
 		$criteria->compare('userid',$this->userid);
+		$criteria->compare('orderstatus',$this->orderstatus);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
