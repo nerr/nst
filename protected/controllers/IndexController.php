@@ -155,7 +155,7 @@ class IndexController extends Controller
 		$criteria = new CDbCriteria;
 		$criteria->select = 'amount,directioinname,flowtime,memo';
 		$criteria->condition='userid=:userid';
-		$criteria->params=array(':userid' => $uid);
+		$criteria->params = array(':userid' => $uid);
 		$criteria->order  = 'flowtime DESC';
 		$result = ViewTaSwapCapitalFlow::model()->findAll($criteria);
 
@@ -167,6 +167,20 @@ class IndexController extends Controller
 	private function getGeneralSummaryData($uid)
 	{
 		$data = array();
+
+		//-- get closed ring profit (proft+getswap)
+		$criteria = new CDbCriteria;
+		$criteria->select = 'getswap,endprofit';
+		$criteria->condition = 'userid=:userid and orderstatus=:orderstatus';
+		$criteria->params = array(':userid' => $uid, 
+								':orderstatus' => 1);
+		$result = TaSwapOrder::model()->findAll($criteria);
+
+		foreach($result as $val)
+		{
+			$data['summary']['closed'] += $val->getswap + $val->endprofit;
+		}
+		var_dump($data['summary']['closed']);
 
 		//-- get balance
 		$criteria = new CDbCriteria;
@@ -183,13 +197,16 @@ class IndexController extends Controller
 				$data['summary']['balance'] -= $val->amount;
 		}
 
+		$data['summary']['balance'] += $data['summary']['closed'];
+
 		$data['summary']['capital'] = $data['summary']['balance'];
 
 		//-- get commission
 		$criteria = new CDbCriteria;
 		$criteria->select='commission,opendate';
-		$criteria->condition='userid=:userid';
-		$criteria->params=array(':userid' => $uid);
+		$criteria->condition = 'userid=:userid and orderstatus=:orderstatus';
+		$criteria->params = array(':userid' => $uid, 
+								':orderstatus' => 0);
 		$result = TaSwapOrder::model()->findAll($criteria);
 
 		$i = 0;
@@ -203,8 +220,9 @@ class IndexController extends Controller
 		//-- get profit swap
 		$criteria = new CDbCriteria;
 		$criteria->select = 'logdatetime';
-		$criteria->condition='userid=:userid';
-		$criteria->params=array(':userid' => $uid);
+		$criteria->condition='userid=:userid and orderstatus=:orderstatus';
+		$criteria->params=array(':userid' => $uid, 
+								':orderstatus' => 0);
 		$criteria->order  = 'logdatetime DESC';
 		$criteria->limit  = 1;
 		$lastdate = ViewTaSwapOrderDetail::model()->find($criteria);
