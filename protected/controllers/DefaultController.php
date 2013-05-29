@@ -27,6 +27,8 @@ class DefaultController extends Controller
 	 */
 	public function actionIndex()
 	{
+		
+
 		if(!Yii::app()->user->isGuest && Yii::app()->user->gid==1)
 			$this->redirect('index.php?r=admin/general');
 		elseif(!Yii::app()->user->isGuest && Yii::app()->user->gid==2)
@@ -54,6 +56,9 @@ class DefaultController extends Controller
 	 */
 	public function actionLogin()
 	{
+		/*if(preg_match('/zh-/i', $_SERVER['HTTP_ACCEPT_LANGUAGE']))
+			Yii::app()->language='zh_cn';*/
+		
 		if(!Yii::app()->user->isGuest)
 			$this->redirect(Yii::app()->homeUrl);
 
