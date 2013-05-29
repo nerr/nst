@@ -84,6 +84,7 @@ class DefaultController extends Controller
 			Yii::app()->user->login($identity);
 
 		$authproof['ipaddress'] = $this->getClientIp();
+		$authproof['logintime'] = date('Y-m-d H:m:s', time());
 		$this->logLogin($authproof);
 
 		echo $authproof['loginstatus'];
