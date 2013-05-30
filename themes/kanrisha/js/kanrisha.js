@@ -11,10 +11,10 @@ var kanrisha_method = {
 			display: 'none',
 			top: y + 5,
 			left: x + 5
-		}).appendTo("body").fadeIn('fast');
-	},
+		}).appendTo("body").fadeIn('fast')
+	}
 
-}
+};
 
 var km = kanrisha_method;
 
@@ -25,7 +25,7 @@ $(function () {
 
 	$(".changePattern span").on("click", function(){
 		var id = $(this).attr("id");
-		$("body").css("background-image", "url('../img/Textures/"+ id +".png')");
+		$("body").css("background-image", "url('../Images/Textures/"+ id +".png')");
 	});
 
 /* Opera Fix ========================================= */
@@ -46,37 +46,37 @@ $(function () {
 		}
 
 		// Display the Sin and Cos Functions
-		$.plot($(".charts"), [ { label: "Swap", data: cos }, { label: "Cast", data: sin } ],
-		{
-			colors: ["#00AADD", "#FF6347"],
+		$.plot($(".charts"), [ { label: "Cos", data: cos }, { label: "Sin", data: sin } ],
+			{
+				colors: ["#00AADD", "#FF6347"],
 
-			series: {
-				lines: {
-						show: true,
-						lineWidth: 2,
-					   },
-				points: {show: true},
-				shadowSize: 2,
-			},
+				series: {
+					lines: {
+							show: true,
+							lineWidth: 2
+						   },
+					points: {show: true},
+					shadowSize: 2
+				},
 
-			grid: {
-				hoverable: true,
-				show: true,
-				borderWidth: 0,
-				tickColor: "#d2d2d2",
-				labelMargin: 12,
-			},
+				grid: {
+					hoverable: true,
+					show: true,
+					borderWidth: 0,
+					tickColor: "#d2d2d2",
+					labelMargin: 12
+				},
 
-			legend: {
-				show: true,
-				margin: [0,-24],
-				noColumns: 0,
-				labelBoxBorderColor: null,
-			},
+				legend: {
+					show: true,
+					margin: [0,-24],
+					noColumns: 0,
+					labelBoxBorderColor: null
+				},
 
-			yaxis: {},
-			xaxis: {},
-		});*/
+				yaxis: { min: -1.2, max: 1.2},
+				xaxis: {}
+			});*/
 
 		// Tooltip Show
 		var previousPoint = null;
@@ -109,7 +109,7 @@ $(function () {
 					series: {
 						lines: {
 								show: false,
-								lineWidth: 2,
+								lineWidth: 2
 							   },
 						points: {show: false},
 						shadowSize: 2,
@@ -117,7 +117,7 @@ $(function () {
 							show: true,
 							barWidth: 3,
 							lineWidth: 1,
-							fill: 0.8,
+							fill: 0.8
 						}
 					},
 
@@ -126,15 +126,15 @@ $(function () {
 						show: true,
 						borderWidth: 0,
 						tickColor: "#d2d2d2",
-						labelMargin: 12,
+						labelMargin: 12
 					},
 
 					legend: {
-						show: false,
+						show: false
 					},
 
 					yaxis: { min: 0, max: 100},
-					xaxis: { min: 0, max: 105},
+					xaxis: { min: 0, max: 105}
 				});
 
 			// Display Some Vertical bars
@@ -145,7 +145,7 @@ $(function () {
 					series: {
 						lines: {
 								show: false,
-								lineWidth: 2,
+								lineWidth: 2
 							   },
 						points: {show: false},
 						shadowSize: 2,
@@ -154,7 +154,7 @@ $(function () {
 							barWidth: 3,
 							lineWidth: 1,
 							fill: 0.8,
-							horizontal: true,
+							horizontal: true
 						}
 					},
 
@@ -163,15 +163,15 @@ $(function () {
 						show: true,
 						borderWidth: 0,
 						tickColor: "#d2d2d2",
-						labelMargin: 12,
+						labelMargin: 12
 					},
 
 					legend: {
-						show: false,
+						show: false
 					},
 
 					yaxis: { min: 0, max: 100},
-					xaxis: { min: 0, max: 105},
+					xaxis: { min: 0, max: 105}
 				});
 
 			// Display the realtime Charts
@@ -204,25 +204,25 @@ $(function () {
 						lines: {
 								show: true,
 								lineWidth: 2,
-								fill: 0.65,
+								fill: 0.65
 							   },
 						points: {show: false},
-						shadowSize: 2,
+						shadowSize: 2
 					},
 
 					grid: {
 						show: true,
 						borderWidth: 0,
 						tickColor: "#d2d2d2",
-						labelMargin: 12,
+						labelMargin: 12
 					},
 
 					legend: {
-						show: false,
+						show: false
 					},
 
 					yaxis: { min: 0, max: 105},
-					xaxis: { min: 0, max: 250},
+					xaxis: { min: 0, max: 250}
 				}	
 			);
 			function realtime_function() {
@@ -245,21 +245,21 @@ $(function () {
 		                show: true,
 		                tilt: 0.6,
 		                label: {
-	                    	show: true,
+	                    	show: true
 	                	}
-		            },
+		            }
 				},
 
 				grid: {
-					show: false,
+					show: false
 				},
 
 				legend: {
 					show: true,
 					margin: [0,-24],
 					noColumns: 1,
-					labelBoxBorderColor: null,
-				},
+					labelBoxBorderColor: null
+				}
 			});
 
 		// Donut Charts
@@ -271,20 +271,20 @@ $(function () {
 				series: {
 					pie: {
 		                show: true,
-		                innerRadius: 0.4,
-		            },
+		                innerRadius: 0.4
+		            }
 				},
 
 				grid: {
-					show: false,
+					show: false
 				},
 
 				legend: {
 					show: true,
 					margin: [0,-24],
 					noColumns: 1,
-					labelBoxBorderColor: null,
-				},
+					labelBoxBorderColor: null
+				}
 			});
 		}
 	}
@@ -294,14 +294,14 @@ $(function () {
 	$(".datatable").dataTable({
         "sDom": "<'dtTop'<'dtShowPer'l><'dtFilter'f>><'dtTables't><'dtBottom'<'dtInfo'i><'dtPagination'p>>",
         "oLanguage": {
-            "sLengthMenu": "Show entries _MENU_",
+            "sLengthMenu": "Show entries _MENU_"
         },
         "sPaginationType": "full_numbers",
         "fnInitComplete": function(){
         	$(".dtShowPer select").uniform();
         	$(".dtFilter input").addClass("simple_field").css({
         		"width": "auto",
-        		"margin-left": "15px",
+        		"margin-left": "15px"
         	});
         }
     });
@@ -309,7 +309,7 @@ $(function () {
 	// Table Resize-able
 	$(".resizeable_tables").colResizable({
 		liveDrag: true,
-		minWidth: 40,
+		minWidth: 40
 	});
 
 	// Table with Tabs
@@ -342,11 +342,11 @@ $(function () {
 	$(".spinner1").spinner();
 	$(".spinner2").spinner({
 		min: 0,
-		max: 30,
+		max: 30
 	});
 	$(".spinner3").spinner({
 		min: 0,
-		prefix: '$',
+		prefix: '$'
 	});
 	$(".spinner4").spinner().spinner("disable");
 	$(".spinner5").spinner({'step':5});
@@ -367,7 +367,7 @@ $(function () {
 		},
 		onBeforeShow: function () {
 			$(this).ColorPickerSetColor(this.value);
-		},
+		}
 	})
 	.bind('keyup', function(){
 		$(this).ColorPickerSetColor(this.value);
@@ -436,7 +436,7 @@ $(function () {
 			id: 999,
 			title: 'A Task',
 			start: new Date(y, m, 4, 10, 30),
-			allDay: false,
+			allDay: false
 		},
 		{
 			title: 'Today Event',
@@ -444,13 +444,13 @@ $(function () {
 		},
 		{
 			title: 'Guys Meeting',
-			start: new Date(y, m, 14),
+			start: new Date(y, m, 14)
 		},
 		{
 			title: 'CSS Conferences',
 			start: new Date(y, m, 23),
-			end: new Date(y, m, 25),
-		},
+			end: new Date(y, m, 25)
+		}
 	]});
 
 /* Slider ============================================ */
@@ -541,7 +541,7 @@ $(function () {
 		range: "min",
 		min: 0,
 		max: 100,
-		value: 60,
+		value: 60
 	});
 
 	$( "#swVer-2" ).slider({
@@ -549,7 +549,7 @@ $(function () {
 		range: "min",
 		min: 0,
 		max: 100,
-		value: 40,
+		value: 40
 	});
 
 	$( "#swVer-3" ).slider({
@@ -557,7 +557,7 @@ $(function () {
 		range: "min",
 		min: 0,
 		max: 100,
-		value: 30,
+		value: 30
 	});
 
 	$( "#swVer-4" ).slider({
@@ -565,7 +565,7 @@ $(function () {
 		range: "min",
 		min: 0,
 		max: 100,
-		value: 15,
+		value: 15
 	});
 
 	$( "#swVer-5" ).slider({
@@ -573,7 +573,7 @@ $(function () {
 		range: "min",
 		min: 0,
 		max: 100,
-		value: 40,
+		value: 40
 	});
 
 	$( "#swVer-6" ).slider({
@@ -581,7 +581,7 @@ $(function () {
 		range: "min",
 		min: 0,
 		max: 100,
-		value: 80,
+		value: 80
 	});
 
 /* Progress ========================================== */
@@ -643,7 +643,7 @@ $(function () {
 	$(".bDialog").dialog({
 		autoOpen: false,
 		show: "fadeIn",
-		modal: true,
+		modal: true
 	});
 
 	$(".dConf").dialog({

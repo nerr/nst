@@ -87,10 +87,10 @@
 			series: {
 				lines: {
 						show: true,
-						lineWidth: 2,
+						lineWidth: 2
 					   },
 				points: {show: true},
-				shadowSize: 2,
+				shadowSize: 2
 			},
 
 			grid: {
@@ -98,18 +98,23 @@
 				show: true,
 				borderWidth: 0,
 				tickColor: "#d2d2d2",
-				labelMargin: 12,
+				labelMargin: 12
 			},
 
 			legend: {
 				show: true,
 				margin: [0,-24],
 				noColumns: 0,
-				labelBoxBorderColor: null,
+				labelBoxBorderColor: null
 			},
 
 			yaxis: {},
-			xaxis: {mode:"time", timeformat: "%m-%d", minTickSize: [1, "day"],},
+
+			xaxis: {
+				mode:"time", 
+				timeformat: "%m-%d", 
+				minTickSize: [1, "day"]
+			}
 		});
 	}
 	</script>
