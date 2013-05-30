@@ -57,6 +57,11 @@ class IndexController extends Controller
 	public function actionGeneral()
 	{
 		$params = $this->getGeneralSummaryData(Yii::app()->user->id);
+
+		/*echo '<pre>';
+		var_dump($params);
+		echo '</pre>';*/
+
 		//-- params data format
 		foreach($params['summary'] as $key=>$val)
 		{
@@ -66,6 +71,11 @@ class IndexController extends Controller
 		foreach($params['charts'] as $key=>$val)
 		{
 			$params['charts'][$key] = json_encode($val);
+		}
+
+		foreach($params['swapratechart'] as $key=>$val)
+		{
+			$params['swapratechart'][$key] = json_encode($val);
 		}
 
 		$params['menu'] = Menu::make(Yii::app()->user->gid, 'General');
@@ -267,8 +277,41 @@ class IndexController extends Controller
 		$data['summary']['netearning'] = $data['summary']['swap'] + $data['summary']['cost'];
 		$data['summary']['balance'] += $data['summary']['netearning'];
 
+		//--
+		$data['swapratechart'] = $this->getSwapRateChartData();
+
 		return $data;
 	}
+
+	private function getSwapRateChartData()
+	{
+		$aid = 1; //-- account id
+
+		$criteria = new CDbCriteria;
+		$criteria->select='symbol,logdatetime,longswap,shortswap';
+		$criteria->condition = 'accountid=:accountid';
+		$criteria->params = array(':accountid' => $aid);
+		$result = TaSwapRate::model()->findAll($criteria);
+
+		foreach($result as $val)
+		{
+			$logdate = strtotime(date('Y-m-d', strtotime($val->logdatetime)));
+
+			$swaprate[$val->symbol.'long'][] = array($logdate, $val->longswap);
+			$swaprate[$val->symbol.'short'][] = array($logdate, $val->shortswap);
+		}
+
+		/*foreach($swaprate as $k=>$v)
+		{
+			$swaprate[$k][1] = (int)$swaprate[$k][1];
+		}*/
+
+		return $swaprate;
+	}
+
+
+
+
 
 	/*
 	public function actionTest()

@@ -50,6 +50,8 @@ return array(
     'Help' => '帮助',
     'Charts' => '图表',
 
+    'Earnings Chart' => '收益图表',
+
     'Last up to date: ' => '最后更新：',
 
 
@@ -85,7 +87,7 @@ return array(
 
     /*admin*/
     'User Management' => '用户管理',
-    'Swap Rate Chart' => '掉期走势情况',
+    'Swap Rate Chart' => '掉期走势',
 );
 
 ?>
