@@ -1362,7 +1362,7 @@
 
 /* Charts */
 	
-	.charts, .h_bars, .v_bars, .realtime_charts, .donut_charts, .pie_charts {
+	.charts, .h_bars, .v_bars, .realtime_charts, .donut_charts, .pie_charts, .swaprate {
 		margin-top: 15px;
 		height:260px;
 	}
