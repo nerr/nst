@@ -198,7 +198,7 @@ class IndexController extends Controller
 		$criteria = new CDbCriteria;
 		$criteria->select = 'getswap,endprofit,commission,closedate';
 		$criteria->condition = 'userid=:userid and orderstatus=:orderstatus';
-		$criteria->order = 'closedate desc';
+		$criteria->order = 'closedate';
 		$criteria->params = array(':userid' => Yii::app()->user->id,
 								':orderstatus' => 1);
 		$result = TaSwapOrder::model()->findAll($criteria);
