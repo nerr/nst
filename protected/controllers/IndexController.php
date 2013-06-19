@@ -235,8 +235,6 @@ class IndexController extends Controller
 			$idate = $date;
 		}
 
-		$this->dump($data['summary']);
-
 		//-- get init balance (real capital + closed profit)
 		$data['summary']['capital'] = $this->getCapital();
 
