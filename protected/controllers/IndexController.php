@@ -179,11 +179,15 @@ class IndexController extends Controller
 	private function getGeneralSummaryData($uid)
 	{
 		$data = array();
+		$data['charts']['swap'] = array();
+		$data['charts']['cost'] = array();
+		$data['charts']['netearning'] = array();
+
 		//-- get closed ring profit (proft+getswap+commission)
 		$criteria = new CDbCriteria;
 		$criteria->select = 'getswap,endprofit,commission';
 		$criteria->condition = 'userid=:userid and orderstatus=:orderstatus';
-		$criteria->params = array(':userid' => Yii::app()->user->id, 
+		$criteria->params = array(':userid' => Yii::app()->user->id,
 								':orderstatus' => 1);
 		$result = TaSwapOrder::model()->findAll($criteria);
 
@@ -191,9 +195,8 @@ class IndexController extends Controller
 		{
 			$data['summary']['closed'] += $val->getswap + $val->endprofit + $val->commission;
 		}
-		echo $data['summary']['closed'];
 
-		//-- get init balance
+		//-- get init balance (real capital + closed profit)
 		$data['summary']['balance'] = $this->getCapital() + $data['summary']['closed'];
 
 		$data['summary']['capital'] = $data['summary']['balance'];
@@ -202,26 +205,28 @@ class IndexController extends Controller
 		//-- get commission
 		$criteria = new CDbCriteria;
 		$criteria->select='commission,opendate';
-		$criteria->condition = 'userid=:userid';
-		$criteria->params = array(':userid' => $uid);
+		$criteria->condition = 'userid=:userid and orderstatus=:orderstatus';
+		$criteria->params = array(':userid' => Yii::app()->user->id, 
+								':orderstatus' => 0);
 		$result = TaSwapOrder::model()->findAll($criteria);
 
-		$i = 0;
 		foreach($result as $val)
 		{
-			$data['summary']['commission'] += $val->commission;
 			$commission[$val->opendate] += $val->commission;
-			$i++;
 		}
+		$data['summary']['commission'] = array_sum($commission);
 
 		//-- get profit swap
 		$criteria = new CDbCriteria;
 		$criteria->select = 'logdatetime';
-		$criteria->condition='userid=:userid';
-		$criteria->params=array(':userid' => $uid);
+		$criteria->condition='userid=:userid and orderstatus=:orderstatus';
+		$criteria->params = array(':userid' => Yii::app()->user->id,
+								':orderstatus' => 0);
 		$criteria->order  = 'logdatetime DESC';
 		$criteria->limit  = 1;
 		$lastdate = ViewTaSwapOrderDetail::model()->find($criteria);
+
+		$data['summary']['lastuptodate'] = $lastdate->logdatetime;
 
 		$criteria = new CDbCriteria;
 		$criteria->select = 'profit,swap,logdatetime';
@@ -229,11 +234,9 @@ class IndexController extends Controller
 		$criteria->params=array(':userid' => $uid);
 		$result = ViewTaSwapOrderDetail::model()->findAll($criteria);
 
-		$data['summary']['lastuptodate'] = $lastdate->logdatetime;
-
 		foreach($result as $val)
 		{
-			if($val->logdatetime == $lastdate->logdatetime)
+			if(date('Y-m-d', strtotime($val->logdatetime)) == date('Y-m-d', strtotime($lastdate->logdatetime)))
 			{
 				$data['summary']['swap'] += $val->swap;
 				$data['summary']['cost'] += $val->profit;
@@ -244,9 +247,10 @@ class IndexController extends Controller
 			$charts['cost'][$tm] += $val->profit;
 		}
 
-		$data['charts']['swap'] = array();
-		$data['charts']['cost'] = array();
-		$data['charts']['netearning'] = array();
+		echo '<prd>';
+		var_dump($data['summary']);
+		echo '</prd>';
+		
 
 		if(count($charts['swap']) > 0)
 		{
