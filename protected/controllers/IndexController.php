@@ -65,7 +65,7 @@ class IndexController extends Controller
 		//-- params data format
 		foreach($params['summary'] as $key=>$val)
 		{
-			if($key!='lastuptodate' && $key !='closedswap')
+			if($key!='lastuptodate' && $key !='closedswap' && $key !='closedprofit')
 				$params['summary'][$key] = number_format($val, 1);
 		}
 		foreach($params['charts'] as $key=>$val)
