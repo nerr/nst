@@ -88,7 +88,9 @@ class IndexController extends Controller
 		$uid = Yii::app()->user->id;
 		$gid = Yii::app()->user->gid;
 
+		//-- get menu
 		$params['menu'] = Menu::make($gid, 'Report');
+
 
 		$criteria = new CDbCriteria;
 		$criteria->select = 'profit,swap,logdatetime';
@@ -133,7 +135,7 @@ class IndexController extends Controller
 		}
 
 
-		// adjust detail data format
+		//-- adjust detail data format
 		if(count($params['detail']) > 0)
 		{
 			foreach($params['detail'] as $k=>$v)
@@ -177,12 +179,11 @@ class IndexController extends Controller
 	private function getGeneralSummaryData($uid)
 	{
 		$data = array();
-
-		//-- get closed ring profit (proft+getswap)
+		//-- get closed ring profit (proft+getswap+commission)
 		$criteria = new CDbCriteria;
 		$criteria->select = 'getswap,endprofit,commission';
 		$criteria->condition = 'userid=:userid and orderstatus=:orderstatus';
-		$criteria->params = array(':userid' => $uid, 
+		$criteria->params = array(':userid' => Yii::app()->user->id, 
 								':orderstatus' => 1);
 		$result = TaSwapOrder::model()->findAll($criteria);
 
@@ -190,32 +191,19 @@ class IndexController extends Controller
 		{
 			$data['summary']['closed'] += $val->getswap + $val->endprofit + $val->commission;
 		}
+		echo $data['summary']['closed'];
 
-		//-- get balance
-		$criteria = new CDbCriteria;
-		$criteria->select='amount,directionid';
-		$criteria->condition='userid=:userid';
-		$criteria->params=array(':userid' => $uid);
-		$result = SysCapitalFlow::model()->findAll($criteria);
-
-		foreach($result as $val)
-		{
-			if($val->directionid == 1)
-				$data['summary']['balance'] += $val->amount;
-			elseif($val->directionid == 2)
-				$data['summary']['balance'] -= $val->amount;
-		}
-
-		$data['summary']['balance'] += $data['summary']['closed'];
+		//-- get init balance
+		$data['summary']['balance'] = $this->getCapital() + $data['summary']['closed'];
 
 		$data['summary']['capital'] = $data['summary']['balance'];
+
 
 		//-- get commission
 		$criteria = new CDbCriteria;
 		$criteria->select='commission,opendate';
-		$criteria->condition = 'userid=:userid and orderstatus=:orderstatus';
-		$criteria->params = array(':userid' => $uid, 
-								':orderstatus' => 0);
+		$criteria->condition = 'userid=:userid';
+		$criteria->params = array(':userid' => $uid);
 		$result = TaSwapOrder::model()->findAll($criteria);
 
 		$i = 0;
@@ -229,9 +217,8 @@ class IndexController extends Controller
 		//-- get profit swap
 		$criteria = new CDbCriteria;
 		$criteria->select = 'logdatetime';
-		$criteria->condition='userid=:userid and orderstatus=:orderstatus';
-		$criteria->params=array(':userid' => $uid, 
-								':orderstatus' => 0);
+		$criteria->condition='userid=:userid';
+		$criteria->params=array(':userid' => $uid);
 		$criteria->order  = 'logdatetime DESC';
 		$criteria->limit  = 1;
 		$lastdate = ViewTaSwapOrderDetail::model()->find($criteria);
@@ -307,6 +294,26 @@ class IndexController extends Controller
 		}*/
 
 		return $swaprate;
+	}
+
+	private function getCapital()
+	{
+		//-- get init balance
+		$criteria = new CDbCriteria;
+		$criteria->select='amount,directionid';
+		$criteria->condition='userid=:userid';
+		$criteria->params=array(':userid' => Yii::app()->user->id);
+		$result = SysCapitalFlow::model()->findAll($criteria);
+
+		foreach($result as $val)
+		{
+			if($val->directionid == 1)
+				$capital += $val->amount;
+			elseif($val->directionid == 2)
+				$capital -= $val->amount;
+		}
+
+		return $capital;
 	}
 
 
