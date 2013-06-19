@@ -65,7 +65,7 @@ class IndexController extends Controller
 		//-- params data format
 		foreach($params['summary'] as $key=>$val)
 		{
-			if($key!='lastuptodate')
+			if($key!='lastuptodate' && $key !='closedswap')
 				$params['summary'][$key] = number_format($val, 1);
 		}
 		foreach($params['charts'] as $key=>$val)
@@ -91,20 +91,22 @@ class IndexController extends Controller
 		//-- get menu
 		$params['menu'] = Menu::make($gid, 'Report');
 
-
+		//-- 
 		$criteria = new CDbCriteria;
 		$criteria->select = 'profit,swap,logdatetime';
 		$criteria->condition='userid=:userid';
 		$criteria->order = 'logdatetime desc';
-		$criteria->params=array(':userid' => $uid);
+		$criteria->params = array(':userid' => Yii::app()->user->id);
 		$result = ViewTaSwapOrderDetail::model()->findAll($criteria);
 
 		$dateArr = array();
 		foreach($result as $val)
 		{
 			$date = date('Y-m-d', strtotime($val->logdatetime));
+
 			$detail[$date]['totalswap'] += $val->swap;
 			$detail[$date]['pl'] += $val->profit;
+
 
 			if(!in_array($date, $dateArr))
 				$dateArr[] = $date;
@@ -117,10 +119,19 @@ class IndexController extends Controller
 
 		$i = 0;
 		if(count($detail) > 0)
-		{
-			while (list($k, $v) = each($detail))
+		{	
+			reset($detail);
+			while(list($k, $v) = each($detail))
+			{
+				$detail[$k]['totalswap'] += $this->appendCloseSwap($k, $data['summary']['closedswap']);
+				$detail[$k]['pl'] += $this->appendCloseProfit($k, $data['summary']['closedprofit']);
+			}
+
+			reset($detail);
+			while(list($k, $v) = each($detail))
 			{
 				$params['detail'][$k] = $v;
+
 				$params['detail'][$k]['newswap'] = $v['totalswap'] - $detail[$dateArr[$i+1]]['totalswap'];
 				$params['detail'][$k]['totalpl'] = $v['totalswap'] + $v['pl'] + $data['summary']['commission'];
 
@@ -185,21 +196,49 @@ class IndexController extends Controller
 
 		//-- get closed ring profit (proft+getswap+commission)
 		$criteria = new CDbCriteria;
-		$criteria->select = 'getswap,endprofit,commission';
+		$criteria->select = 'getswap,endprofit,commission,closedate';
 		$criteria->condition = 'userid=:userid and orderstatus=:orderstatus';
+		$criteria->order = 'closedate desc';
 		$criteria->params = array(':userid' => Yii::app()->user->id,
 								':orderstatus' => 1);
 		$result = TaSwapOrder::model()->findAll($criteria);
 
+		$idate = '';
+		$closedswap = 0;
+		$closedprofit = 0;
 		foreach($result as $val)
 		{
+			//-- summary closed data
 			$data['summary']['closed'] += $val->getswap + $val->endprofit + $val->commission;
+
+			//-- get history closed order swap data
+			$date = date('Y-m-d', strtotime($val->closedate.'+1 day'));
+			
+			if($idate == '')
+			{
+				$data['summary']['closedswap'][$date] = $val->getswap;
+				$data['summary']['closedprofit'][$date] = $val->endprofit + $val->commission;
+			}
+			elseif($idate != $date)
+			{
+				$data['summary']['closedswap'][$date] = $closedswap;
+				$data['summary']['closedprofit'][$date] = $closedprofit;
+			}
+			else
+			{
+				$data['summary']['closedswap'][$date] += $val->getswap;
+				$data['summary']['closedprofit'][$date] += $val->endprofit + $val->commission;
+			}
+
+			$closedswap += $val->getswap;
+			$closedprofit += $val->endprofit + $val->commission;
+			$idate = $date;
 		}
 
 		//-- get init balance (real capital + closed profit)
-		$data['summary']['balance'] = $this->getCapital() + $data['summary']['closed'];
+		$data['summary']['capital'] = $this->getCapital();
 
-		$data['summary']['capital'] = $data['summary']['balance'];
+		$data['summary']['balance'] = $data['summary']['capital'] + $data['summary']['closed'];
 
 
 		//-- get commission
@@ -246,6 +285,8 @@ class IndexController extends Controller
 			$charts['swap'][$tm] += $val->swap;
 			$charts['cost'][$tm] += $val->profit;
 		}
+
+		//-- adjust swap (add closed swap)
 
 
 		if(count($charts['swap']) > 0)
@@ -316,6 +357,31 @@ class IndexController extends Controller
 		return $capital;
 	}
 
+	private function appendCloseSwap($date, $closedswap)
+	{
+		$append = 0;
+		$tm = strtotime($date);
+		foreach($closedswap as $d=>$v)
+		{
+			if($tm>=strtotime($d))
+				$append = $v;
+		}
+
+		return $append;
+	}
+
+	private function appendCloseProfit($date, $closedproft)
+	{
+		$append = 0;
+		$tm = strtotime($date);
+		foreach($closedproft as $d=>$v)
+		{
+			if($tm>=strtotime($d))
+				$append = $v;
+		}
+
+		return $append;
+	}
 
 
 
