@@ -15,11 +15,9 @@
  * @property string $memo
  * @property integer $ordertype
  * @property double $openprice
- * @property string $commission
- *
- * The followings are the available model relations:
- * @property SysUser $user
- * @property TaSwapOrderDailySettlement[] $taSwapOrderDailySettlements
+ * @property double $closeprice
+ * @property double $endprofit
+ * @property double $commission
  */
 class TaSwapOrder extends CActiveRecord
 {
@@ -51,13 +49,12 @@ class TaSwapOrder extends CActiveRecord
 		return array(
 			array('userid, orderticket, usemargin, opendate, orderstatus', 'required'),
 			array('userid, orderticket, orderstatus, ordertype', 'numerical', 'integerOnly'=>true),
-			array('usemargin, getswap, openprice', 'numerical'),
+			array('usemargin, getswap, openprice, closeprice, endprofit, commission', 'numerical'),
 			array('memo', 'length', 'max'=>256),
-			array('commission', 'length', 'max'=>45),
 			array('closedate', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, userid, orderticket, usemargin, opendate, orderstatus, closedate, getswap, memo, ordertype, openprice, commission', 'safe', 'on'=>'search'),
+			array('id, userid, orderticket, usemargin, opendate, orderstatus, closedate, getswap, memo, ordertype, openprice, closeprice, endprofit, commission', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -69,8 +66,6 @@ class TaSwapOrder extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'user' => array(self::BELONGS_TO, 'SysUser', 'userid'),
-			'taSwapOrderDailySettlements' => array(self::HAS_MANY, 'TaSwapOrderDailySettlement', 'orderticket'),
 		);
 	}
 
@@ -91,6 +86,8 @@ class TaSwapOrder extends CActiveRecord
 			'memo' => 'Memo',
 			'ordertype' => 'Ordertype',
 			'openprice' => 'Openprice',
+			'closeprice' => 'Closeprice',
+			'endprofit' => 'Endprofit',
 			'commission' => 'Commission',
 		);
 	}
@@ -117,7 +114,9 @@ class TaSwapOrder extends CActiveRecord
 		$criteria->compare('memo',$this->memo,true);
 		$criteria->compare('ordertype',$this->ordertype);
 		$criteria->compare('openprice',$this->openprice);
-		$criteria->compare('commission',$this->commission,true);
+		$criteria->compare('closeprice',$this->closeprice);
+		$criteria->compare('endprofit',$this->endprofit);
+		$criteria->compare('commission',$this->commission);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
