@@ -235,6 +235,8 @@ class IndexController extends Controller
 			$idate = $date;
 		}
 
+		$this->dump($data['summary']);
+
 		//-- get init balance (real capital + closed profit)
 		$data['summary']['capital'] = $this->getCapital();
 
@@ -284,6 +286,21 @@ class IndexController extends Controller
 			$tm = strtotime(date('Y-m-d', strtotime($val->logdatetime)));
 			$charts['swap'][$tm] += $val->swap;
 			$charts['cost'][$tm] += $val->profit;
+		}
+
+		end($data['summary']['closedswap']);
+		list(,$cs) = each($data['summary']['closedswap']);
+		$data['summary']['swap'] += $cs;
+
+		end($data['summary']['closedprofit']);
+		list(,$cp) = each($data['summary']['closedprofit']);
+		$data['summary']['cost'] += $cp;
+
+		//-- append history data to swap and cost
+		foreach($charts['swap'] as $t=>$v)
+		{
+			$charts['swap'][$t] += $this->appendCloseSwap(date('Y-m-d', $t), $data['summary']['closedswap']);
+			$charts['cost'][$t] += $this->appendCloseProfit(date('Y-m-d', $t), $data['summary']['closedprofit']);
 		}
 
 		//-- adjust swap (add closed swap)
