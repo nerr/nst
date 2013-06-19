@@ -247,10 +247,6 @@ class IndexController extends Controller
 			$charts['cost'][$tm] += $val->profit;
 		}
 
-		echo '<prd>';
-		var_dump($data['summary']);
-		echo '</prd>';
-		
 
 		if(count($charts['swap']) > 0)
 		{
@@ -336,4 +332,11 @@ class IndexController extends Controller
 
 		echo Yii::t('common', 'General');
 	}*/
+
+	private function dump($data)
+	{
+		echo '<prd>';
+		var_dump($data);
+		echo '</prd>';
+	}
 }
