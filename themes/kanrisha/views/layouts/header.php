@@ -54,7 +54,7 @@
 	<div class="top_panel">
 		<div class="wrapper">
 			<div class="user">
-				<span class="label"><?php echo Yii::t('common', 'Welcome'); ?>,&nbsp;<?php echo Yii::app()->user->email; ?></span>
+				<span class="label"><?php echo Yii::t('common', 'Welcome'); ?>,&nbsp;<a href="###" id="userform"><?php echo Yii::app()->user->email; ?></a></span>
 				<!-- Top Tooltip -->
 				<!-- 
 				<div class="top_tooltip">
