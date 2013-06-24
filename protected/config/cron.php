@@ -31,11 +31,18 @@ return array(
  
         // Your DB connection
         'db'=>array(
-			'connectionString' => 'pgsql:host=localhost;port=5432;dbname=nst',
-			'emulatePrepare' => true,
-			'username' => 'postgres',
-			'password' => '911911',
-			'charset' => 'utf8',
-		),
+            'connectionString' => 'pgsql:host=localhost;port=5432;dbname=nst',
+            'emulatePrepare' => true,
+            'username' => 'postgres',
+            'password' => '911911',
+            'charset' => 'utf8',
+        ),
+    ),
+
+    // using Yii::app()->params['paramName']
+    'params'=>array(
+        // this is used in contact page
+        'smsAccount'    => '30004',
+        'smsPassword'   => md5('sunyusunyu123'),
     ),
 );
