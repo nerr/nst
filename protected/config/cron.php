@@ -8,8 +8,8 @@ return array(
     'preload'=>array('log'),
  
     'import'=>array(
-        'application.components.*',
         'application.models.*',
+        'application.components.*',
     ),
     // We'll log cron messages to the separate files
     'components'=>array(
