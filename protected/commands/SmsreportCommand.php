@@ -4,7 +4,8 @@ class SmsreportCommand extends CConsoleCommand
 {
     public function run($args)
     {
-        echo "It's just a test.";
+        $data = Calculate::getGeneralSummaryData(5);
+        Debug::dump($data);
     }
 
     //-- send sms
