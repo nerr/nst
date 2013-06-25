@@ -5,6 +5,10 @@ class SmsreportCommand extends CConsoleCommand
     public function run($args)
     {
         echo "It's just a test.";
+
+        $arr = $this->getGeneralSummaryData(5);
+
+        var_dump($arr);
     }
 
 
@@ -46,21 +50,21 @@ class SmsreportCommand extends CConsoleCommand
     }
 
     //-- sendsms fetion version 
-    protected function sendSms_fetion($mobile, $msg)
+    /*protected function sendSms_fetion($mobile, $msg)
     {
-        $fetion = new PHPFetion($this->_mobile, $this->_password);
+        $fetion = new PHPFetion(Yii::app()->params['fetionAccount'], Yii::app()->params['fetionPassword']);
         try
         {
-            $result = $fetion->send($mobile, $this->_smsTextPrefix.$msg.$this->_smsTextSuffix);
+            $result = $fetion->send($mobile, $msg);
             $count = 0;
-            while(!$this->checkStatus($result) && $count < $this->_trytime )
+            while(!$this->checkStatus($result) && $count < 3 )
             {
                 $count++;
                 sleep(2);
                 //echo "Sleep 2s, Re Send\n";
-                $result = $result = $fetion->send($mobile, $this->_smsTextPrefix.$msg.$this->_smsTextSuffix);
+                $result = $result = $fetion->send($mobile, $msg);
             }
-            if ($count != ($this->_trytime - 1))
+            if ($count != (3 - 1))
             {
                 //echo "Date:".date('Y-m-d H:i:s', time()).";Finished\n";
                 return true;
@@ -78,12 +82,21 @@ class SmsreportCommand extends CConsoleCommand
         }
     }
 
+    protected function checkStatus($status_code)
+    {
+        preg_match('/^.*HTTP\/1\.1 200 OK.*$/si', $status_code, $status);
+        if(isset($status[0]))
+            return true;
+        else
+        {
+            //echo "Result:$status_code\n";
+            return false;
+        }
+    }*/
+
     private function getGeneralSummaryData($uid)
     {
         $data = array();
-        $data['charts']['swap'] = array();
-        $data['charts']['cost'] = array();
-        $data['charts']['netearning'] = array();
 
         //-- get closed ring profit (proft+getswap+commission)
         $criteria = new CDbCriteria;
@@ -93,7 +106,7 @@ class SmsreportCommand extends CConsoleCommand
         $criteria->params = array(':userid' => Yii::app()->user->id,
                                 ':orderstatus' => 1);
         $result = TaSwapOrder::model()->findAll($criteria);
-
+/*
         $idate = '';
         $closedswap = 0;
         $closedprofit = 0;
@@ -185,12 +198,6 @@ class SmsreportCommand extends CConsoleCommand
         list(,$cp) = each($data['summary']['closedprofit']);
         $data['summary']['cost'] += $cp;
 
-        //-- append history data to swap and cost
-        foreach($charts['swap'] as $t=>$v)
-        {
-            $charts['swap'][$t] += $this->appendCloseSwap(date('Y-m-d', $t), $data['summary']['closedswap']);
-            $charts['cost'][$t] += $this->appendCloseProfit(date('Y-m-d', $t), $data['summary']['closedprofit']);
-        }
 
         //-- adjust swap (add closed swap)
 
@@ -209,11 +216,29 @@ class SmsreportCommand extends CConsoleCommand
 
         //-- get net earning
         $data['summary']['netearning'] = $data['summary']['swap'] + $data['summary']['cost'];
-        $data['summary']['balance'] += $data['summary']['netearning'];
+        $data['summary']['balance'] += $data['summary']['netearning'];*/
 
-        //--
-        $data['swapratechart'] = $this->getSwapRateChartData();
 
         return $data;
+    }
+
+    private function getCapital()
+    {
+        //-- get init balance
+        $criteria = new CDbCriteria;
+        $criteria->select='amount,directionid';
+        $criteria->condition='userid=:userid';
+        $criteria->params=array(':userid' => 5);
+        $result = SysCapitalFlow::model()->findAll($criteria);
+
+        foreach($result as $val)
+        {
+            if($val->directionid == 1)
+                $capital += $val->amount;
+            elseif($val->directionid == 2)
+                $capital -= $val->amount;
+        }
+
+        return $capital;
     }
 }
