@@ -42,7 +42,7 @@ return array(
 
     // general
     'Balance' => '账户余额',
-    'Net Earning' => '净收益',
+    'Net Earning' => '浮动收益',
     'Swap' => '掉期',
     //'Profit' => '总收益',
     'Cost' => '交易成本',
@@ -66,9 +66,9 @@ return array(
     'Detail' => '明细表',
     'Summary' => '汇总表',
     'Last 10 days' => '最近10天',
-    'Yield Rate' => '收益率',
+    'Yield Rate' => '浮动收益率',
 
-    'Yield' => '收益',
+    'Yield' => '浮动收益',
     'Capital' => '本金',
 
     // funds
