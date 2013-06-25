@@ -171,19 +171,8 @@ class IndexController extends Controller
 
 	public function actionFunds()
 	{
-		$uid = Yii::app()->user->id;
-		$gid = Yii::app()->user->gid;
-
-		//-- get log
-		$criteria = new CDbCriteria;
-		$criteria->select = 'amount,directioinname,flowtime,memo';
-		$criteria->condition='userid=:userid';
-		$criteria->params = array(':userid' => $uid);
-		$criteria->order  = 'flowtime DESC';
-		$result = ViewTaSwapCapitalFlow::model()->findAll($criteria);
-
-		$params['menu'] = Menu::make($gid, 'Funds');
-		$params['table'] = $result;
+		$params['menu'] = Menu::make(Yii::app()->user->gid, 'Funds');
+		$params['table'] = Calculate::getFundLog(Yii::app()->user->id);
 		$this->render('funds', $params);
 	}
 
@@ -414,10 +403,5 @@ class IndexController extends Controller
 		echo Yii::t('common', 'General');
 	}*/
 
-	private function dump($data)
-	{
-		echo '<prd>';
-		var_dump($data);
-		echo '</prd>';
-	}
+	
 }
