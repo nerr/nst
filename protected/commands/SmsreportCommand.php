@@ -4,8 +4,23 @@ class SmsreportCommand extends CConsoleCommand
 {
     public function run($args)
     {
-        $data = Calculate::getGeneralSummaryData(5);
-        Debug::dump($data);
+        $criteria = new CDbCriteria;
+        $criteria->select = 'id,mobile';
+        $criteria->condition='id in (1)';
+        $result = SysUser::model()->findAll($criteria);
+
+        foreach($result as $val)
+        {
+            $data = Calculate::getGeneralSummaryData($val->id);
+
+            $msg = '截止'.$data['summary']['lastuptodate']."\r";
+            $msg .= '账户余额: '.number_format($data['summary']['balance'], 2)."\r";
+            $msg .= '交易成本: '.number_format($data['summary']['cost'], 2)."\r";
+            $msg .= '累计获得掉期: '.number_format($data['summary']['swap'], 2)."\r";
+            $msg .= '浮动收益: '.number_format($data['summary']['netearning'], 2);
+
+            $this->sendSms($val->mobile, $msg);
+        }
     }
 
     //-- send sms
