@@ -18,6 +18,7 @@ class SmsreportCommand extends CConsoleCommand
             $msg .= '交易成本: '.number_format($data['summary']['cost'], 2)."\r";
             $msg .= '累计获得掉期: '.number_format($data['summary']['swap'], 2)."\r";
             $msg .= '浮动收益: '.number_format($data['summary']['netearning'], 2);
+            $msg .= '[NST]';
 
             $this->sendSms($val->mobile, $msg);
         }
