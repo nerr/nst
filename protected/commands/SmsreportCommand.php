@@ -6,7 +6,7 @@ class SmsreportCommand extends CConsoleCommand
     {
         $criteria = new CDbCriteria;
         $criteria->select = 'id,mobile';
-        $criteria->condition='id in (1)';
+        $criteria->condition='id in (1,5)';
         $result = SysUser::model()->findAll($criteria);
 
         foreach($result as $val)
@@ -20,6 +20,8 @@ class SmsreportCommand extends CConsoleCommand
             $msg .= '浮动收益: '.number_format($data['summary']['netearning'], 2);
             $msg .= '[NST自动短信报表]';
 
+            //$m = echo mb_convert_encoding($msg, 'GBK', 'UTF-8');
+            echo $msg;
             $this->sendSms($val->mobile, $msg);
         }
     }
