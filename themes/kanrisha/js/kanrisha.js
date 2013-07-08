@@ -242,12 +242,12 @@ $(function () {
 
 				series: {
 					pie: {
-		                show: true,
-		                tilt: 0.6,
-		                label: {
-	                    	show: true
-	                	}
-		            }
+						show: true,
+						tilt: 0.6,
+						label: {
+							show: true
+						}
+					}
 				},
 
 				grid: {
@@ -270,9 +270,9 @@ $(function () {
 
 				series: {
 					pie: {
-		                show: true,
-		                innerRadius: 0.4
-		            }
+						show: true,
+						innerRadius: 0.4
+					}
 				},
 
 				grid: {
@@ -292,19 +292,19 @@ $(function () {
 /* Tables ============================================ */
 	// Set the DataTables
 	$(".datatable").dataTable({
-        "sDom": "<'dtTop'<'dtShowPer'l><'dtFilter'f>><'dtTables't><'dtBottom'<'dtInfo'i><'dtPagination'p>>",
-        "oLanguage": {
-            "sLengthMenu": "Show entries _MENU_"
-        },
-        "sPaginationType": "full_numbers",
-        "fnInitComplete": function(){
-        	$(".dtShowPer select").uniform();
-        	$(".dtFilter input").addClass("simple_field").css({
-        		"width": "auto",
-        		"margin-left": "15px"
-        	});
-        }
-    });
+		"sDom": "<'dtTop'<'dtShowPer'l><'dtFilter'f>><'dtTables't><'dtBottom'<'dtInfo'i><'dtPagination'p>>",
+		"oLanguage": {
+			"sLengthMenu": "Show entries _MENU_"
+		},
+		"sPaginationType": "full_numbers",
+		"fnInitComplete": function(){
+			$(".dtShowPer select").uniform();
+			$(".dtFilter input").addClass("simple_field").css({
+				"width": "auto",
+				"margin-left": "15px"
+			});
+		}
+	});
 
 	// Table Resize-able
 	$(".resizeable_tables").colResizable({
@@ -335,7 +335,7 @@ $(function () {
 	$(".simple_form").uniform(); // Style The Checkbox and Radio
 	$(".elastic").elastic();
 	$(".twMaxChars").supertextarea({
-	   	maxl: 140
+		maxl: 140
 	});
 
 /* Spinner =========================================== */
@@ -420,7 +420,7 @@ $(function () {
 	var y = date.getFullYear(); 
 
 	$(".aCalendar").fullCalendar({
-	    header: {
+		header: {
 			left: 'prev',
 			center: 'title',
 			right: 'next'
@@ -694,11 +694,52 @@ $(function () {
 		}
 	});
 
-/* Inline Dialog ===================================== */
+	/* Inline Dialog ===================================== */
 
 	$(".iDialog").on("click", function(){
 		$(this).fadeOut("slow").promise().done(function(){
 			$(this).parent().remove();
 		});
 	});
+
+
+
+	/* edit user form */
+	$("#userform").on("click", function(){
+		$.getJSON("/nst/index.php?r=user/loadinfo", function(json){
+			$("#mobile").val(json.mobile);
+		});
+		$(".userform").dialog("open");
+	});
+
+	$(".userform").dialog({ 
+		closeOnEscape: true,
+		autoOpen: false,
+		show: "fadeIn",
+		modal: true,
+		width: 560,
+		height: 570,
+		buttons: {
+			"OK": function() {
+				submitUserForm();
+			},
+			"Cancel": function() {
+				$( this ).dialog( "close" );
+			}
+		}
+	});
+
+	function submitUserForm()
+	{
+		$.post(
+			"/nst/index.php?r=user/update",
+			{mobile: $("#mobile").val(), newpass: $.md5($.md5($("#newpass").val())), oldpass: $.md5($.md5($("#oldpass").val()))},
+			function(json){
+				alert(json.updatestatus)
+				/*if(json.updatestatus == true)
+					$(".userform").dialog("close");*/
+			},
+			"text"
+		);
+	}
 });

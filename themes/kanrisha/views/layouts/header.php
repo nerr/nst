@@ -46,6 +46,8 @@
 	<script src="<?php echo $jspath; ?>FullCalendar/fullcalendar.js"></script>
 	<!-- Color Box -->
 	<script src="<?php echo $jspath; ?>ColorBox/jquery.colorbox.js"></script>
+	<!-- jQuery md5 -->
+	<script src="<?php echo $jspath; ?>jQueryPlugin/jquery.md5.js"></script>
 	<!-- Kanrisha Script -->
 	<script src="<?php echo $jspath; ?>kanrisha.js"></script>
 </head>
@@ -201,4 +203,36 @@
 				</ul>
 			</nav>
 		</div>
+
+		<!-- userform -->
+		<div class="userform dialog" title="<?php echo Yii::t('common', 'Edit User Infomation'); ?> - <?php echo Yii::app()->user->email; ?>">
+			<span class="label lwParagraph">
+				<div class="g_12">
+					<div class="widget_contents noPadding">
+						<div class="line_grid">
+							<div class="g_3"><span class="label"><?php echo Yii::t('common', 'Mobile'); ?></span></div>
+							<div class="g_9">
+								<input class="simple_field" type="text" id="mobile" name="mobile" />
+								<div class="field_notice"><?php echo Yii::t('common', 'To receive SMS report'); ?></div>
+							</div>
+						</div>
+						<div class="line_grid">
+							<div class="g_3"><span class="label"><?php echo Yii::t('common', 'New Password'); ?></span></div>
+							<div class="g_9">
+								<input class="simple_field" type="text" id="newpass" name="newpass" />
+							</div>
+						</div>
+						<div class="line_grid">
+							<div class="g_3"><span class="label"><?php echo Yii::t('common', 'Old Password'); ?></span></div>
+							<div class="g_9">
+								<input class="simple_field" type="password" id="oldpass" name="oldpass" />
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</span>
+		</div>
+
+
 	</header>
