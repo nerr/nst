@@ -88,6 +88,17 @@ return array(
     /*admin*/
     'User Management' => '用户管理',
     'Swap Rate Chart' => '掉期走势',
+
+
+
+
+    //--
+    'Edit User Infomation' => '编辑用户信息',
+    'Mobile' => '手机号码',
+    'New Password' => '新密码',
+    'Old Password' => '旧密码',
+    'To receive SMS report' => '用于接受短信报表',
+
 );
 
 ?>
