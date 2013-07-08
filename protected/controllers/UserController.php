@@ -53,34 +53,24 @@ class UserController extends Controller
 
 	public function actionLoadinfo()
 	{
-		$record = SysUser::model()->findByAttributes(array('id'=>Yii::app()->user->id));
-		$res['mobile'] = $record->mobile;
+		$user = SysUser::model()->findByAttributes(array('id'=>Yii::app()->user->id));
+		$res['mobile'] = $user->mobile;
 
 		echo json_encode($res);
 	}
 
 	public function actionUpdate()
 	{
-		//echo json_encode($_POST);
+		$user = SysUser::model()->findByPk(Yii::app()->user->id);
 
-		$attr['id'] = Yii::app()->user->id;
-		$arrt['mobile'] = $_POST['mobile'];
+		$user->mobile = $_POST['mobile'];
 
-		$model = new SysUser;
+		if(trim($_POST['newpass']) != '' || $user->password == trim($_POST['oldpass']))
+			$user->password = trim($_POST['newpass']);
 
-		if(trim($_POST['newpass']) == '' || trim($_POST['oldpass']) == '')
-		{
-			$model->attributes = $attr;
-			$model->save();
-		}
-		else
-		{
-			$arrt['newpass'] = $_POST['newpass'];
-			$arrt['oldpass'] = $_POST['oldpass'];
+		$user->save();
 
-			$model->attributes = $attr;
-			$model->save();
-		}
-
+		$res['updatestatus'] = true;
+		echo json_encode($res);
 	}
 }
