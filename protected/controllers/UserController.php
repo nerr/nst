@@ -65,7 +65,7 @@ class UserController extends Controller
 
 		$user->mobile = $_POST['mobile'];
 
-		if(trim($_POST['newpass']) != '' || $user->password == trim($_POST['oldpass']))
+		if(trim($_POST['newpass']) != '' && $user->password == trim($_POST['oldpass']))
 			$user->password = trim($_POST['newpass']);
 
 		$user->save();

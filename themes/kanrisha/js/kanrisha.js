@@ -735,11 +735,10 @@ $(function () {
 			"/nst/index.php?r=user/update",
 			{mobile: $("#mobile").val(), newpass: $.md5($.md5($("#newpass").val())), oldpass: $.md5($.md5($("#oldpass").val()))},
 			function(json){
-				alert(json.updatestatus)
-				/*if(json.updatestatus == true)
-					$(".userform").dialog("close");*/
+				if(json.updatestatus == true)
+					$(".userform").dialog("close");
 			},
-			"text"
+			"json"
 		);
 	}
 });
