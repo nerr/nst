@@ -156,11 +156,12 @@ class Calculate
 
 	public static function getSwapRateChartData()
 	{
-		$aid = 1; //-- account id
+		$aid = 2; //-- account id
 
 		$criteria = new CDbCriteria;
 		$criteria->select='symbol,logdatetime,longswap,shortswap';
 		$criteria->condition = 'accountid=:accountid';
+		$criteria->order = 'logdatetime';
 		$criteria->params = array(':accountid' => $aid);
 		$result = TaSwapRate::model()->findAll($criteria);
 
@@ -170,6 +171,8 @@ class Calculate
 
 			$swaprate[$val->symbol.'long'][] = array($logdate, $val->longswap);
 			$swaprate[$val->symbol.'short'][] = array($logdate, $val->shortswap);
+
+			echo $val->logdatetime.'<br/>';
 		}
 
 		/*foreach($swaprate as $k=>$v)
