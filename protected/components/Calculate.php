@@ -171,8 +171,6 @@ class Calculate
 
 			$swaprate[$val->symbol.'long'][] = array($logdate, $val->longswap);
 			$swaprate[$val->symbol.'short'][] = array($logdate, $val->shortswap);
-
-			echo $val->logdatetime.'<br/>';
 		}
 
 		/*foreach($swaprate as $k=>$v)
