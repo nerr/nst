@@ -82,6 +82,7 @@ return array(
     'Option Time' => '操作时间',
     'Withdraw' => '出金',
     'Deposit' => '入金',
+    'Commission' => '手续费',
 
 
 
