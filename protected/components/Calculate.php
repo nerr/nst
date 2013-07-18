@@ -115,8 +115,9 @@ class Calculate
 			$charts['cost'][$tm] += $val->profit;
 		}
 		//--
-		$data['summary']['cost'] += $data['summary']['closed'];
-		$charts['cost'][$tm] += $data['summary']['closed'];
+		$capitalcommission = Calculate::getCapitalCommission($uid);
+		$data['summary']['cost'] += $data['summary']['closed'] + $capitalcommission;
+		$charts['cost'][$tm] += $data['summary']['closed'] + $capitalcommission;
 
 		end($data['summary']['closedswap']);
 		list(,$cs) = each($data['summary']['closedswap']);
@@ -191,6 +192,22 @@ class Calculate
 		$criteria = new CDbCriteria;
 		$criteria->select='amount,directionid';
 		$criteria->condition='userid=:userid and directionid<>3'; //-- without commission
+		$criteria->params=array(':userid' => $uid);
+		$result = SysCapitalFlow::model()->findAll($criteria);
+
+		foreach($result as $val)
+		{
+			$capital += $val->amount;
+		}
+
+		return $capital;
+	}
+
+	public static function getCapitalCommission($uid)
+	{
+		$criteria = new CDbCriteria;
+		$criteria->select='amount,directionid';
+		$criteria->condition='userid=:userid and directionid=3'; //-- without commission
 		$criteria->params=array(':userid' => $uid);
 		$result = SysCapitalFlow::model()->findAll($criteria);
 
