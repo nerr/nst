@@ -97,8 +97,9 @@ class Calculate
 
 		$criteria = new CDbCriteria;
 		$criteria->select = 'profit,swap,logdatetime';
-		$criteria->condition='userid=:userid';
-		$criteria->params=array(':userid' => $uid);
+		$criteria->condition = 'userid=:userid';
+		$criteria->order  = 'logdatetime';
+		$criteria->params = array(':userid' => $uid);
 		$result = ViewTaSwapOrderDetail::model()->findAll($criteria);
 
 		foreach($result as $val)
