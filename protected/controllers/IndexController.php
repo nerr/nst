@@ -150,6 +150,8 @@ class IndexController extends Controller
 		}
 
 		$params['summary']['capital'] = $data['summary']['capital'];
+
+		$params['summary']['yield'] += Calculate::getCapitalCommission(Yii::app()->user->id) + $data['summary']['closed'];
 		if($data['summary']['capital'] > 0)
 			$params['summary']['yieldrate'] = $params['summary']['yield'] / $data['summary']['capital'] * 100;
 
