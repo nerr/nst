@@ -66,7 +66,7 @@ class Calculate
 		//-- get init balance (real capital + closed profit)
 		$data['summary']['capital'] = Calculate::getCapital($uid);
 
-		$data['summary']['balance'] = $data['summary']['capital'] + $data['summary']['closed'];
+		$data['summary']['balance'] = $data['summary']['capital']; //-- + $data['summary']['closed'];
 
 
 		//-- get commission
@@ -114,6 +114,9 @@ class Calculate
 			$charts['swap'][$tm] += $val->swap;
 			$charts['cost'][$tm] += $val->profit;
 		}
+		//--
+		$data['summary']['cost'] += $data['summary']['closed'];
+		$charts['cost'][$tm] += $data['summary']['closed'];
 
 		end($data['summary']['closedswap']);
 		list(,$cs) = each($data['summary']['closedswap']);
@@ -187,16 +190,13 @@ class Calculate
 		//-- get init balance
 		$criteria = new CDbCriteria;
 		$criteria->select='amount,directionid';
-		$criteria->condition='userid=:userid';
+		$criteria->condition='userid=:userid and directionid<>3'; //-- without commission
 		$criteria->params=array(':userid' => $uid);
 		$result = SysCapitalFlow::model()->findAll($criteria);
 
 		foreach($result as $val)
 		{
-			if($val->directionid == 1)
-				$capital += $val->amount;
-			elseif($val->directionid == 2)
-				$capital -= $val->amount;
+			$capital += $val->amount;
 		}
 
 		return $capital;

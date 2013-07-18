@@ -112,7 +112,7 @@ class IndexController extends Controller
 
 		$i = 0;
 		if(count($detail) > 0)
-		{	
+		{
 			reset($detail);
 			while(list($k, $v) = each($detail))
 			{
