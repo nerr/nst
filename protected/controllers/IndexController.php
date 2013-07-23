@@ -171,18 +171,12 @@ class IndexController extends Controller
 		$this->render('funds', $params);
 	}
 
-	/*
+	
 	public function actionTest()
 	{
-		echo "begin..."."<br>";
-
-		$menu = Menu::make(2, 'General');
-
-		echo $menu;
-
-
-		echo Yii::t('common', 'General');
-	}*/
+		Excel::weekly(Yii::app()->user->id);
+		//Excel::test();
+	}
 
 	
 }
