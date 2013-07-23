@@ -46,27 +46,50 @@ class Excel
 		$data = Calculate::getGeneralSummaryData($uid);
 
 		//-- fill swap rate chart data
+		$swaparr = Excel::getSwapRateArr();
 		$objWorkSheet = $objPHPExcel->setActiveSheetIndex(3);
-		$objWorkSheet->fromArray(Excel::getSwapRateArr());
+		$objWorkSheet->fromArray($swaparr);
 
 		//-- fill profit chart data
+		$profitarr = Excel::getProfitArr($data['charts']);
 		$objWorkSheet = $objPHPExcel->setActiveSheetIndex(4);
-		$objWorkSheet->fromArray(Excel::getProfitArr($data['charts']));
+		$objWorkSheet->fromArray($profitarr);
 
 		//-- fill cost chart data
 		$objWorkSheet = $objPHPExcel->setActiveSheetIndex(5);
-		//$objWorkSheet->fromArray(Excel::getCostArr());
+		//$objWorkSheet->fromArray(Excel::getCostArr()); //--todo
+
+		//-- create charts begin
+		$objWorkSheet = $objPHPExcel->setActiveSheetIndex(0);
+		//-- create swap rate chart
+		$profitchart = Excel::profitChart($sheetArr, count($profitarr));
+		$objWorkSheet->addChart($profitchart);
+		//-- create swap rate chart
+		$swapchart = Excel::swapChart($sheetArr, count($swaparr));
+		$objWorkSheet->addChart($swapchart);
+		//-- create charts end
 
 
-		//-- create rate chart
+
+
+
+
+		echo date('H:i:s') , " Write to Excel2007 format" , EOL;
+		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+		$objWriter->setIncludeCharts(TRUE);
+		$objWriter->save(str_replace('.php', '.xlsx', __FILE__));
+		echo date('H:i:s') , " File written to " , str_replace('.php', '.xlsx', pathinfo(__FILE__, PATHINFO_BASENAME)) , EOL;
+
+
+		// Echo memory peak usage
+		echo date('H:i:s') , " Peak memory usage: " , (memory_get_peak_usage(true) / 1024 / 1024) , " MB" , EOL;
+
+		// Echo done
+		echo date('H:i:s') , " Done writing file" , EOL;
+		echo 'File has been created in ' , getcwd() , EOL;
+
+
 		
-
-
-
-
-
-
-
 
 
 
@@ -82,8 +105,8 @@ class Excel
 
 
 		//-- Set active sheet index to the first sheet, so Excel opens this as the first sheet
-		$objPHPExcel->setActiveSheetIndex(0);
-		Excel::renderXlsxFile($objPHPExcel, 'test');
+		//$objPHPExcel->setActiveSheetIndex(0);
+		//Excel::renderXlsxFile($objPHPExcel, 'test');
 	}
 
 
@@ -160,5 +183,125 @@ class Excel
 	public static function getCostArr()
 	{
 
+	}
+
+
+
+	/*charts*/
+	public static function swapChart($sheetArr, $linenum)
+	{
+		//-- create rate chart
+		$dataseriesLabels = array(
+			new PHPExcel_Chart_DataSeriesValues('String', $sheetArr[3].'!$B$1', NULL, 1),
+			new PHPExcel_Chart_DataSeriesValues('String', $sheetArr[3].'!$D$1', NULL, 1),
+			/*new PHPExcel_Chart_DataSeriesValues('String', $sheetArr[3].'!$F$1', NULL, 1),
+			new PHPExcel_Chart_DataSeriesValues('String', $sheetArr[3].'!$H$1', NULL, 1),
+			new PHPExcel_Chart_DataSeriesValues('String', $sheetArr[3].'!$J$1', NULL, 1),*/
+		);
+
+		$xAxisTickValues = array(
+			new PHPExcel_Chart_DataSeriesValues('String', $sheetArr[3].'!$A$2:$A$'.$linenum, NULL, 4),
+		);
+
+		$dataSeriesValues = array(
+			new PHPExcel_Chart_DataSeriesValues('Number', $sheetArr[3].'!$C$2:$C$'.$linenum, NULL, 4),
+			new PHPExcel_Chart_DataSeriesValues('Number', $sheetArr[3].'!$E$2:$E$'.$linenum, NULL, 4),
+			/*new PHPExcel_Chart_DataSeriesValues('Number', $sheetArr[3].'!$G$2:$G$'.$linenum, NULL, 4),
+			new PHPExcel_Chart_DataSeriesValues('Number', $sheetArr[3].'!$H$2:$H$'.$linenum, NULL, 4),
+			new PHPExcel_Chart_DataSeriesValues('Number', $sheetArr[3].'!$J$2:$J$'.$linenum, NULL, 4)*/
+		);
+
+		//	Build the dataseries
+		$series = new PHPExcel_Chart_DataSeries(
+			PHPExcel_Chart_DataSeries::TYPE_LINECHART,		// plotType
+			PHPExcel_Chart_DataSeries::GROUPING_STACKED,	// plotGrouping
+			range(0, count($dataSeriesValues)-1),			// plotOrder
+			$dataseriesLabels,								// plotLabel
+			$xAxisTickValues,								// plotCategory
+			$dataSeriesValues								// plotValues
+		);
+
+		//	Set the series in the plot area
+		$plotarea = new PHPExcel_Chart_PlotArea(NULL, array($series));
+		//	Set the chart legend
+		$legend = new PHPExcel_Chart_Legend(PHPExcel_Chart_Legend::POSITION_TOPRIGHT, NULL, false);
+
+		$title = new PHPExcel_Chart_Title('利息率走势');
+		$yAxisLabel = new PHPExcel_Chart_Title('Swap Rate');
+
+		//	Create the chart
+		$chart = new PHPExcel_Chart(
+			'chart1',		// name
+			$title,			// title
+			$legend,		// legend
+			$plotarea,		// plotArea
+			true,			// plotVisibleOnly
+			0,				// displayBlanksAs
+			NULL,			// xAxisLabel
+			$yAxisLabel		// yAxisLabel
+		);
+
+		//	Set the position where the chart should appear in the worksheet
+		$chart->setTopLeftPosition('A16');
+		$chart->setBottomRightPosition('N30');
+
+		return $chart;
+	}
+
+
+	public static function profitChart($sheetArr, $linenum)
+	{
+		//-- create rate chart
+		$dataseriesLabels = array(
+			new PHPExcel_Chart_DataSeriesValues('String', $sheetArr[4].'!$B$1', NULL, 1),
+			new PHPExcel_Chart_DataSeriesValues('String', $sheetArr[4].'!$C$1', NULL, 1),
+			new PHPExcel_Chart_DataSeriesValues('String', $sheetArr[4].'!$D$1', NULL, 1),
+		);
+
+		$xAxisTickValues = array(
+			new PHPExcel_Chart_DataSeriesValues('String', $sheetArr[4].'!$A$2:$A$'.$linenum, NULL, $linenum-1),
+		);
+
+		$dataSeriesValues = array(
+			new PHPExcel_Chart_DataSeriesValues('Number', $sheetArr[4].'!$B$2:$B$'.$linenum, NULL, $linenum-1),
+			new PHPExcel_Chart_DataSeriesValues('Number', $sheetArr[4].'!$C$2:$C$'.$linenum, NULL, $linenum-1),
+			new PHPExcel_Chart_DataSeriesValues('Number', $sheetArr[4].'!$D$2:$D$'.$linenum, NULL, $linenum-1),
+		);
+
+		//	Build the dataseries
+		$series = new PHPExcel_Chart_DataSeries(
+			PHPExcel_Chart_DataSeries::TYPE_LINECHART,		// plotType
+			PHPExcel_Chart_DataSeries::GROUPING_STACKED,	// plotGrouping
+			range(0, count($dataSeriesValues)-1),			// plotOrder
+			$dataseriesLabels,								// plotLabel
+			$xAxisTickValues,								// plotCategory
+			$dataSeriesValues								// plotValues
+		);
+
+		//	Set the series in the plot area
+		$plotarea = new PHPExcel_Chart_PlotArea(NULL, array($series));
+		//	Set the chart legend
+		$legend = new PHPExcel_Chart_Legend(PHPExcel_Chart_Legend::POSITION_TOPRIGHT, NULL, false);
+
+		$title = new PHPExcel_Chart_Title('收益情况');
+		$yAxisLabel = new PHPExcel_Chart_Title('Profit');
+
+		//	Create the chart
+		$chart = new PHPExcel_Chart(
+			'chart1',		// name
+			$title,			// title
+			$legend,		// legend
+			$plotarea,		// plotArea
+			true,			// plotVisibleOnly
+			-10000,				// displayBlanksAs
+			NULL,			// xAxisLabel
+			$yAxisLabel		// yAxisLabel
+		);
+
+		//	Set the position where the chart should appear in the worksheet
+		$chart->setTopLeftPosition('A1');
+		$chart->setBottomRightPosition('N15');
+
+		return $chart;
 	}
 }
