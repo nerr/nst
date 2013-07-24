@@ -84,17 +84,16 @@ class Excel
 
 	public static function writeXlsxFile($obj, $name, $debug = false)
 	{
-		//$savepath = Yii::app()->basePath;
 		if($debug == true)
 			echo date('H:i:s') , " Write to Excel2007 format" , EOL;
 
 		$objWriter = PHPExcel_IOFactory::createWriter($obj, 'Excel2007');
 		$objWriter->setIncludeCharts(TRUE);
-		$objWriter->save(str_replace('.php', '.xlsx', __FILE__));
+		$objWriter->save(Yii::app()->params->xlsxPath.$name.'.xlsx');
 
 		if($debug == true)
 		{
-			echo date('H:i:s') , " File written to " , str_replace('.php', '.xlsx', pathinfo(__FILE__, PATHINFO_BASENAME)) , EOL;
+			echo date('H:i:s') , " File written to " , str_replace('.php', '.xlsx', pathinfo($savepath, PATHINFO_BASENAME)) , EOL;
 			// Echo memory peak usage
 			echo date('H:i:s') , " Peak memory usage: " , (memory_get_peak_usage(true) / 1024 / 1024) , " MB" , EOL;
 
