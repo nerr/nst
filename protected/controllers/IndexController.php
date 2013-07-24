@@ -13,11 +13,11 @@ class IndexController extends Controller
 	{
 		return array(
 			array('deny',
-				'actions'=>array('index', 'general', 'report', 'funds'),
+				'actions'=>array('index', 'general', 'report', 'funds', 'excel'),
 				'users'=>array('?'),
 			),
 			array('allow',
-				'actions'=>array('index', 'general', 'report', 'funds'),
+				'actions'=>array('index', 'general', 'report', 'funds', 'excel'),
 				'users'=>array('@'),
 			),
 		);
@@ -172,10 +172,9 @@ class IndexController extends Controller
 	}
 
 	
-	public function actionTest()
+	public function actionExcel()
 	{
 		Excel::weekly(Yii::app()->user->id);
-		//Excel::test();
 	}
 
 	
