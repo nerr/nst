@@ -76,10 +76,11 @@ class Excel
 		$objPHPExcel->setActiveSheetIndex(0);
 
 		//-- output excel
+		$filename = 'NST.Weekly.'.date('Y-m-d');
 		if($output == 'W')
-			Excel::writeXlsxFile($objPHPExcel, 'test');
+			Excel::writeXlsxFile($objPHPExcel, $filename);
 		elseif($output == 'D')
-			Excel::downloadXlsxFile($objPHPExcel, 'test');
+			Excel::downloadXlsxFile($objPHPExcel, $filename);
 	}
 
 	public static function writeXlsxFile($obj, $name, $debug = false)
