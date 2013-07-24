@@ -69,6 +69,10 @@ class Excel
 		$objWorkSheet->addChart($swapchart);
 		//-- create charts end
 
+		//-- Fund tabel
+		$objWorkSheet = $objPHPExcel->setActiveSheetIndex(2);
+		$objWorkSheet->fromArray(Excel::getFundArr($uid));
+
 
 
 
@@ -300,5 +304,23 @@ class Excel
 		$chart->setBottomRightPosition('N15');
 
 		return $chart;
+	}
+
+	public static function getFundArr($uid)
+	{
+		$criteria = new CDbCriteria;
+		$criteria->select = 'amount,directioinname,flowtime,memo';
+		$criteria->condition='userid=:userid';
+		$criteria->params = array(':userid' => $uid);
+		$criteria->order  = 'flowtime DESC';
+		$result = ViewTaSwapCapitalFlow::model()->findAll($criteria);
+
+		$data[] = array('发生时间', '类型', '金额', '说明');
+		foreach($result as $val)
+		{
+			$data[] = array($val->flowtime, Yii::t('common', $val->directioinname), $val->amount, $val->memo);
+		}
+
+		return $data;
 	}
 }
