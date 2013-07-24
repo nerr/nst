@@ -105,5 +105,6 @@ return array(
 	'params'=>array(
 		// this is used in contact page
 		'adminEmail' => 'leon@nerrsoft.com',
+		'xlsxPath' => dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'excel'.DIRECTORY_SEPARATOR,
 	),
 );
