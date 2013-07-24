@@ -2,7 +2,7 @@
 
 class Excel
 {
-	public static function weekly($uid)
+	public static function weekly($uid, $output = 'W')
 	{
 		//-- init
 		Yii::import('ext.phpexcel.XPHPExcel');      
@@ -72,51 +72,48 @@ class Excel
 
 
 
+		//-- Set active sheet index to the first sheet, so Excel opens this as the first sheet
+		$objPHPExcel->setActiveSheetIndex(0);
 
+		//-- output excel
+		if($output == 'W')
+			Excel::writeXlsxFile($objPHPExcel, 'test');
+		elseif($output == 'D')
+			Excel::downloadXlsxFile($objPHPExcel, 'test');
+	}
 
-		echo date('H:i:s') , " Write to Excel2007 format" , EOL;
-		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+	public static function writeXlsxFile($obj, $name, $debug = false)
+	{
+		//$savepath = Yii::app()->basePath;
+		if($debug == true)
+			echo date('H:i:s') , " Write to Excel2007 format" , EOL;
+
+		$objWriter = PHPExcel_IOFactory::createWriter($obj, 'Excel2007');
 		$objWriter->setIncludeCharts(TRUE);
 		$objWriter->save(str_replace('.php', '.xlsx', __FILE__));
-		echo date('H:i:s') , " File written to " , str_replace('.php', '.xlsx', pathinfo(__FILE__, PATHINFO_BASENAME)) , EOL;
 
+		if($debug == true)
+		{
+			echo date('H:i:s') , " File written to " , str_replace('.php', '.xlsx', pathinfo(__FILE__, PATHINFO_BASENAME)) , EOL;
+			// Echo memory peak usage
+			echo date('H:i:s') , " Peak memory usage: " , (memory_get_peak_usage(true) / 1024 / 1024) , " MB" , EOL;
 
-		// Echo memory peak usage
-		echo date('H:i:s') , " Peak memory usage: " , (memory_get_peak_usage(true) / 1024 / 1024) , " MB" , EOL;
-
-		// Echo done
-		echo date('H:i:s') , " Done writing file" , EOL;
-		echo 'File has been created in ' , getcwd() , EOL;
-
-
-		
-
-
-
-
-		// Add some data
-		/*$objPHPExcel->setActiveSheetIndex(0)
-					->setCellValue('A1', 'Hello')
-					->setCellValue('B2', 'world!')
-					->setCellValue('C1', 'Hello')
-					->setCellValue('D2', 'world!');*/
-		//$objWorksheet = $objPHPExcel->getActiveSheet();
-
-
-
-		//-- Set active sheet index to the first sheet, so Excel opens this as the first sheet
-		//$objPHPExcel->setActiveSheetIndex(0);
-		//Excel::renderXlsxFile($objPHPExcel, 'test');
+			// Echo done
+			echo date('H:i:s') , " Done writing file" , EOL;
+			echo 'File has been created in ' , getcwd() , EOL;
+		}
+		exit;
 	}
 
 
-	public static function renderXlsxFile($obj, $name)
+	public static function downloadXlsxFile($obj, $name)
 	{
 		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 		header('Content-Disposition: attachment;filename="'.$name.'.xlsx"');
 		header('Cache-Control: max-age=0');
 
 		$objWriter = PHPExcel_IOFactory::createWriter($obj, 'Excel2007');
+		$objWriter->setIncludeCharts(TRUE);
 		$objWriter->save('php://output');
 
 		exit;
@@ -293,7 +290,7 @@ class Excel
 			$legend,		// legend
 			$plotarea,		// plotArea
 			true,			// plotVisibleOnly
-			-10000,				// displayBlanksAs
+			0,				// displayBlanksAs
 			NULL,			// xAxisLabel
 			$yAxisLabel		// yAxisLabel
 		);
