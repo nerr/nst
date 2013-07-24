@@ -8,3 +8,4 @@ protected/config/cron.php
 /index.php
 /index-test.php
 /cron.php
+excel/*.xlsx
