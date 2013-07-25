@@ -15,7 +15,8 @@
 				</div>
 				<div class="g_6 contents_options">
 					<div class="simple_buttons">
-						<div class="bwIcon i_16_help"><?php echo Yii::t('common', 'Help'); ?></div>
+						<a href="<?php echo $url['excel'];?>" target="_blank">
+						<div class="bwIcon i_16_help"><?php echo Yii::t('common', 'Export Excel'); ?></div></a>
 					</div>
 				</div>
 

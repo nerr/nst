@@ -70,6 +70,8 @@ return array(
 
     'Yield' => '浮动收益',
     'Capital' => '本金',
+    'Export Excel' => '导出报表',
+
 
     // funds
     'Funds options log' => '资金操作记录',

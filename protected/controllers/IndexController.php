@@ -100,8 +100,9 @@ class IndexController extends Controller
 		{
 			$params['summary'][$k] = number_format($v, 2);
 		}
-		
+
 		$params['url']['funds'] = $this->createUrl('index/funds');
+		$params['url']['excel'] = $this->createUrl('index/excel');
 
 		$this->render('report', $params);
 	}
