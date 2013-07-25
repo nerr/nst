@@ -45,6 +45,8 @@ class Excel
 
         $data = Calculate::getGeneralSummaryData($uid);
 
+
+
         //-- fill swap rate chart data
         $swaparr = Excel::getSwapRateArr();
         $objWorkSheet = $objPHPExcel->setActiveSheetIndex(3);
@@ -59,6 +61,9 @@ class Excel
         $objWorkSheet = $objPHPExcel->setActiveSheetIndex(5);
         //$objWorkSheet->fromArray(Excel::getCostArr()); //--todo
 
+
+
+
         //-- create charts begin
         $objWorkSheet = $objPHPExcel->setActiveSheetIndex(0);
         //-- create swap rate chart
@@ -68,6 +73,9 @@ class Excel
         $swapchart = Excel::swapChart($sheetArr, count($swaparr));
         $objWorkSheet->addChart($swapchart);
         //-- create charts end
+
+
+
 
         //-- fund tabel
         $objWorkSheet = $objPHPExcel->setActiveSheetIndex(2);
@@ -162,7 +170,7 @@ class Excel
 
     public static function getProfitArr($arr)
     {
-        $data[] = array('', 'swap', 'cost', 'netearning');
+        $data[] = array('', '掉期', '成本', '收益');
 
         foreach($arr as $key=>$val)
         {
@@ -218,8 +226,8 @@ class Excel
 
         //  Build the dataseries
         $series = new PHPExcel_Chart_DataSeries(
-            PHPExcel_Chart_DataSeries::TYPE_LINECHART,      // plotType
-            PHPExcel_Chart_DataSeries::GROUPING_STACKED,    // plotGrouping
+            PHPExcel_Chart_DataSeries::TYPE_LINECHART_3D,      // plotType
+            PHPExcel_Chart_DataSeries::GROUPING_STANDARD,    // plotGrouping
             range(0, count($dataSeriesValues)-1),           // plotOrder
             $dataseriesLabels,                              // plotLabel
             $xAxisTickValues,                               // plotCategory
@@ -247,8 +255,8 @@ class Excel
         );
 
         //  Set the position where the chart should appear in the worksheet
-        $chart->setTopLeftPosition('A16');
-        $chart->setBottomRightPosition('N30');
+        $chart->setTopLeftPosition('A26');
+        $chart->setBottomRightPosition('P51');
 
         return $chart;
     }
@@ -275,8 +283,8 @@ class Excel
 
         //  Build the dataseries
         $series = new PHPExcel_Chart_DataSeries(
-            PHPExcel_Chart_DataSeries::TYPE_LINECHART,      // plotType
-            PHPExcel_Chart_DataSeries::GROUPING_STACKED,    // plotGrouping
+            PHPExcel_Chart_DataSeries::TYPE_LINECHART_3D,      // plotType
+            PHPExcel_Chart_DataSeries::GROUPING_STANDARD,    // plotGrouping
             range(0, count($dataSeriesValues)-1),           // plotOrder
             $dataseriesLabels,                              // plotLabel
             $xAxisTickValues,                               // plotCategory
@@ -305,7 +313,7 @@ class Excel
 
         //  Set the position where the chart should appear in the worksheet
         $chart->setTopLeftPosition('A1');
-        $chart->setBottomRightPosition('N15');
+        $chart->setBottomRightPosition('P25');
 
         return $chart;
     }
@@ -331,12 +339,18 @@ class Excel
 
     public static function getProfitTableArr($uid)
     {
-        //-- table title and header
-        $data[] = array('每日收益情况报表(最近一周)');
-        $data[] = array('日期', '新增掉期', '累计掉期', '总损益');
-
         //-- get report data
         $result = Calculate::getUserReport($uid);
+
+        $data[] = array('汇总');
+        $data[] = array('本金', '浮动收益', '浮动收益率');
+        $data[] = array($result['summary']['capital'], $result['summary']['yield'], $result['summary']['yieldrate']);
+
+        $data[] = array('');
+        //-- table title and header
+        $data[] = array('明细');
+        $data[] = array('每日收益情况报表(最近10天)');
+        $data[] = array('日期', '新增掉期', '累计掉期', '总损益');
 
 
         //-- format report data for excel
