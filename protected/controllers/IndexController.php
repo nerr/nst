@@ -81,63 +81,10 @@ class IndexController extends Controller
 
 	public function actionReport()
 	{
+		$params = Calculate::getUserReport(Yii::app()->user->id);
+
 		//-- get menu
 		$params['menu'] = Menu::make(Yii::app()->user->gid, 'Report');
-
-		//-- 
-		$criteria = new CDbCriteria;
-		$criteria->select = 'profit,swap,logdatetime';
-		$criteria->condition='userid=:userid';
-		$criteria->order = 'logdatetime desc';
-		$criteria->params = array(':userid' => Yii::app()->user->id);
-		$result = ViewTaSwapOrderDetail::model()->findAll($criteria);
-
-		$dateArr = array();
-		foreach($result as $val)
-		{
-			$date = date('Y-m-d', strtotime($val->logdatetime));
-
-			$detail[$date]['totalswap'] += $val->swap;
-			$detail[$date]['pl'] += $val->profit;
-
-
-			if(!in_array($date, $dateArr))
-				$dateArr[] = $date;
-			
-			if(count($detail) > 11)
-				break;
-		}
-
-		$data = Calculate::getGeneralSummaryData(Yii::app()->user->id);
-
-		$i = 0;
-		if(count($detail) > 0)
-		{
-			reset($detail);
-			while(list($k, $v) = each($detail))
-			{
-				$detail[$k]['totalswap'] += Calculate::appendCloseSwap($k, $data['summary']['closedswap']);
-				$detail[$k]['pl'] += Calculate::appendCloseProfit($k, $data['summary']['closedprofit']);
-			}
-
-			reset($detail);
-			while(list($k, $v) = each($detail))
-			{
-				$params['detail'][$k] = $v;
-
-				$params['detail'][$k]['newswap'] = $v['totalswap'] - $detail[$dateArr[$i+1]]['totalswap'];
-				$params['detail'][$k]['totalpl'] = $v['totalswap'] + $v['pl'] + $data['summary']['commission'];
-
-				if($i == 0)
-					$params['summary']['yield'] = $params['detail'][$k]['totalpl'];
-
-				if($i >= 9)
-					break;
-				else
-					$i++;
-			}
-		}
-
 
 		//-- adjust detail data format
 		if(count($params['detail']) > 0)
@@ -149,16 +96,11 @@ class IndexController extends Controller
 			}
 		}
 
-		$params['summary']['capital'] = $data['summary']['capital'];
-
-		$params['summary']['yield'] += Calculate::getCapitalCommission(Yii::app()->user->id) + $data['summary']['closed'];
-		if($data['summary']['capital'] > 0)
-			$params['summary']['yieldrate'] = $params['summary']['yield'] / $data['summary']['capital'] * 100;
-
 		foreach($params['summary'] as $k=>$v)
 		{
 			$params['summary'][$k] = number_format($v, 2);
 		}
+		
 		$params['url']['funds'] = $this->createUrl('index/funds');
 
 		$this->render('report', $params);
@@ -174,7 +116,7 @@ class IndexController extends Controller
 	
 	public function actionExcel()
 	{
-		Excel::weekly(Yii::app()->user->id);
+		Excel::weekly(Yii::app()->user->id, 'D');
 	}
 
 	

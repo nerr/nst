@@ -244,4 +244,69 @@ class Calculate
 
 		return $append;
 	}
+
+	public static function getUserReport($uid)
+	{
+		//-- 
+		$criteria = new CDbCriteria;
+		$criteria->select = 'profit,swap,logdatetime';
+		$criteria->condition='userid=:userid';
+		$criteria->order = 'logdatetime desc';
+		$criteria->params = array(':userid' => $uid);
+		$result = ViewTaSwapOrderDetail::model()->findAll($criteria);
+
+		$dateArr = array();
+		foreach($result as $val)
+		{
+			$date = date('Y-m-d', strtotime($val->logdatetime));
+
+			$detail[$date]['totalswap'] += $val->swap;
+			$detail[$date]['pl'] += $val->profit;
+
+
+			if(!in_array($date, $dateArr))
+				$dateArr[] = $date;
+			
+			if(count($detail) > 11)
+				break;
+		}
+
+		$data = Calculate::getGeneralSummaryData($uid);
+
+		$i = 0;
+		if(count($detail) > 0)
+		{
+			reset($detail);
+			while(list($k, $v) = each($detail))
+			{
+				$detail[$k]['totalswap'] += Calculate::appendCloseSwap($k, $data['summary']['closedswap']);
+				$detail[$k]['pl'] += Calculate::appendCloseProfit($k, $data['summary']['closedprofit']);
+			}
+
+			reset($detail);
+			while(list($k, $v) = each($detail))
+			{
+				$params['detail'][$k] = $v;
+
+				$params['detail'][$k]['newswap'] = $v['totalswap'] - $detail[$dateArr[$i+1]]['totalswap'];
+				$params['detail'][$k]['totalpl'] = $v['totalswap'] + $v['pl'] + $data['summary']['commission'];
+
+				if($i == 0)
+					$params['summary']['yield'] = $params['detail'][$k]['totalpl'];
+
+				if($i >= 9)
+					break;
+				else
+					$i++;
+			}
+		}
+
+		$params['summary']['capital'] = $data['summary']['capital'];
+
+		$params['summary']['yield'] += Calculate::getCapitalCommission(Yii::app()->user->id) + $data['summary']['closed'];
+		if($data['summary']['capital'] > 0)
+			$params['summary']['yieldrate'] = $params['summary']['yield'] / $data['summary']['capital'] * 100;
+
+		return $params;
+	}
 }
