@@ -56,21 +56,23 @@ class Excel
         $objWorkSheet->fromArray($profitarr);
 
         //-- fill cost chart data
+        $costarr = Excel::getCostArr();
         $objWorkSheet = $objPHPExcel->setActiveSheetIndex(5);
-        //$objWorkSheet->fromArray(Excel::getCostArr()); //--todo
-
+        $objWorkSheet->fromArray($costarr);
 
 
         //-- create charts begin
         $objWorkSheet = $objPHPExcel->setActiveSheetIndex(0);
-        //-- create swap rate chart
+        //-- create profit chart
         $profitchart = Excel::profitChart($sheetArr, count($profitarr));
         $objWorkSheet->addChart($profitchart);
         //-- create swap rate chart
         $swapchart = Excel::swapChart($sheetArr, count($swaparr));
         $objWorkSheet->addChart($swapchart);
+        //-- create cost chart
+        $swapchart = Excel::costChart($sheetArr, count($costarr));
+        $objWorkSheet->addChart($swapchart);
         //-- create charts end
-
 
 
         //-- fund tabel
@@ -134,6 +136,7 @@ class Excel
 
         //-- Set active sheet index to the first sheet, so Excel opens this as the first sheet
         $objPHPExcel->setActiveSheetIndex(0);
+        $objPHPExcel->getActiveSheet()->setCellValue('A1', '注：本报表由NST系统自动生成，因此可能存在由程序Bug造成的计算错误。');
 
         //-- output excel
         $filename = 'NST.Weekly.'.date('Y-m-d');
@@ -246,6 +249,8 @@ class Excel
             $data[$key]['indicator'] = ($val['profitloss'] + $val['commission']) * -1 / $val['balance'] * 100;
         }
 
+        array_unshift($data, array('日期', '', '', '', '成本占用(百分比)'));
+
         return $data;
     }
 
@@ -306,8 +311,8 @@ class Excel
         );
 
         //  Set the position where the chart should appear in the worksheet
-        $chart->setTopLeftPosition('A26');
-        $chart->setBottomRightPosition('P51');
+        $chart->setTopLeftPosition('A30');
+        $chart->setBottomRightPosition('P55');
 
         return $chart;
     }
@@ -363,11 +368,66 @@ class Excel
         );
 
         //  Set the position where the chart should appear in the worksheet
-        $chart->setTopLeftPosition('A1');
-        $chart->setBottomRightPosition('P25');
+        $chart->setTopLeftPosition('A3');
+        $chart->setBottomRightPosition('P27');
 
         return $chart;
     }
+
+    public static function costChart($sheetArr, $linenum)
+    {
+        //-- create rate chart
+        $dataseriesLabels = array(
+            new PHPExcel_Chart_DataSeriesValues('String', $sheetArr[5].'!$E$1', NULL, 1),
+        );
+
+        $xAxisTickValues = array(
+            new PHPExcel_Chart_DataSeriesValues('String', $sheetArr[5].'!$A$2:$A$'.$linenum, NULL, 4),
+        );
+
+        $dataSeriesValues = array(
+            new PHPExcel_Chart_DataSeriesValues('Number', $sheetArr[5].'!$E$2:$E$'.$linenum, NULL, 4),
+        );
+
+        //  Build the dataseries
+        $series = new PHPExcel_Chart_DataSeries(
+            PHPExcel_Chart_DataSeries::TYPE_LINECHART_3D,      // plotType
+            PHPExcel_Chart_DataSeries::GROUPING_STANDARD,    // plotGrouping
+            range(0, count($dataSeriesValues)-1),           // plotOrder
+            $dataseriesLabels,                              // plotLabel
+            $xAxisTickValues,                               // plotCategory
+            $dataSeriesValues                               // plotValues
+        );
+
+        //  Set the series in the plot area
+        $plotarea = new PHPExcel_Chart_PlotArea(NULL, array($series));
+        //  Set the chart legend
+        $legend = new PHPExcel_Chart_Legend(PHPExcel_Chart_Legend::POSITION_TOPRIGHT, NULL, false);
+
+        $title = new PHPExcel_Chart_Title('成本占用 - 点差波动');
+        $yAxisLabel = new PHPExcel_Chart_Title('成本占用比率');
+
+        //  Create the chart
+        $chart = new PHPExcel_Chart(
+            'chart1',       // name
+            $title,         // title
+            $legend,        // legend
+            $plotarea,      // plotArea
+            true,           // plotVisibleOnly
+            0,              // displayBlanksAs
+            NULL,           // xAxisLabel
+            $yAxisLabel     // yAxisLabel
+        );
+
+        //  Set the position where the chart should appear in the worksheet
+        $chart->setTopLeftPosition('A57');
+        $chart->setBottomRightPosition('P82');
+
+        return $chart;
+    }
+
+
+
 
     public static function getFundTableArr($uid)
     {
