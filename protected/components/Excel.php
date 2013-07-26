@@ -83,10 +83,6 @@ class Excel
         $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
 
         $excelstyle = new PHPExcel_Style();
-        $excelstyle->applyFromArray(Excel::styleArr('tGlobal'));
-        $objPHPExcel->getActiveSheet()->setSharedStyle($excelstyle, "A3:D".(count($fundtabledata)));
-        unset($excelstyle);
-        $excelstyle = new PHPExcel_Style();
         $excelstyle->applyFromArray(Excel::styleArr('tHeaderFooter'));
         $objPHPExcel->getActiveSheet()->setSharedStyle($excelstyle, "A1:D2");
         unset($excelstyle);
@@ -97,6 +93,11 @@ class Excel
         $excelstyle = new PHPExcel_Style();
         $excelstyle->applyFromArray(Excel::styleArr('date'));
         $objPHPExcel->getActiveSheet()->setSharedStyle($excelstyle, "A3:A".(count($fundtabledata)));
+        unset($excelstyle);
+        $excelstyle = new PHPExcel_Style();
+        $excelstyle->applyFromArray(Excel::styleArr('tGlobal'));
+        $objPHPExcel->getActiveSheet()->setSharedStyle($excelstyle, "B3:B".(count($fundtabledata)));
+        $objPHPExcel->getActiveSheet()->setSharedStyle($excelstyle, "D3:D".(count($fundtabledata)));
 
         //-- profit tabel
         $profittabledata = Excel::getProfitTableArr($uid);
@@ -107,11 +108,11 @@ class Excel
         $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
         $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
 
-        $excelstyle = new PHPExcel_Style();
+        /*$excelstyle = new PHPExcel_Style();
         $excelstyle->applyFromArray(Excel::styleArr('tGlobal'));
         $objPHPExcel->getActiveSheet()->setSharedStyle($excelstyle, "A3:C3");
         $objPHPExcel->getActiveSheet()->setSharedStyle($excelstyle, "A7:D".(count($profittabledata)));
-        unset($excelstyle);
+        unset($excelstyle);*/
         $excelstyle = new PHPExcel_Style();
         $excelstyle->applyFromArray(Excel::styleArr('tHeaderFooter'));
         $objPHPExcel->getActiveSheet()->setSharedStyle($excelstyle, "A1:C2");
@@ -120,6 +121,15 @@ class Excel
         $excelstyle = new PHPExcel_Style();
         $excelstyle->applyFromArray(Excel::styleArr('nAmount'));
         $objPHPExcel->getActiveSheet()->setSharedStyle($excelstyle, "B7:D".(count($profittabledata)));
+        $objPHPExcel->getActiveSheet()->setSharedStyle($excelstyle, "A3:B3");
+        unset($excelstyle);
+        $excelstyle = new PHPExcel_Style();
+        $excelstyle->applyFromArray(Excel::styleArr('nPercent'));
+        $objPHPExcel->getActiveSheet()->setSharedStyle($excelstyle, "C3");
+        unset($excelstyle);
+        $excelstyle = new PHPExcel_Style();
+        $excelstyle->applyFromArray(Excel::styleArr('date'));
+        $objPHPExcel->getActiveSheet()->setSharedStyle($excelstyle, "A7:A".(count($profittabledata)));
 
 
         //-- Set active sheet index to the first sheet, so Excel opens this as the first sheet
@@ -415,6 +425,11 @@ class Excel
                 'borders'   => $style['borders']['general'],
                 'font'      => $style['font']['general'],
                 'numberformat'=> $style['numberformat']['amount'],
+            ),
+            'nPercent' => array(
+                'borders'   => $style['borders']['general'],
+                'font'      => $style['font']['general'],
+                'numberformat'=> $style['numberformat']['percent'],
             ),
 
             'date' => array(
