@@ -45,8 +45,6 @@ class Excel
 
         $data = Calculate::getGeneralSummaryData($uid);
 
-
-
         //-- fill swap rate chart data
         $swaparr = Excel::getSwapRateArr();
         $objWorkSheet = $objPHPExcel->setActiveSheetIndex(3);
@@ -63,7 +61,6 @@ class Excel
 
 
 
-
         //-- create charts begin
         $objWorkSheet = $objPHPExcel->setActiveSheetIndex(0);
         //-- create swap rate chart
@@ -76,16 +73,53 @@ class Excel
 
 
 
-
         //-- fund tabel
+        $fundtabledata = Excel::getFundTableArr($uid);
         $objWorkSheet = $objPHPExcel->setActiveSheetIndex(2);
-        $objWorkSheet->fromArray(Excel::getFundTableArr($uid));
+        $objWorkSheet->fromArray($fundtabledata);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
+
+        $excelstyle = new PHPExcel_Style();
+        $excelstyle->applyFromArray(Excel::styleArr('tGlobal'));
+        $objPHPExcel->getActiveSheet()->setSharedStyle($excelstyle, "A3:D".(count($fundtabledata)));
+        unset($excelstyle);
+        $excelstyle = new PHPExcel_Style();
+        $excelstyle->applyFromArray(Excel::styleArr('tHeaderFooter'));
+        $objPHPExcel->getActiveSheet()->setSharedStyle($excelstyle, "A1:D2");
+        unset($excelstyle);
+        $excelstyle = new PHPExcel_Style();
+        $excelstyle->applyFromArray(Excel::styleArr('nAmount'));
+        $objPHPExcel->getActiveSheet()->setSharedStyle($excelstyle, "C3:C".(count($fundtabledata)));
+        unset($excelstyle);
+        $excelstyle = new PHPExcel_Style();
+        $excelstyle->applyFromArray(Excel::styleArr('date'));
+        $objPHPExcel->getActiveSheet()->setSharedStyle($excelstyle, "A3:A".(count($fundtabledata)));
 
         //-- profit tabel
+        $profittabledata = Excel::getProfitTableArr($uid);
         $objWorkSheet = $objPHPExcel->setActiveSheetIndex(1);
-        $objWorkSheet->fromArray(Excel::getProfitTableArr($uid));
+        $objWorkSheet->fromArray($profittabledata);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
 
-
+        $excelstyle = new PHPExcel_Style();
+        $excelstyle->applyFromArray(Excel::styleArr('tGlobal'));
+        $objPHPExcel->getActiveSheet()->setSharedStyle($excelstyle, "A3:C3");
+        $objPHPExcel->getActiveSheet()->setSharedStyle($excelstyle, "A7:D".(count($profittabledata)));
+        unset($excelstyle);
+        $excelstyle = new PHPExcel_Style();
+        $excelstyle->applyFromArray(Excel::styleArr('tHeaderFooter'));
+        $objPHPExcel->getActiveSheet()->setSharedStyle($excelstyle, "A1:C2");
+        $objPHPExcel->getActiveSheet()->setSharedStyle($excelstyle, "A5:D6");
+        unset($excelstyle);
+        $excelstyle = new PHPExcel_Style();
+        $excelstyle->applyFromArray(Excel::styleArr('nAmount'));
+        $objPHPExcel->getActiveSheet()->setSharedStyle($excelstyle, "B7:D".(count($profittabledata)));
 
 
         //-- Set active sheet index to the first sheet, so Excel opens this as the first sheet
@@ -327,7 +361,7 @@ class Excel
         $criteria->order  = 'flowtime DESC';
         $result = ViewTaSwapCapitalFlow::model()->findAll($criteria);
 
-        $data[] = array('资金表');
+        $data[] = array('资金记录');
         $data[] = array('发生时间', '类型', '金额', '说明');
         foreach($result as $val)
         {
@@ -348,8 +382,7 @@ class Excel
 
         $data[] = array('');
         //-- table title and header
-        $data[] = array('明细');
-        $data[] = array('每日收益情况报表(最近10天)');
+        $data[] = array('明细 - 每日收益情况报表(最近10天)');
         $data[] = array('日期', '新增掉期', '累计掉期', '总损益');
 
 
@@ -360,5 +393,87 @@ class Excel
         }
 
         return $data;
+    }
+
+    public static function styleArr($name)
+    {
+        $style = Excel::getStyleArray();
+
+        $arr = array(
+            'tGlobal' => array(
+                'borders'   => $style['borders']['general'],
+                'font'      => $style['font']['general'],
+            ),
+
+            'tHeaderFooter' => array(
+                'borders'   => $style['borders']['general'],
+                'fill'      => $style['fill']['tHeaderFooter'],
+                'font'      => $style['font']['tHeaderFooter'],
+            ),
+
+            'nAmount' => array(
+                'borders'   => $style['borders']['general'],
+                'font'      => $style['font']['general'],
+                'numberformat'=> $style['numberformat']['amount'],
+            ),
+
+            'date' => array(
+                'borders'   => $style['borders']['general'],
+                'font'      => $style['font']['general'],
+                'numberformat'=> $style['numberformat']['date'],
+            ),
+        );
+
+        return $arr[$name];
+    }
+
+
+    public static function getStyleArray()
+    {
+        return array(
+            'borders' => array(
+                'general' => array(
+                    'bottom'    => array('style' => PHPExcel_Style_Border::BORDER_THIN),
+                    'right'     => array('style' => PHPExcel_Style_Border::BORDER_THIN),
+                    'left'      => array('style' => PHPExcel_Style_Border::BORDER_THIN),
+                    'top'       => array('style' => PHPExcel_Style_Border::BORDER_THIN),
+                ),
+            ),
+
+            'fill' => array(
+                'tHeaderFooter'  => array(
+                    'type'      => PHPExcel_Style_Fill::FILL_SOLID,
+                    'color'     => array('argb' => 'D4FF55'),
+                ),
+            ),
+
+            'font' => array(
+                'general' => array(
+                    'name'      => 'Microsoft YaHei',
+                    'size'      => 9, 
+                    'bold'      => false,
+                ),
+                'tHeaderFooter' => array(
+                    'name'      => 'Microsoft YaHei',
+                    'size'      => 10, 
+                    'bold'      => true,
+                ),
+            ),
+
+            'numberformat' => array(
+                'amount' => array(
+                    'format'    => PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD,
+                ),
+                'percent' => array(
+                    'format'    => PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE,
+                ),
+                'date' => array(
+                    'format'    => PHPExcel_Style_NumberFormat::FORMAT_DATE_YYYYMMDD2,
+                ),
+                'datetime' => array(
+                    'format'    => PHPExcel_Style_NumberFormat::FORMAT_DATE_YYYYMMDD2,
+                ),
+            ),
+        );
     }
 }
