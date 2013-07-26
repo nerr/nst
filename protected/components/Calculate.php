@@ -316,11 +316,16 @@ class Calculate
         $criteria->select = 'logtime, profitloss, commission, balance';
         $criteria->condition='accountnum=:accountnum and balance>0';
         $criteria->order = 'logtime desc';
-        $criteria->params = array(':userid' => $uid);
+        $criteria->params = array(':accountnum' => 7956);
         $result = TaSwapSafeMarginNote::model()->findAll($criteria);
 
         foreach($result as $val)
-            $data[] = array($val->logtime, $val->profitloss, $val->commission, $val->balance);
+            $data[] = array(
+                'logtime' => $val->logtime, 
+                'profitloss' => $val->profitloss, 
+                'commission' => $val->commission, 
+                'balance' => $val->balance
+            );
 
         return $data;
     }
