@@ -239,7 +239,14 @@ class Excel
 
     public static function getCostArr()
     {
+        $data = Calculate::getSafeMarginLog();
 
+        foreach($data as $key=>$val)
+        {
+            $data[$key]['indicator'] = ($val['profitloss'] + $val['commission']) * -1 / $val['balance'] * 100;
+        }
+
+        return $data;
     }
 
 
