@@ -315,7 +315,7 @@ class Calculate
         $criteria = new CDbCriteria;
         $criteria->select = 'logtime, profitloss, commission, balance';
         $criteria->condition='accountnum=:accountnum and balance>0';
-        $criteria->order = 'logtime desc';
+        $criteria->order = 'logtime';
         $criteria->params = array(':accountnum' => 7956);
         $result = TaSwapSafeMarginNote::model()->findAll($criteria);
 
