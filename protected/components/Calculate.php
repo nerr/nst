@@ -81,7 +81,10 @@ class Calculate
         {
             $commission[$val->opendate] += $val->commission;
         }
-        $data['summary']['commission'] = array_sum($commission);
+        if(count($commission) > 0)
+            $data['summary']['commission'] = array_sum($commission);
+        else
+            $data['summary']['commission'] = 0;
 
         //-- get profit swap
         $criteria = new CDbCriteria;
@@ -119,26 +122,34 @@ class Calculate
         $data['summary']['cost'] += $data['summary']['closed'] + $capitalcommission;
         $charts['cost'][$tm] += $data['summary']['closed'] + $capitalcommission;
 
-        end($data['summary']['closedswap']);
-        list(,$cs) = each($data['summary']['closedswap']);
-        $data['summary']['swap'] += $cs;
-
-        end($data['summary']['closedprofit']);
-        list(,$cp) = each($data['summary']['closedprofit']);
-        $data['summary']['cost'] += $cp;
-
-        //-- append history data to swap and cost
-        foreach($charts['swap'] as $t=>$v)
+        if(is_array($data['summary']['closedswap']))
         {
-            $charts['swap'][$t] += Calculate::appendCloseSwap(date('Y-m-d', $t), $data['summary']['closedswap']);
-            $charts['cost'][$t] += Calculate::appendCloseProfit(date('Y-m-d', $t), $data['summary']['closedprofit']);
+            end($data['summary']['closedswap']);
+            list(,$cs) = each($data['summary']['closedswap']);
+            $data['summary']['swap'] += $cs;
         }
+
+        if(is_array($data['summary']['closedprofit']))
+        {       
+            end($data['summary']['closedprofit']);
+            list(,$cp) = each($data['summary']['closedprofit']);
+            $data['summary']['cost'] += $cp;
+        }
+
+        
 
         //-- adjust swap (add closed swap)
 
 
         if(count($charts['swap']) > 0)
         {
+            //-- append history data to swap and cost
+            foreach($charts['swap'] as $t=>$v)
+            {
+                $charts['swap'][$t] += Calculate::appendCloseSwap(date('Y-m-d', $t), $data['summary']['closedswap']);
+                $charts['cost'][$t] += Calculate::appendCloseProfit(date('Y-m-d', $t), $data['summary']['closedprofit']);
+            }
+        
             foreach($charts['swap'] as $d=>$v)
             {
                 array_push($data['charts']['swap'], array($d, $v));
