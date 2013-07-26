@@ -100,6 +100,7 @@ class Excel
         $excelstyle->applyFromArray(Excel::styleArr('tGlobal'));
         $objPHPExcel->getActiveSheet()->setSharedStyle($excelstyle, "B3:B".(count($fundtabledata)));
         $objPHPExcel->getActiveSheet()->setSharedStyle($excelstyle, "D3:D".(count($fundtabledata)));
+        unset($excelstyle);
 
         //-- profit tabel
         $profittabledata = Excel::getProfitTableArr($uid);
@@ -132,11 +133,16 @@ class Excel
         $excelstyle = new PHPExcel_Style();
         $excelstyle->applyFromArray(Excel::styleArr('date'));
         $objPHPExcel->getActiveSheet()->setSharedStyle($excelstyle, "A7:A".(count($profittabledata)));
+        unset($excelstyle);
 
 
         //-- Set active sheet index to the first sheet, so Excel opens this as the first sheet
         $objPHPExcel->setActiveSheetIndex(0);
         $objPHPExcel->getActiveSheet()->setCellValue('A1', '注：本报表由NST系统自动生成，因此可能存在由程序Bug造成的计算错误。');
+        $excelstyle = new PHPExcel_Style();
+        $excelstyle->applyFromArray(Excel::styleArr('notifi'));
+        $objPHPExcel->getActiveSheet()->setSharedStyle($excelstyle, "A1");
+        
 
         //-- output excel
         $filename = 'NST.Weekly.'.date('Y-m-d');
@@ -503,6 +509,10 @@ class Excel
                 'borders'   => $style['borders']['general'],
                 'font'      => $style['font']['general'],
                 'numberformat'=> $style['numberformat']['date'],
+            ),
+
+            'notifi' => array(
+                'font'      => $style['font']['tHeaderFooter'],
             ),
         );
 
