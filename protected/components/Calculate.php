@@ -234,11 +234,16 @@ class Calculate
     {
         $append = 0;
         $tm = strtotime($date);
-        foreach($closedswap as $d=>$v)
+        if(is_array($closedswap))
         {
-            if($tm>=strtotime($d))
-                $append = $v;
+            foreach($closedswap as $d=>$v)
+            {
+                if($tm>=strtotime($d))
+                    $append = $v;
+            }
         }
+        else
+            $append = 0;
 
         return $append;
     }
@@ -247,11 +252,16 @@ class Calculate
     {
         $append = 0;
         $tm = strtotime($date);
-        foreach($closedproft as $d=>$v)
+        if(is_array($closedswap))
         {
-            if($tm>=strtotime($d))
-                $append = $v;
+            foreach($closedproft as $d=>$v)
+            {
+                if($tm>=strtotime($d))
+                    $append = $v;
+            }
         }
+        else
+            $append = 0;
 
         return $append;
     }
