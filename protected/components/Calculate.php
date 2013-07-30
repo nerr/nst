@@ -17,10 +17,9 @@ class Calculate
 
     public static function getGeneralSummaryData($uid)
     {
+        //-- init data
         $data = array();
-        $data['charts']['swap'] = array();
-        $data['charts']['cost'] = array();
-        $data['charts']['netearning'] = array();
+        $data['charts'] = array('swap'=>array(), 'cost'=>array(), 'netearning'=>array());
 
         //-- get closed ring profit (proft+getswap+commission)
         $criteria = new CDbCriteria;
