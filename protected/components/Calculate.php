@@ -23,16 +23,12 @@ class Calculate
 
         //-- get closed ring profit (proft+getswap+commission)
         $criteria = new CDbCriteria;
-        $criteria->select = 'getswap,endprofit,commission,closedate';
-        $criteria->condition = 'userid=:userid and orderstatus=:orderstatus';
-        $criteria->order = 'closedate';
-        $criteria->params = array(':userid' => $uid,
-                                ':orderstatus' => 1);
+        $criteria->select    = 'getswap,endprofit,commission,closedate';
+        $criteria->condition = 'userid=:userid and orderstatus=1';
+        $criteria->order     = 'closedate';
+        $criteria->params    = array(':userid' => $uid);
         $result = TaSwapOrder::model()->findAll($criteria);
 
-        $idate = '';
-        $closedswap = 0;
-        $closedprofit = 0;
         foreach($result as $val)
         {
             //-- summary closed data
@@ -61,38 +57,23 @@ class Calculate
             $closedprofit += $val->endprofit + $val->commission;
             $idate = $date;
         }
+        //$data['summary'] = Calculate::settleClosed($uid);
 
         //-- get init balance (real capital + closed profit)
         $data['summary']['capital'] = Calculate::getCapital($uid);
 
         $data['summary']['balance'] = $data['summary']['capital']; //-- + $data['summary']['closed'];
 
-
         //-- get commission
-        $criteria = new CDbCriteria;
-        $criteria->select='commission,opendate';
-        $criteria->condition = 'userid=:userid and orderstatus=:orderstatus';
-        $criteria->params = array(':userid' => $uid, 
-                                ':orderstatus' => 0);
-        $result = TaSwapOrder::model()->findAll($criteria);
-
-        foreach($result as $val)
-        {
-            $commission[$val->opendate] += $val->commission;
-        }
-        if(count($commission) > 0)
-            $data['summary']['commission'] = array_sum($commission);
-        else
-            $data['summary']['commission'] = 0;
+        $data['summary']['commission'] = Calculate::getCommission($uid);
 
         //-- get profit swap
         $criteria = new CDbCriteria;
-        $criteria->select = 'logdatetime';
-        $criteria->condition='userid=:userid and orderstatus=:orderstatus';
-        $criteria->params = array(':userid' => $uid,
-                                ':orderstatus' => 0);
-        $criteria->order  = 'logdatetime DESC';
-        $criteria->limit  = 1;
+        $criteria->select    = 'logdatetime';
+        $criteria->condition = 'userid=:userid and orderstatus=0';
+        $criteria->params    = array(':userid' => $uid);
+        $criteria->order     = 'logdatetime DESC';
+        $criteria->limit     = 1;
         $lastdate = ViewTaSwapOrderDetail::model()->find($criteria);
 
         $data['summary']['lastuptodate'] = $lastdate->logdatetime;
@@ -138,8 +119,6 @@ class Calculate
         
 
         //-- adjust swap (add closed swap)
-
-
         if(count($charts['swap']) > 0)
         {
             //-- append history data to swap and cost
@@ -163,7 +142,7 @@ class Calculate
         $data['summary']['netearning'] = $data['summary']['swap'] + $data['summary']['cost'];
         $data['summary']['balance'] += $data['summary']['netearning'];
 
-        //--
+        //-- get swap rate chart data
         $data['swapratechart'] = Calculate::getSwapRateChartData();
 
         return $data;
@@ -348,5 +327,67 @@ class Calculate
             );
 
         return $data;
+    }
+
+
+    //-- get closed ring profit (proft+getswap+commission)
+    public static function settleClosed($uid)
+    {
+        $criteria = new CDbCriteria;
+        $criteria->select    = 'getswap,endprofit,commission,closedate';
+        $criteria->condition = 'userid=:userid and orderstatus=1';
+        $criteria->order     = 'closedate';
+        $criteria->params    = array(':userid' => $uid);
+        $result = TaSwapOrder::model()->findAll($criteria);
+
+        foreach($result as $val)
+        {
+            //-- summary closed data
+            $data['closed'] += $val->getswap + $val->endprofit + $val->commission;
+
+            //-- get history closed order swap data
+            $date = date('Y-m-d', strtotime($val->closedate.'+1 day'));
+
+            /*$data['closedswap'][$date] += $val->getswap;
+            $data['closedprofit'][$date] += $val->endprofit + $val->commission;*/
+            
+            if($idate == '')
+            {
+                $data['closedswap'][$date] = $val->getswap;
+                $data['summary']['closedprofit'][$date] = $val->endprofit + $val->commission;
+            }
+            elseif($idate != $date)
+            {
+                $data['closedswap'][$date] = $closedswap;
+                $data['summary']['closedprofit'][$date] = $closedprofit;
+            }
+            else
+            {
+                $data['closedswap'][$date] += $val->getswap;
+                $data['closedprofit'][$date] += $val->endprofit + $val->commission;
+            }
+
+            $closedswap += $val->getswap;
+            $closedprofit += $val->endprofit + $val->commission;
+            $idate = $date;
+        }
+
+        return $data;
+    }
+
+    //-- get commission
+    public static function getCommission($uid)
+    {
+        $criteria = new CDbCriteria;
+        $criteria->select    = 'commission';
+        $criteria->condition = 'userid=:userid and orderstatus=0';
+        $criteria->params    = array(':userid' => $uid);
+        $result = TaSwapOrder::model()->findAll($criteria);
+
+        $commission = 0;
+        foreach($result as $val)
+            $commission += $val->commission;
+        
+        return $commission;
     }
 }
