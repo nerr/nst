@@ -53,7 +53,7 @@
 						<h4 class="widget_header_title wwIcon i_16_tables"><?php echo Yii::t('common', 'Detail'); ?>&nbsp;(<?php echo Yii::t('common', 'Last 10 days'); ?>)</h4>
 					</div>
 					<div class="widget_contents noPadding">
-						<table class="tables">
+						<table class="datatable tables">
 							<thead>
 								<tr>
 									<th><?php echo Yii::t('common', 'Date'); ?></th>
