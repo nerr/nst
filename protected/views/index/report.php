@@ -65,7 +65,7 @@
 							<tbody>
 								<?php 
 								if(count($detail) > 0){
-								foreach($detail as $key=>$val){ ?>
+								foreach(array_reverse($detail) as $key=>$val){ ?>
 								<tr>
 									<td><?php echo $key.' ('.date('D', strtotime($key)).')'; ?></td>
 									<td><?php echo $val['newswap']; ?></td>

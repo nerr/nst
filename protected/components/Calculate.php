@@ -252,8 +252,6 @@ class Calculate
 
                 $yestordayswap = $params['detail'][$d]['totalswap'];
             }
-
-            rsort($params['detail']);
         }
 
         return $params;
