@@ -470,7 +470,7 @@ class Excel
 
 
         //-- format report data for excel
-        foreach($result['detail'] as $date=>$val)
+        foreach(array_reverse($result['detail']) as $date=>$val)
         {
             $data[] = array($date, $val['newswap'], $val['totalswap'], $val['totalpl']);
         }
