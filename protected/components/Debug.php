@@ -4,8 +4,8 @@ class Debug
 {
 	public static function dump($data)
 	{
-		echo '<prd>';
+		echo '<pre>';
 		var_dump($data);
-		echo '</prd>';
+		echo '</pre>';
 	}
 }
