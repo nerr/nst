@@ -297,13 +297,20 @@ $(function () {
 			"sLengthMenu": "Show entries _MENU_"
 		},
 		"sPaginationType": "full_numbers",
-		"fnInitComplete": function(){
+		/*"fnInitComplete": function(){
 			$(".dtShowPer select").uniform();
 			$(".dtFilter input").addClass("simple_field").css({
 				"width": "auto",
 				"margin-left": "15px"
 			});
-		}
+		},*/
+		"aaSorting": [[ 5, "desc" ]]
+		/*"aoColumns": [
+			{ "asSorting": [ "desc" ] },
+			null,
+			null,
+			null
+		]*/
 	});
 
 	// Table Resize-able
