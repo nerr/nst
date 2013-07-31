@@ -73,8 +73,29 @@ class AdminController extends Controller
 
         $params['loginlog'] = $loginlog;
         $params['userlist'] = $userlist;
+        $params['userinfourl'] = $this->createUrl('admin/userinfo');
 
         $this->render('user', $params);
+    }
+
+    public function actionUserinfo()
+    {
+        //--  get menu data
+        $params['menu'] = Menu::make(Yii::app()->user->gid, 'User');
+        echo $_GET['uid'];
+        /*//-- get user list
+        $criteria = new CDbCriteria;
+        $criteria->order = 'id';
+        $userlist = ViewSysUserList::model()->findAll($criteria);
+        //-- get login log
+        $criteria = new CDbCriteria;
+        $criteria->order = 'logintime';
+        $loginlog = SysLoginLog::model()->findAll($criteria);
+
+        $params['loginlog'] = $loginlog;
+        $params['userlist'] = $userlist;
+
+        $this->render('user', $params);*/
     }
 
     public function actionSwap()
