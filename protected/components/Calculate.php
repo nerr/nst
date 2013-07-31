@@ -18,7 +18,6 @@ class Calculate
     public static function getGeneralSummaryData($uid)
     {
         //--
-        /*
         $criteria = new CDbCriteria;
         $criteria->select = 'orderticket,profit,swap,logdatetime,orderstatus,closedate,getswap,endprofit,commission';
         $criteria->condition = 'userid=:userid';
@@ -29,7 +28,7 @@ class Calculate
         if($result)
         {
             //--  init var
-            $closed = array('swap' => array(), 'profit' => array(), 'commission' => array()); //-- middle value for calculate
+            $closed = array('swap' => array(), 'profit' => array(), 'commission' => array(), 'wirefee' => array()); //-- middle value for calculate
             $serial = array(); //-- for chart data
             $values = array(); //-- summary data
 
@@ -47,9 +46,10 @@ class Calculate
                 //-- get searial data
                 $d = date('Y-m-d', strtotime($v->logdatetime));
                 $serial['swap'][$d] += $v->swap;
-                $serial['cost'][$d] += $v->profit;
-                //$serial['netearning'][$tm] = 
+                $serial['cost'][$d] += $v->profit + $v->commission;
             }
+            $values['lastuptodate'] = $v->logdatetime;
+
 
             //-- 
             foreach($closed['swap'] as $d=>$vv)
@@ -57,121 +57,77 @@ class Calculate
                 $closetm = strtotime($d);
                 foreach($serial['swap'] as $k=>$v)
                 {
-                    if(strtotime($k) >= $closetm)
-                    {
+                    if(strtotime($k) > $closetm)
                         $serial['swap'][$k] += array_sum($vv);
-                    }
                 }
             }
 
+            
             //-- 
             foreach($closed['profit'] as $d=>$vv)
             {
                 $closetm = strtotime($d);
                 foreach($serial['cost'] as $k=>$v)
                 {
-                    if(strtotime($k) >= $closetm)
-                    {
+                    if(strtotime($k) > $closetm)
                         $serial['cost'][$k] += array_sum($vv);
-                    }
                 }
             }
-        }
 
-        Debug::dump($serial['cost']);*/
+            //--
+            $criteria = new CDbCriteria;
+            $criteria->select = 'amount,directionid,flowtime';
+            $criteria->condition = 'userid=:userid';
+            $criteria->order  = 'flowtime DESC';
+            $criteria->params = array(':userid' => $uid);
+            $result = SysCapitalFlow::model()->findAll($criteria);
 
-
-        //-- init data
-        $data = array();
-        $data['charts'] = array('swap'=>array(), 'cost'=>array(), 'netearning'=>array());
-
-        //-- get closed ring profit (proft+getswap+commission)
-        $data['summary'] = Calculate::settleClosed($uid);
-
-        //-- get init balance (real capital + closed profit)
-        $data['summary']['capital'] = Calculate::getCapital($uid);
-        $data['summary']['balance'] = $data['summary']['capital']; //-- + $data['summary']['closed'];
-
-        //-- get commission
-        $data['summary']['commission'] = Calculate::getCommission($uid);
-
-        //-- get profit swap
-        $criteria = new CDbCriteria;
-        $criteria->select    = 'logdatetime';
-        $criteria->condition = 'userid=:userid and orderstatus=0';
-        $criteria->params    = array(':userid' => $uid);
-        $criteria->order     = 'logdatetime DESC';
-        $criteria->limit     = 1;
-        $lastdate = ViewTaSwapOrderDetail::model()->find($criteria);
-
-        $data['summary']['lastuptodate'] = $lastdate->logdatetime;
-
-        $criteria = new CDbCriteria;
-        $criteria->select = 'profit,swap,logdatetime';
-        $criteria->condition = 'userid=:userid';
-        $criteria->order  = 'logdatetime';
-        $criteria->params = array(':userid' => $uid);
-        $result = ViewTaSwapOrderDetail::model()->findAll($criteria);
-
-        foreach($result as $val)
-        {
-            if(date('Y-m-d', strtotime($val->logdatetime)) == date('Y-m-d', strtotime($lastdate->logdatetime)))
+            foreach($result as $v)
             {
-                $data['summary']['swap'] += $val->swap;
-                $data['summary']['cost'] += $val->profit;
+                $d = date('Y-m-d', strtotime($v->flowtime));
+                if($v->directionid == 3)
+                    $closed['wirefee'][$d] += $v->amount;
+                else
+                    $values['capital'] += $v->amount;
             }
 
-            $tm = strtotime(date('Y-m-d', strtotime($val->logdatetime)));
-            $charts['swap'][$tm] += $val->swap;
-            $charts['cost'][$tm] += $val->profit;
-        }
-        //--
-        $capitalcommission = Calculate::getCapitalCommission($uid);
-        $data['summary']['cost'] += $data['summary']['closed'] + $capitalcommission;
-        $charts['cost'][$tm] += $data['summary']['closed'] + $capitalcommission;
-
-        if(is_array($data['summary']['closedswap']))
-        {
-            end($data['summary']['closedswap']);
-            list(,$cs) = each($data['summary']['closedswap']);
-            $data['summary']['swap'] += $cs;
-        }
-
-        if(is_array($data['summary']['closedprofit']))
-        {
-            end($data['summary']['closedprofit']);
-            list(,$cp) = each($data['summary']['closedprofit']);
-            $data['summary']['cost'] += $cp;
-        }
-
-        
-
-        //-- adjust swap (add closed swap)
-        if(count($charts['swap']) > 0)
-        {
-            //-- append history data to swap and cost
-            foreach($charts['swap'] as $t=>$v)
+            if(count($closed['wirefee']) > 0)
             {
-                $charts['swap'][$t] += Calculate::appendCloseSwap(date('Y-m-d', $t), $data['summary']['closedswap']);
-                $charts['cost'][$t] += Calculate::appendCloseProfit(date('Y-m-d', $t), $data['summary']['closedprofit']);
+                foreach($closed['wirefee'] as $d=>$vv)
+                {
+                    $closetm = strtotime($d);
+                    foreach($serial['cost'] as $k=>$v)
+                    {
+                        if(strtotime($k) > $closetm)
+                            $serial['cost'][$k] += $vv;
+                    }
+                }
+                $values['cost'] = $serial['cost'][$k];
             }
-        
-            foreach($charts['swap'] as $d=>$v)
+
+            //--
+            foreach($serial['cost'] as $k=>$v)
+                $serial['netearning'][$k] = $serial['cost'][$k] + $serial['swap'][$k];
+
+            //--
+            $values['swap'] = $serial['swap'][date('Y-m-d', strtotime($values['lastuptodate']))];
+            $values['netearning'] = $values['cost'] + $values['swap'];
+            $values['balance'] = $values['netearning'] + $values['capital'];
+            
+            
+            //-- init data
+            $data = array();
+            //--
+            $data['summary'] = $values;
+            //-- get swap rate chart data
+            $data['swapratechart'] = Calculate::getSwapRateChartData();
+
+            foreach($serial as $c=>$val)
             {
-                array_push($data['charts']['swap'], array($d, $v));
-                array_push($data['charts']['cost'], array($d, $charts['cost'][$d] + $data['summary']['commission']));
-                array_push($data['charts']['netearning'], array($d, $v + $charts['cost'][$d] + $data['summary']['commission']));
+                foreach($val as $k=>$v)
+                    $data['charts'][$c][] = array(strtotime($k), $v);
             }
         }
-
-        $data['summary']['cost'] += $data['summary']['commission']; // adjust the cost value
-
-        //-- get net earning
-        $data['summary']['netearning'] = $data['summary']['swap'] + $data['summary']['cost'];
-        $data['summary']['balance'] += $data['summary']['netearning'];
-
-        //-- get swap rate chart data
-        $data['swapratechart'] = Calculate::getSwapRateChartData();
 
         return $data;
     }
@@ -269,6 +225,12 @@ class Calculate
 
     public static function getUserReport($uid)
     {
+        $data = Calculate::getGeneralSummaryData($uid);
+        $params['summary']['capital'] = $data['summary']['capital'];
+        $params['summary']['yield'] = $data['summary']['netearning'];
+        if($data['summary']['capital'] != 0)
+            $params['summary']['yieldrate'] = $params['summary']['yield'] / $data['summary']['capital'] * 100;
+
         //-- 
         $criteria = new CDbCriteria;
         $criteria->select = 'profit,swap,logdatetime';
@@ -293,8 +255,6 @@ class Calculate
                 break;
         }
 
-        $data = Calculate::getGeneralSummaryData($uid);
-
         $i = 0;
         if(count($detail) > 0)
         {
@@ -313,9 +273,6 @@ class Calculate
                 $params['detail'][$k]['newswap'] = $v['totalswap'] - $detail[$dateArr[$i+1]]['totalswap'];
                 $params['detail'][$k]['totalpl'] = $v['totalswap'] + $v['pl'] + $data['summary']['commission'];
 
-                if($i == 0)
-                    $params['summary']['yield'] = $params['detail'][$k]['totalpl'];
-
                 if($i >= 9)
                     break;
                 else
@@ -325,8 +282,8 @@ class Calculate
 
         $params['summary']['capital'] = $data['summary']['capital'];
 
-        $params['summary']['yield'] += Calculate::getCapitalCommission(Yii::app()->user->id) + $data['summary']['closed'];
-        if($data['summary']['capital'] > 0)
+        $params['summary']['yield'] = $data['summary']['netearning'];
+        if($data['summary']['capital'] != 0)
             $params['summary']['yieldrate'] = $params['summary']['yield'] / $data['summary']['capital'] * 100;
 
         return $params;
