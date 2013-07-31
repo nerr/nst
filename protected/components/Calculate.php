@@ -17,51 +17,79 @@ class Calculate
 
     public static function getGeneralSummaryData($uid)
     {
+        //--
+        /*
+        $criteria = new CDbCriteria;
+        $criteria->select = 'orderticket,profit,swap,logdatetime,orderstatus,closedate,getswap,endprofit,commission';
+        $criteria->condition = 'userid=:userid';
+        $criteria->order  = 'logdatetime';
+        $criteria->params = array(':userid' => $uid);
+        $result = ViewTaSwapOrderDetail::model()->findAll($criteria);
+
+        if($result)
+        {
+            //--  init var
+            $closed = array('swap' => array(), 'profit' => array(), 'commission' => array()); //-- middle value for calculate
+            $serial = array(); //-- for chart data
+            $values = array(); //-- summary data
+
+            foreach($result as $v)
+            {
+                //-- get closed data
+                $closedate = date('Y-m-d', strtotime($v->closedate));
+                if($v->orderstatus == 1 && $closed['swap'][$closedate][$v->orderticket] == 0)
+                {
+                    $closed['swap'][$closedate][$v->orderticket] = $v->getswap;
+                    $closed['profit'][$closedate][$v->orderticket] = $v->endprofit;
+                    $closed['commission'][$closedate][$v->orderticket] = $v->commission;
+                }
+
+                //-- get searial data
+                $d = date('Y-m-d', strtotime($v->logdatetime));
+                $serial['swap'][$d] += $v->swap;
+                $serial['cost'][$d] += $v->profit;
+                //$serial['netearning'][$tm] = 
+            }
+
+            //-- 
+            foreach($closed['swap'] as $d=>$vv)
+            {
+                $closetm = strtotime($d);
+                foreach($serial['swap'] as $k=>$v)
+                {
+                    if(strtotime($k) >= $closetm)
+                    {
+                        $serial['swap'][$k] += array_sum($vv);
+                    }
+                }
+            }
+
+            //-- 
+            foreach($closed['profit'] as $d=>$vv)
+            {
+                $closetm = strtotime($d);
+                foreach($serial['cost'] as $k=>$v)
+                {
+                    if(strtotime($k) >= $closetm)
+                    {
+                        $serial['cost'][$k] += array_sum($vv);
+                    }
+                }
+            }
+        }
+
+        Debug::dump($serial['cost']);*/
+
+
         //-- init data
         $data = array();
         $data['charts'] = array('swap'=>array(), 'cost'=>array(), 'netearning'=>array());
 
         //-- get closed ring profit (proft+getswap+commission)
-        $criteria = new CDbCriteria;
-        $criteria->select    = 'getswap,endprofit,commission,closedate';
-        $criteria->condition = 'userid=:userid and orderstatus=1';
-        $criteria->order     = 'closedate';
-        $criteria->params    = array(':userid' => $uid);
-        $result = TaSwapOrder::model()->findAll($criteria);
-
-        foreach($result as $val)
-        {
-            //-- summary closed data
-            $data['summary']['closed'] += $val->getswap + $val->endprofit + $val->commission;
-
-            //-- get history closed order swap data
-            $date = date('Y-m-d', strtotime($val->closedate.'+1 day'));
-            
-            if($idate == '')
-            {
-                $data['summary']['closedswap'][$date] = $val->getswap;
-                $data['summary']['closedprofit'][$date] = $val->endprofit + $val->commission;
-            }
-            elseif($idate != $date)
-            {
-                $data['summary']['closedswap'][$date] = $closedswap;
-                $data['summary']['closedprofit'][$date] = $closedprofit;
-            }
-            else
-            {
-                $data['summary']['closedswap'][$date] += $val->getswap;
-                $data['summary']['closedprofit'][$date] += $val->endprofit + $val->commission;
-            }
-
-            $closedswap += $val->getswap;
-            $closedprofit += $val->endprofit + $val->commission;
-            $idate = $date;
-        }
-        //$data['summary'] = Calculate::settleClosed($uid);
+        $data['summary'] = Calculate::settleClosed($uid);
 
         //-- get init balance (real capital + closed profit)
         $data['summary']['capital'] = Calculate::getCapital($uid);
-
         $data['summary']['balance'] = $data['summary']['capital']; //-- + $data['summary']['closed'];
 
         //-- get commission
@@ -110,7 +138,7 @@ class Calculate
         }
 
         if(is_array($data['summary']['closedprofit']))
-        {       
+        {
             end($data['summary']['closedprofit']);
             list(,$cp) = each($data['summary']['closedprofit']);
             $data['summary']['cost'] += $cp;
@@ -166,11 +194,6 @@ class Calculate
             $swaprate[$val->symbol.'long'][] = array($logdate, $val->longswap);
             $swaprate[$val->symbol.'short'][] = array($logdate, $val->shortswap);
         }
-
-        /*foreach($swaprate as $k=>$v)
-        {
-            $swaprate[$k][1] = (int)$swaprate[$k][1];
-        }*/
 
         return $swaprate;
     }
@@ -354,12 +377,12 @@ class Calculate
             if($idate == '')
             {
                 $data['closedswap'][$date] = $val->getswap;
-                $data['summary']['closedprofit'][$date] = $val->endprofit + $val->commission;
+                $data['closedprofit'][$date] = $val->endprofit + $val->commission;
             }
             elseif($idate != $date)
             {
                 $data['closedswap'][$date] = $closedswap;
-                $data['summary']['closedprofit'][$date] = $closedprofit;
+                $data['closedprofit'][$date] = $closedprofit;
             }
             else
             {
