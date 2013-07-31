@@ -465,7 +465,7 @@ class Excel
 
         $data[] = array('');
         //-- table title and header
-        $data[] = array('明细 - 每日收益情况报表(最近10天)');
+        $data[] = array('明细 - 每日收益情况报表');
         $data[] = array('日期', '新增掉期', '累计掉期', '总损益');
 
 
