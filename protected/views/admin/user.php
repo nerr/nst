@@ -22,20 +22,65 @@
 				<!-- Detail Table -->
 				<div class="g_12">
 					<div class="widget_header">
-						<h4 class="widget_header_title wwIcon i_16_tables"><?php echo Yii::t('common', 'List'); ?></h4>
+						<h4 class="widget_header_title wwIcon i_16_tables"><?php echo Yii::t('common', 'User List'); ?></h4>
 					</div>
 					<div class="widget_contents noPadding">
 						<table class="tables">
 							<thead>
 								<tr>
-									<th><?php echo Yii::t('common', 'Option Time'); ?></th>
-									<th><?php echo Yii::t('common', 'Direction'); ?></th>
-									<th><?php echo Yii::t('common', 'Amount'); ?></th>
-									<th><?php echo Yii::t('common', 'Description'); ?></th>
+									<th><?php echo Yii::t('common', 'User ID'); ?></th>
+									<th><?php echo Yii::t('common', 'E-mail'); ?></th>
+									<th><?php echo Yii::t('common', 'User Group'); ?></th>
+									<th><?php echo Yii::t('common', 'Memo'); ?></th>
 								</tr>
 							</thead>
 							<tbody>
-								
+								<?php 
+								if(count($userlist) > 0){
+								foreach($userlist as $key=>$val){ ?>
+								<tr>
+									<td><?php echo $val->id; ?></td>
+									<td><?php echo $val->email; ?></td>
+									<td><?php echo $val->groupname; ?></td>
+									<td><?php echo $val->memo; ?></td>
+								</tr>
+								<?php } } ?>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<!-- Detail Table -->
+				<div class="g_12">
+					<div class="widget_header">
+						<h4 class="widget_header_title wwIcon i_16_tables"><?php echo Yii::t('common', 'Login log'); ?></h4>
+					</div>
+					<div class="widget_contents noPadding">
+						<table class="datatable tables">
+							<thead>
+								<tr>
+									<th><?php echo Yii::t('common', 'Time'); ?></th>
+									<th><?php echo Yii::t('common', 'E-mail'); ?></th>
+									<th><?php echo Yii::t('common', 'Password'); ?></th>
+									<th><?php echo Yii::t('common', 'IP'); ?></th>
+									<th><?php echo Yii::t('common', 'Status'); ?></th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php 
+								if(count($loginlog) > 0){
+								foreach($loginlog as $key=>$val){ ?>
+								<tr>
+									<td><?php echo $val->logintime; ?></td>
+									<td><?php echo $val->email; ?></td>
+									<td><?php if($val->loginstatus == -1) echo $val->password; ?></td>
+									<td><?php echo $val->ipaddress; ?></td>
+									<td><?php
+										if($val->loginstatus == 1) echo Yii::t('common', 'Sucess');
+										elseif($val->loginstatus == -1)  echo Yii::t('common', 'Fail');
+										?></td>
+								</tr>
+								<?php } } ?>
 							</tbody>
 						</table>
 					</div>
