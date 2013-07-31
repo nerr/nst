@@ -91,7 +91,10 @@ return array(
     /*admin*/
     'User Management' => '用户管理',
     'Swap Rate Chart' => '掉期走势',
-
+    'User List' => '用户列表',
+    'User Group' => '用户组',
+    'User ID' => '编号',
+    'Memo' => '备注',
 
 
 
