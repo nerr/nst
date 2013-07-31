@@ -713,7 +713,8 @@ $(function () {
 
 	/* edit user form */
 	$("#userform").on("click", function(){
-		$.getJSON("/nst/index.php?r=user/loadinfo", function(json){
+		var request_url = "/nst/index.php?r=user/loadinfo"
+		$.getJSON(request_url, function(json){
 			$("#mobile").val(json.mobile);
 		});
 		$(".userform").dialog("open");
