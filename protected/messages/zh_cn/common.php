@@ -95,6 +95,13 @@ return array(
     'User Group' => '用户组',
     'User ID' => '编号',
     'Memo' => '备注',
+    'Time' => '时间',
+    'Login log' => '登陆日志',
+    'Password' => '密码',
+    'IP' => 'IP地址',
+    'Status' => '状态',
+    'Sucess' => '成功',
+    'Fail' => '失败',
 
 
 
