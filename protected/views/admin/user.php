@@ -40,7 +40,7 @@
 								foreach($userlist as $key=>$val){ ?>
 								<tr>
 									<td><?php echo $val->id; ?></td>
-									<td><?php echo $val->email; ?></td>
+									<td><a href="<?php echo $userinfourl.'/uid/'.$val->id; ?>"><?php echo $val->email; ?></a></td>
 									<td><?php echo $val->groupname; ?></td>
 									<td><?php echo $val->memo; ?></td>
 								</tr>
