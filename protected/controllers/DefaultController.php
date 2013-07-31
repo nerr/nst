@@ -27,8 +27,6 @@ class DefaultController extends Controller
 	 */
 	public function actionIndex()
 	{
-		
-
 		if(!Yii::app()->user->isGuest && Yii::app()->user->gid==1)
 			$this->redirect('index.php?r=admin/general');
 		elseif(!Yii::app()->user->isGuest && Yii::app()->user->gid==2)
@@ -77,14 +75,17 @@ class DefaultController extends Controller
 	public function actionAuth()
 	{
 		$authproof = $_POST['proof'];
+		$authproof['ipaddress'] = $this->getClientIp();
+		$authproof['logintime'] = date('Y-m-d H:i:s', time());
 
 		$identity = new UserIdentity($authproof['email'], $authproof['password']);
 		$authproof['loginstatus'] = $identity->authenticate();
-		if($authproof['loginstatus']==100)
-			Yii::app()->user->login($identity);
 
-		$authproof['ipaddress'] = $this->getClientIp();
-		$authproof['logintime'] = date('Y-m-d H:m:s', time());
+		if($authproof['loginstatus'] == 100)
+			Yii::app()->user->login($identity);
+		else 
+			$authproof['loginstatus'] = -1;
+
 		$this->logLogin($authproof);
 
 		echo $authproof['loginstatus'];
