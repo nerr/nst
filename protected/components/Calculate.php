@@ -17,6 +17,9 @@ class Calculate
 
     public static function getGeneralSummaryData($uid)
     {
+        //-- init data
+        $data = array();
+
         //--
         $criteria = new CDbCriteria;
         $criteria->select = 'orderticket,profit,swap,logdatetime,orderstatus,closedate,getswap,endprofit,commission';
@@ -102,7 +105,6 @@ class Calculate
                             $serial['cost'][$k] += $vv;
                     }
                 }
-                $values['cost'] = $serial['cost'][$k];
             }
 
             //--
@@ -110,17 +112,19 @@ class Calculate
                 $serial['netearning'][$k] = $serial['cost'][$k] + $serial['swap'][$k];
 
             //--
-            $values['swap'] = $serial['swap'][date('Y-m-d', strtotime($values['lastuptodate']))];
+            $lastdate = date('Y-m-d', strtotime($values['lastuptodate']));
+            $values['swap'] = $serial['swap'][$lastdate];
+            $values['cost'] = $serial['cost'][$lastdate];
             $values['netearning'] = $values['cost'] + $values['swap'];
             $values['balance'] = $values['netearning'] + $values['capital'];
             
-            
-            //-- init data
-            $data = array();
+
             //--
             $data['summary'] = $values;
             //-- get swap rate chart data
             $data['swapratechart'] = Calculate::getSwapRateChartData();
+
+            $data['table'] = $serial;
 
             foreach($serial as $c=>$val)
             {
@@ -226,65 +230,31 @@ class Calculate
     public static function getUserReport($uid)
     {
         $data = Calculate::getGeneralSummaryData($uid);
-        $params['summary']['capital'] = $data['summary']['capital'];
-        $params['summary']['yield'] = $data['summary']['netearning'];
-        if($data['summary']['capital'] != 0)
-            $params['summary']['yieldrate'] = $params['summary']['yield'] / $data['summary']['capital'] * 100;
 
-        //-- 
-        $criteria = new CDbCriteria;
-        $criteria->select = 'profit,swap,logdatetime';
-        $criteria->condition='userid=:userid';
-        $criteria->order = 'logdatetime desc';
-        $criteria->params = array(':userid' => $uid);
-        $result = ViewTaSwapOrderDetail::model()->findAll($criteria);
-
-        $dateArr = array();
-        foreach($result as $val)
+        if(count($data) > 0)
         {
-            $date = date('Y-m-d', strtotime($val->logdatetime));
+            $params['summary']['capital'] = $data['summary']['capital'];
+            $params['summary']['yield'] = $data['summary']['netearning'];
+            if($data['summary']['capital'] != 0)
+                $params['summary']['yieldrate'] = $params['summary']['yield'] / $data['summary']['capital'] * 100;
 
-            $detail[$date]['totalswap'] += $val->swap;
-            $detail[$date]['pl'] += $val->profit;
 
-
-            if(!in_array($date, $dateArr))
-                $dateArr[] = $date;
-            
-            if(count($detail) > 11)
-                break;
-        }
-
-        $i = 0;
-        if(count($detail) > 0)
-        {
-            reset($detail);
-            while(list($k, $v) = each($detail))
+            $yestordayswap = 0;
+            foreach($data['table']['swap'] as $d=>$v) //-- newswap totalswap pl
             {
-                $detail[$k]['totalswap'] += Calculate::appendCloseSwap($k, $data['summary']['closedswap']);
-                $detail[$k]['pl'] += Calculate::appendCloseProfit($k, $data['summary']['closedprofit']);
-            }
+                $params['detail'][$d]['totalswap'] = $v;
+                $params['detail'][$d]['totalpl'] = $data['table']['netearning'][$d];
 
-            reset($detail);
-            while(list($k, $v) = each($detail))
-            {
-                $params['detail'][$k] = $v;
-
-                $params['detail'][$k]['newswap'] = $v['totalswap'] - $detail[$dateArr[$i+1]]['totalswap'];
-                $params['detail'][$k]['totalpl'] = $v['totalswap'] + $v['pl'] + $data['summary']['commission'];
-
-                if($i >= 9)
-                    break;
+                if($yestordayswap == 0)
+                    $params['detail'][$d]['newswap'] = 0;
                 else
-                    $i++;
+                    $params['detail'][$d]['newswap'] = $params['detail'][$d]['totalswap'] - $yestordayswap;
+
+                $yestordayswap = $params['detail'][$d]['totalswap'];
             }
+
+            rsort($params['detail']);
         }
-
-        $params['summary']['capital'] = $data['summary']['capital'];
-
-        $params['summary']['yield'] = $data['summary']['netearning'];
-        if($data['summary']['capital'] != 0)
-            $params['summary']['yieldrate'] = $params['summary']['yield'] / $data['summary']['capital'] * 100;
 
         return $params;
     }
