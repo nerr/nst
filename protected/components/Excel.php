@@ -145,7 +145,7 @@ class Excel
         
 
         //-- output excel
-        $filename = 'NST.Weekly.'.date('Y-m-d');
+        $filename = 'NST.Weekly.'.date('Y-m-d').'-'.$uid;
         if($output == 'W')
             Excel::writeXlsxFile($objPHPExcel, $filename);
         elseif($output == 'D')
