@@ -98,6 +98,16 @@ return array(
 				*/
 			),
 		),
+		'phpMailer'=>array(
+            'class'=> 'application.extensions.phpmailer.CPhpMailer',
+            'host' => 'mail.myhost.com',
+            'port' => 25,
+            'smtpsecure' => '', //-- ssl/tls example:gmail
+            'from' => 'myname@myhost.com',
+            'fromName' => 'myname',
+            'user' => 'username',
+            'pass' => 'password',
+        ),
 	),
 
 	// application-level parameters that can be accessed
