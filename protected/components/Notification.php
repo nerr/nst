@@ -50,11 +50,11 @@ class Notification
         }
     }
 
-    public static function nSendMail($title, $body, $to, $cc = array())
+    public static function nSendMail($title, $body, $to, $cc = array(), $attach)
     {
         if(count($to) == 0)
             return false;
-        
+
         try {
             $mailer = Yii::app()->phpMailer->_mailer;
             $mailer->Subject = $title;
@@ -68,6 +68,8 @@ class Notification
                 foreach($cc as $v)
                     $mailer->AddCC($v);
             }
+
+            $mailer->AddAttachment($attach);
 
             return $mailer->send();
         }
