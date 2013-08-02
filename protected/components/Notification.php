@@ -49,4 +49,35 @@ class Notification
             return false;
         }
     }
+
+    public static function nSendMail($title, $body, $to, $cc = array())
+    {
+        if(count($to) == 0)
+            return false;
+        
+        try {
+            $mailer = Yii::app()->phpMailer->_mailer;
+            $mailer->Subject = $title;
+            $mailer->Body = $body;
+
+            foreach($to as $v)
+                $mailer->AddAddress($v);
+
+            if(count($cc) > 0)
+            {
+                foreach($cc as $v)
+                    $mailer->AddCC($v);
+            }
+
+            return $mailer->send();
+        }
+        catch (phpmailerException $e) 
+        {
+            Notification::nSmsfetion(Yii::app()->params->fetionAccount, $e, 1); //Pretty error messages from PHPMailer
+        }
+        catch (Exception $e)
+        {
+            Notification::nSmsfetion(Yii::app()->params->fetionAccount, $e, 1); //Boring error messages from anything else!
+        }
+    }
 }
