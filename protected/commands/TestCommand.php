@@ -28,13 +28,13 @@ class TestCommand extends CConsoleCommand
         $un = 5;
         $data = Calculate::getGeneralSummaryData($un);
 
-        $msg = '截止'.$data['summary']['lastuptodate']."\r";
-        $msg .= '账户余额: '.number_format($data['summary']['balance'], 2)."\r";
-        $msg .= '交易成本: '.number_format($data['summary']['cost'], 2)."\r";
-        $msg .= '累计获得掉期: '.number_format($data['summary']['swap'], 2)."\r";
-        $msg .= '浮动收益: '.number_format($data['summary']['netearning'], 2)."\r";
+        $msg = '截止'.$data['summary']['lastuptodate']."\r\n";
+        $msg .= '账户余额: '.number_format($data['summary']['balance'], 2)."\r\n";
+        $msg .= '交易成本: '.number_format($data['summary']['cost'], 2)."\r\n";
+        $msg .= '累计获得掉期: '.number_format($data['summary']['swap'], 2)."\r\n";
+        $msg .= '浮动收益: '.number_format($data['summary']['netearning'], 2)."\r\n";
         if(($data['summary']['balance'] - $data['summary']['netearning']) > 0)
-            $msg .= '收益率: '.number_format($data['summary']['netearning']/($data['summary']['balance'] - $data['summary']['netearning']), 2).'%';
+            $msg .= '收益率: '.number_format($data['summary']['netearning']/($data['summary']['balance'] - $data['summary']['netearning'])*100, 2).'%'."\r\n";;
         $msg .= '[NST自动短信报表]';
 
         //$m = echo mb_convert_encoding($msg, 'GBK', 'UTF-8');
