@@ -33,7 +33,8 @@ class EmailreportCommand extends CConsoleCommand
 
                 $res = Notification::nSendMail($title, $body, $to, array('leon@nerrsoft.com'), $attachment);
 
-                var_dump($res);
+                if(!$res)
+                    Notification::nSendFetion(Yii::app()->params->fetionAccount, 'Send email report fail. User id is ['.$u->id.'].');
             }
         }
     }
