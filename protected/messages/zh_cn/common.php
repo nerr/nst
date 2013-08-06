@@ -112,6 +112,10 @@ return array(
     'Old Password' => '旧密码',
     'To receive SMS report' => '用于接受短信报表',
 
+    'Email List' => '电子邮件列表',
+    'To receive Email report' => '用于接受电子邮件报表',
+
+
 );
 
 ?>
