@@ -215,7 +215,13 @@
 								<input class="simple_field" type="text" id="mobile" name="mobile" />
 								<div class="field_notice"><?php echo Yii::t('common', 'To receive SMS report'); ?></div>
 							</div>
+							<div class="g_3"><span class="label"><?php echo Yii::t('common', 'Email List'); ?></span></div>
+							<div class="g_9">
+								<input class="simple_field" type="text" id="emaillist" name="emaillist" />
+								<div class="field_notice"><?php echo Yii::t('common', 'To receive Email report'); ?></div>
+							</div>
 						</div>
+
 						<div class="line_grid">
 							<div class="g_3"><span class="label"><?php echo Yii::t('common', 'New Password'); ?></span></div>
 							<div class="g_9">
