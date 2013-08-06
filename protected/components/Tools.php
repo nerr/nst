@@ -15,4 +15,13 @@ class Tools
         else
             return "0.0.0.0";
     }
+
+    public static function tPregEmailAddress($str)
+    {
+        //$pattern = '/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i';
+        $pattern = '/[a-z\d._%+-]+@[a-z\d.-]+\.[a-z]{2,4}\b/i';
+        preg_match_all($pattern, $str, $email);
+
+        return $email[0];
+    }
 }
