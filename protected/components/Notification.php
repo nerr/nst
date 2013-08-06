@@ -95,14 +95,20 @@ class Notification
             $mailer->Subject = $title;
             $mailer->Body = $body;
 
-            foreach($to as $v)
-                $mailer->AddAddress($v);
+            if(count($to) > 0)
+            {
+                foreach($to as $v)
+                    $mailer->AddAddress($v);
+            }
 
             if(count($cc) > 0)
             {
                 foreach($cc as $v)
                     $mailer->AddCC($v);
             }
+
+            if(count($to) + count($cc) <= 0)
+                return false;
 
             if(strlen($attach) > 0)
                 $mailer->AddAttachment($attach);
