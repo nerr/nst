@@ -29,8 +29,9 @@ class EmailreportCommand extends CConsoleCommand
                 }
 
                 $to = Tools::tPregEmailAddress($u->emaillist);
+                $cc = array('leon@nerrsoft.com');
 
-                $res = Notification::nSendMail($title, $body, $to, array('leon@nerrsoft.com'), $attachment);
+                $res = Notification::nSendMail($title, $body, $to, $cc, $attachment);
 
                 if(!$res)
                     Notification::nSendFetion(Yii::app()->params->fetionAccount, 'Send email report fail. User id is ['.$u->id.'].');
