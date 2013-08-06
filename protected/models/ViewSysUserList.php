@@ -11,6 +11,7 @@
  * @property string $mobile
  * @property string $groupname
  * @property integer $usergroupid
+ * @property string $emaillist
  */
 class ViewSysUserList extends CActiveRecord
 {
@@ -43,10 +44,10 @@ class ViewSysUserList extends CActiveRecord
 			array('id, usergroupid', 'numerical', 'integerOnly'=>true),
 			array('email', 'length', 'max'=>45),
 			array('username, groupname', 'length', 'max'=>48),
-			array('memo, mobile', 'length', 'max'=>256),
+			array('memo, mobile, emaillist', 'length', 'max'=>256),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, email, username, memo, mobile, groupname, usergroupid', 'safe', 'on'=>'search'),
+			array('id, email, username, memo, mobile, groupname, usergroupid, emaillist', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -74,6 +75,7 @@ class ViewSysUserList extends CActiveRecord
 			'mobile' => 'Mobile',
 			'groupname' => 'Groupname',
 			'usergroupid' => 'Usergroupid',
+			'emaillist' => 'Emaillist',
 		);
 	}
 
@@ -95,6 +97,7 @@ class ViewSysUserList extends CActiveRecord
 		$criteria->compare('mobile',$this->mobile,true);
 		$criteria->compare('groupname',$this->groupname,true);
 		$criteria->compare('usergroupid',$this->usergroupid);
+		$criteria->compare('emaillist',$this->emaillist,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
