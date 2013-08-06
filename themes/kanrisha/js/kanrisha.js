@@ -716,6 +716,7 @@ $(function () {
 		var request_url = "/nst/index.php?r=user/loadinfo"
 		$.getJSON(request_url, function(json){
 			$("#mobile").val(json.mobile);
+			$("#emaillist").val(json.emaillist);
 		});
 		$(".userform").dialog("open");
 	});
@@ -726,7 +727,7 @@ $(function () {
 		show: "fadeIn",
 		modal: true,
 		width: 560,
-		height: 570,
+		height: 700,
 		buttons: {
 			"OK": function() {
 				submitUserForm();
@@ -741,7 +742,7 @@ $(function () {
 	{
 		$.post(
 			"/nst/index.php?r=user/update",
-			{mobile: $("#mobile").val(), newpass: $.md5($.md5($("#newpass").val())), oldpass: $.md5($.md5($("#oldpass").val()))},
+			{mobile: $("#mobile").val(), emaillist: $("#emaillist").val(), newpass: $.md5($.md5($("#newpass").val())), oldpass: $.md5($.md5($("#oldpass").val()))},
 			function(json){
 				if(json.updatestatus == true)
 					$(".userform").dialog("close");

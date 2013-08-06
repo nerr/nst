@@ -55,6 +55,7 @@ class UserController extends Controller
 	{
 		$user = SysUser::model()->findByAttributes(array('id'=>Yii::app()->user->id));
 		$res['mobile'] = $user->mobile;
+		$res['emaillist'] = $user->emaillist;
 
 		echo json_encode($res);
 	}
@@ -64,6 +65,7 @@ class UserController extends Controller
 		$user = SysUser::model()->findByPk(Yii::app()->user->id);
 
 		$user->mobile = $_POST['mobile'];
+		$user->emaillist = $_POST['emaillist'];
 
 		if(trim($_POST['newpass']) != '' && $user->password == trim($_POST['oldpass']))
 			$user->password = trim($_POST['newpass']);
