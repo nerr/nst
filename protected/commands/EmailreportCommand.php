@@ -5,7 +5,7 @@ class EmailreportCommand extends CConsoleCommand
     public function run()
     {
         $criteria = new CDbCriteria;
-        $criteria->select = 'id';
+        $criteria->select = 'id,emaillist';
         //$criteria->condition='usergroupid=2 and id<>2';
         $criteria->condition='id=9';
         $uid = SysUser::model()->findAll($criteria);
@@ -28,8 +28,7 @@ class EmailreportCommand extends CConsoleCommand
                     continue; //-- if not exist behend create it that maybe some problem there.
                 }
 
-                //$to = $this->pregEmailAddress($u->emaillist);
-                $to = array('vickey@nerrsoft.com');
+                $to = Tools::tPregEmailAddress($u->emaillist);
 
                 $res = Notification::nSendMail($title, $body, $to, array('leon@nerrsoft.com'), $attachment);
 
@@ -37,10 +36,5 @@ class EmailreportCommand extends CConsoleCommand
                     Notification::nSendFetion(Yii::app()->params->fetionAccount, 'Send email report fail. User id is ['.$u->id.'].');
             }
         }
-    }
-
-    protected function pregEmailAddress($str)
-    {
-
     }
 }
