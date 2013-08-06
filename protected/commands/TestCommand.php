@@ -39,8 +39,8 @@ class TestCommand extends CConsoleCommand
 
         //$m = echo mb_convert_encoding($msg, 'GBK', 'UTF-8');
         echo $msg;
-        //Notification::nSendSms('13524289996', $msg);
-        Notification::nSmsfetion('13524289996', $msg);
+
+        Notification::nSmsfetion(Yii::app()->params->fetionAccount, $msg);
     }
 
 
