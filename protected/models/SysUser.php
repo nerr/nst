@@ -10,11 +10,8 @@
  * @property string $password
  * @property string $username
  * @property string $memo
- *
- * The followings are the available model relations:
- * @property SysCapitalFlow[] $sysCapitalFlows
- * @property SysUsergroup $usergroup
- * @property TaSwapOrder[] $taSwapOrders
+ * @property string $mobile
+ * @property string $emaillist
  */
 class SysUser extends CActiveRecord
 {
@@ -49,10 +46,10 @@ class SysUser extends CActiveRecord
 			array('email', 'length', 'max'=>45),
 			array('password', 'length', 'max'=>32),
 			array('username', 'length', 'max'=>48),
-			array('memo', 'length', 'max'=>256),
+			array('memo, mobile, emaillist', 'length', 'max'=>256),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, usergroupid, email, password, username, memo', 'safe', 'on'=>'search'),
+			array('id, usergroupid, email, password, username, memo, mobile, emaillist', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -64,9 +61,6 @@ class SysUser extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'sysCapitalFlows' => array(self::HAS_MANY, 'SysCapitalFlow', 'userid'),
-			'usergroup' => array(self::BELONGS_TO, 'SysUsergroup', 'usergroupid'),
-			'taSwapOrders' => array(self::HAS_MANY, 'TaSwapOrder', 'userid'),
 		);
 	}
 
@@ -82,6 +76,8 @@ class SysUser extends CActiveRecord
 			'password' => 'Password',
 			'username' => 'Username',
 			'memo' => 'Memo',
+			'mobile' => 'Mobile',
+			'emaillist' => 'Emaillist',
 		);
 	}
 
@@ -102,6 +98,8 @@ class SysUser extends CActiveRecord
 		$criteria->compare('password',$this->password,true);
 		$criteria->compare('username',$this->username,true);
 		$criteria->compare('memo',$this->memo,true);
+		$criteria->compare('mobile',$this->mobile,true);
+		$criteria->compare('emaillist',$this->emaillist,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
