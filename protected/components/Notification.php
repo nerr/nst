@@ -87,10 +87,8 @@ class Notification
 
     public static function nSendMail($title, $body, $to, $cc = array(), $attach = '')
     {
-        if(count($to) == 0)
-            return false;
-
-        try {
+        try
+        {
             $mailer = Yii::app()->phpMailer->_mailer;
             $mailer->Subject = $title;
             $mailer->Body = $body;
