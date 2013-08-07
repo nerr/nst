@@ -24,4 +24,12 @@ class Tools
 
         return $email[0];
     }
+
+    public static function tPregMobileNum($str)
+    {
+        $pattern = '/(13|14|15|18)\d{9}\b/i';
+        preg_match_all($pattern, $str, $mobile);
+
+        return $mobile[0];
+    }
 }
