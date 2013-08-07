@@ -56,9 +56,9 @@ class Excel
         $objWorkSheet->fromArray($profitarr);
 
         //-- fill cost chart data
-        $costarr = Excel::getCostArr();
+        /*$costarr = Excel::getCostArr();
         $objWorkSheet = $objPHPExcel->setActiveSheetIndex(5);
-        $objWorkSheet->fromArray($costarr);
+        $objWorkSheet->fromArray($costarr);*/
 
 
         //-- create charts begin
@@ -70,8 +70,8 @@ class Excel
         $swapchart = Excel::swapChart($sheetArr, count($swaparr));
         $objWorkSheet->addChart($swapchart);
         //-- create cost chart
-        $swapchart = Excel::costChart($sheetArr, count($costarr));
-        $objWorkSheet->addChart($swapchart);
+        /*$swapchart = Excel::costChart($sheetArr, count($costarr));
+        $objWorkSheet->addChart($swapchart);*/
         //-- create charts end
 
 
