@@ -24,7 +24,9 @@ class SmsreportCommand extends CConsoleCommand
 
             //$m = echo mb_convert_encoding($msg, 'GBK', 'UTF-8');
 
-            Notification::nSendSms($val->mobile, $msg);
+            if(count(Tools::tPregMobileNum($val->mobile)) > 0)
+                Notification::nSendSms($val->mobile, $msg);
+        
             Notification::nSmsfetion(Yii::app()->params->fetionAccount, $msg);
         }
     }
