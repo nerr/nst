@@ -54,7 +54,31 @@ class AdminController extends Controller
 
     public function actionGeneral()
     {
+        $params = Calculate::getGeneralSummaryData();
+
+        //-- params data format
+        $params['summary']['yieldrate'] = number_format($params['summary']['yieldrate'], 2);
+        foreach($params['summary'] as $key=>$val)
+        {
+            if($key!='lastuptodate' && $key != 'closedswap' && $key != 'closedprofit' && $key != 'yieldrate')
+                $params['summary'][$key] = number_format($val, 1);
+        }
+        foreach($params['charts'] as $key=>$val)
+        {
+            $params['charts'][$key] = json_encode($val);
+        }
+
+        foreach($params['swapratechart'] as $key=>$val)
+        {
+            $params['swapratechart'][$key] = json_encode($val);
+        }
+
+        $reportdata = Calculate::getUserReport();
+
+        $params['summary']['newswap'] = $reportdata['detail'][date('Y-m-d', strtotime($params['summary']['lastuptodate']))]['newswap'];
+
         $params['menu'] = Menu::make(Yii::app()->user->gid, 'General');
+
         $this->render('general', $params);
     }
 
@@ -103,4 +127,14 @@ class AdminController extends Controller
         $params['menu'] = Menu::make(Yii::app()->user->gid, 'Swap');
         $this->render('swap', $params);
     }
+
+    public function actionTest()
+    {
+        $s = Calculate::getGeneralSummaryData();
+        $r = Calculate::getUserReport();
+
+        echo $r['detail'][date('Y-m-d', strtotime($s['summary']['lastuptodate']))]['newswap'];
+        Debug::dump($r);
+    }
+
 }
