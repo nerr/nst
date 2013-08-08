@@ -120,5 +120,18 @@ class IndexController extends Controller
 		Excel::weekly(Yii::app()->user->id, 'D');
 	}
 
-	
+	public function actionTest()
+	{
+		$attr = array(
+			'email'		=> 'leon@nerrsoft.com',
+			'password'	=> 'xxx',
+			'ipaddress' => Tools::tGetClientIp(),
+			'logintime' => date('Y-m-d H:i:s', time()),
+			'loginstatus'=> 1
+		);
+
+		$model = new SysLoginLog;
+		$model->attributes = $attr;
+		$model->save();
+	}
 }
