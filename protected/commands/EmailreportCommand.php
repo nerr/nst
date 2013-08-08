@@ -6,8 +6,7 @@ class EmailreportCommand extends CConsoleCommand
     {
         $criteria = new CDbCriteria;
         $criteria->select = 'id,emaillist';
-        //$criteria->condition='usergroupid=2 and id<>2';
-        $criteria->condition='id=9';
+        $criteria->condition='usergroupid=2 and id<>2';
         $uid = SysUser::model()->findAll($criteria);
 
         if($uid)
