@@ -1,3 +1,12 @@
+    
+    <footer>
+        <div class="wrapper">
+            <span class="copyright">
+                Copyright &copy; <?php echo date('Y'); ?> Nerrsoft.com All rights reserved.
+            </span>
+        </div>
+    </footer><!-- footer -->
+
     <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -7,13 +16,6 @@
         ga('create', 'UA-28003762-2', 'nerrsoft.com');
         ga('send', 'pageview');
 
-    </script>
-    <footer>
-        <div class="wrapper">
-            <span class="copyright">
-                Copyright &copy; <?php echo date('Y'); ?> Nerrsoft.com All rights reserved.
-            </span>
-        </div>
-    </footer><!-- footer -->
+    </script><!-- Google Analytics -->
 </body>
 </html>
