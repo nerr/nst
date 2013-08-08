@@ -33,7 +33,7 @@ class Tools
         return $mobile[0];
     }
 
-    public static function uniqChineseCharacters($string)
+    public static function tUniqChineseCharacters($string)
     {
         $pattern = "/[\x{4e00}-\x{9fa5}]/u";
 
