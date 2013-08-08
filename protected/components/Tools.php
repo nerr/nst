@@ -32,4 +32,16 @@ class Tools
 
         return $mobile[0];
     }
+
+    public static function uniqChineseCharacters($string)
+    {
+        $pattern = "/[\x{4e00}-\x{9fa5}]/u";
+
+        preg_match_all($pattern, $string, $characters);
+
+        if(count($characters[0]) > 0)
+            return array_flip($characters[0]);
+        else
+            return false;
+    }
 }
