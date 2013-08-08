@@ -84,7 +84,7 @@ class DefaultController extends Controller
         if($authproof['loginstatus'] == 100)
         {
             Yii::app()->user->login($identity);
-            $authproof['loginstatus'] = 1；
+            $authproof['loginstatus'] = 1;
         }
         else
         {
