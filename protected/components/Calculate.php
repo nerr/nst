@@ -15,7 +15,7 @@ class Calculate
         return $result;
     }
 
-    public static function getGeneralSummaryData($uid)
+    public static function getGeneralSummaryData($uid = 0)
     {
         //-- init data
         $data = array();
@@ -23,9 +23,12 @@ class Calculate
         //--
         $criteria = new CDbCriteria;
         $criteria->select = 'orderticket,profit,swap,logdatetime,orderstatus,closedate,getswap,endprofit,commission';
-        $criteria->condition = 'userid=:userid';
+        if($uid > 0)
+        {
+            $criteria->condition = 'userid=:userid';
+            $criteria->params = array(':userid' => $uid);
+        }
         $criteria->order  = 'logdatetime';
-        $criteria->params = array(':userid' => $uid);
         $result = ViewTaSwapOrderDetail::model()->findAll($criteria);
 
         if($result)
@@ -80,9 +83,12 @@ class Calculate
             //--
             $criteria = new CDbCriteria;
             $criteria->select = 'amount,directionid,flowtime';
-            $criteria->condition = 'userid=:userid';
+            if($uid > 0)
+            {
+                $criteria->condition = 'userid=:userid';
+                $criteria->params = array(':userid' => $uid);
+            }
             $criteria->order  = 'flowtime DESC';
-            $criteria->params = array(':userid' => $uid);
             $result = SysCapitalFlow::model()->findAll($criteria);
 
             foreach($result as $v)
@@ -125,6 +131,9 @@ class Calculate
             $data['swapratechart'] = Calculate::getSwapRateChartData();
 
             $data['table'] = $serial;
+
+            if($data['summary']['capital'] > 0)
+                $data['summary']['yieldrate'] = $data['summary']['netearning'] / $data['summary']['capital'] * 100;
 
             foreach($serial as $c=>$val)
             {
@@ -227,7 +236,7 @@ class Calculate
         return $append;
     }
 
-    public static function getUserReport($uid)
+    public static function getUserReport($uid = 0)
     {
         $data = Calculate::getGeneralSummaryData($uid);
 
