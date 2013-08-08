@@ -58,7 +58,11 @@
 					<div class="clear"></div>
 				</div>
 				<div class="line_grid">
-					<div class="g_6"><input class="submitIt simple_buttons" value="<?php echo Yii::t('common', 'Login In'); ?>" type="submit">
+					<div class="g_4">
+						<input class="submitIt simple_buttons" value="<?php echo Yii::t('common', 'Login In'); ?>" type="submit">
+					</div>
+					<div class="g_2">
+						<img src="<?php echo $imgpath."leaf_loader.gif"; ?>" class="loadingimg">
 					</div>
 					<div class="clear"></div>
 				</div>
@@ -75,9 +79,11 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('.iDialog').hide();
+		$('.loadingimg').hide();
 
 		var emailformat = /^[A-Za-z0-9+]+[A-Za-z0-9\.\_\-+]*@([A-Za-z0-9\-]+\.)+[A-Za-z0-9]+$/;
 		$('#login-form').submit(function(){
+			$('.loadingimg').show();
 			$('.iDialog').hide();
 			$('.iDialog').removeClass('alert error');
 
@@ -88,12 +94,14 @@
 			if(!email.match(emailformat))
 			{
 				$('.iDialog').html('<?php echo Yii::t('common', 'Please enter the right email address.'); ?>').addClass('alert').show();
+				$('.loadingimg').hide();
 				return false;
 			}
 			if(pass=='')
 			{
 				$('.iDialog').html('<?php echo Yii::t('common', 'Please enter the password'); ?>').addClass('alert').show();
 				$('.iDialog').show();
+				$('.loadingimg').hide();
 				return false;
 			}
 			
@@ -104,7 +112,10 @@
 					window.location.href = '<?php echo $sucessUrl?>';
 				}
 				else
+				{
 					$('.iDialog').html('<?php echo Yii::t('common', 'Auth failed'); ?>').addClass('error').show();
+					$('.loadingimg').hide();
+				}
 			});
 
 
