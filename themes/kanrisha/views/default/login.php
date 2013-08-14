@@ -62,7 +62,7 @@
                         <input class="submitIt simple_buttons" value="<?php echo Yii::t('common', 'Login In'); ?>" type="submit">
                     </div>
                     <div class="g_2">
-                        <img src="<?php echo $imgpath."leaf_loader.gif"; ?>" class="loadingimg">
+                        <img src="<?php echo $imgpath."Icons/Load/load-14.gif"; ?>" class="loadingimg">
                     </div>
                     <div class="clear"></div>
                 </div>
