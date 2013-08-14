@@ -347,4 +347,34 @@ class Calculate
         
         return $commission;
     }
+
+
+    public static function getSwapAvg()
+    {
+        $avg = array();
+
+        $criteria = new CDbCriteria;
+        $criteria->select='symbol,longswap,shortswap';
+        $criteria->condition = 'accountid=2';
+        $result = TaSwapRate::model()->findAll($criteria);
+
+        if($result)
+        {
+            foreach($result as $val)
+            {
+                $swap[$val->symbol]['long'][] = $val->longswap;
+                $swap[$val->symbol]['short'][] = $val->shortswap;
+            }
+
+            foreach($swap as $key=>$val)
+            {
+                if(sizeof($val['long']) > 0)
+                    $avg[$key]['long'] = array_sum($val['long']) / sizeof($val['long']);
+                if(sizeof($val['short']) > 0)
+                    $avg[$key]['short'] = array_sum($val['short']) / sizeof($val['short']);
+            }
+        }
+
+        return $avg;
+    }
 }

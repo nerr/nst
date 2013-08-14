@@ -21,6 +21,22 @@
 
 				<div class="g_12 separator"><span></span></div>
 
+				<!-- Quick Statistics -->
+                <div class="g_3 quick_stats">
+                    <div class="big_stats visitor_stats">
+                        <?php echo number_format($swapavg['EURMXN']['short'],2); ?>
+                    </div>
+                    <h5 class="stats_info"><?php echo Yii::t('common', 'SymbolA Avg'); ?></h5>
+                </div>
+                <div class="g_3 quick_stats">
+                    <div class="big_stats orders_stats">
+                        <?php echo number_format($swapavg['USDMXN']['short'],2); ?>
+                    </div>
+                    <h5 class="stats_info"><?php echo Yii::t('common', 'SymbolB Avg'); ?></h5>
+                </div>
+
+                <div class="g_12 separator"><span></span></div>
+
 				<!-- swap rate Charts -->
                 <div class="g_12">
                     <div class="widget_header">

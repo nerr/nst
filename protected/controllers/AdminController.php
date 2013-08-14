@@ -124,8 +124,13 @@ class AdminController extends Controller
 
     public function actionSwap()
     {   
-        $params = Calculate::getGeneralSummaryData();
-        foreach($params['swapratechart'] as $key=>$val)
+        //-- get swap rate avg (two main symbols)
+        $params['swapavg'] = Calculate::getSwapAvg();
+        //Debug::dump($data);
+
+        //-- get swap rate chart data
+        $data = Calculate::getGeneralSummaryData();
+        foreach($data['swapratechart'] as $key=>$val)
             $params['swapratechart'][$key] = json_encode($val);
 
         $params['menu'] = Menu::make(Yii::app()->user->gid, 'Swap');
