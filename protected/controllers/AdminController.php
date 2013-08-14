@@ -124,6 +124,10 @@ class AdminController extends Controller
 
     public function actionSwap()
     {   
+        $params = Calculate::getGeneralSummaryData();
+        foreach($params['swapratechart'] as $key=>$val)
+            $params['swapratechart'][$key] = json_encode($val);
+
         $params['menu'] = Menu::make(Yii::app()->user->gid, 'Swap');
         $this->render('swap', $params);
     }

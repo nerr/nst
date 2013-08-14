@@ -21,65 +21,79 @@
 
 				<div class="g_12 separator"><span></span></div>
 
-				<!-- Charts -->
-				<div class="g_12">
-					<div class="widget_header">
-						<h4 class="widget_header_title wwIcon i_16_charts"><?php echo Yii::t('common', 'Charts'); ?></h4>
-					</div>
-					<div class="widget_contents">
-						<div class="charts"></div>
-					</div>
-				</div>
+				<!-- swap rate Charts -->
+                <div class="g_12">
+                    <div class="widget_header">
+                        <h4 class="widget_header_title wwIcon i_16_charts"><?php echo Yii::t('common', 'Swap Rate Chart'); ?></h4>
+                    </div>
+                    <div class="widget_contents">
+                        <div class="swaprate"></div>
+                    </div>
+                </div>
 			</div>
 		</div>
 
 	</div>
 
 	<script type="text/javascript">
-	if (!!$(".charts").offset()){
-		var EURMXN = <?php echo $charts['swap']; ?>;
-		var USDMXN = <?php echo $charts['netearning']; ?>;
-		//-- adjust timestamp
-		for(var i = 0; i < swap.length; i++)
-		{
-			swap[i][0] *= 1000;
-			net[i][0] *= 1000;
-			cost[i][0] *= 1000;
-		}
+	if (!!$(".swaprate").offset())
+    {
+        var symbol_1 = <?php echo $swapratechart['EURMXNshort']; ?>;
+        var symbol_2 = <?php echo $swapratechart['USDMXNshort']; ?>;
+        var symbol_3 = <?php echo $swapratechart['MXNJPYshort']; ?>;
+        var symbol_4 = <?php echo $swapratechart['USDJPYlong']; ?>;
+        var symbol_5 = <?php echo $swapratechart['EURJPYlong']; ?>;
 
-		// Display the Sin and Cos Functions
-		$.plot($(".charts"), [ { label: "<?php echo Yii::t('common', 'Cost'); ?>", data: cost }, 
-							   { label: "<?php echo Yii::t('common', 'Swap'); ?>", data: swap },
-							   { label: "<?php echo Yii::t('common', 'Net Earning'); ?>", data: net } ],
-		{
-			colors: ["#cc3333", "#00AADD", " #cccc33"],
+        for(i = 0; i < symbol_1.length; i++)
+        {
+            symbol_1[i][0] *= 1000;
+            symbol_2[i][0] *= 1000;
+            symbol_3[i][0] *= 1000;
+            symbol_4[i][0] *= 1000;
+            symbol_5[i][0] *= 1000;
+        }
 
-			series: {
-				lines: {
-						show: true,
-						lineWidth: 2,
-					   },
-				points: {show: true},
-				shadowSize: 2,
-			},
+        //
+        $.plot($(".swaprate"),[ 
+            { label: "<?php echo Yii::t('common', 'SymbolA'); ?>", data: symbol_1 }, 
+            { label: "<?php echo Yii::t('common', 'SymbolB'); ?>", data: symbol_2 },
+            { label: "<?php echo Yii::t('common', 'SymbolC'); ?>", data: symbol_3 },
+            { label: "<?php echo Yii::t('common', 'SymbolD'); ?>", data: symbol_4 },
+            { label: "<?php echo Yii::t('common', 'SymbolE'); ?>", data: symbol_5 }
+        ],{
+            colors: ["#cc3333", "#00AADD", "#cccc33", "#FF0055", "#00FF00"],
 
-			grid: {
-				hoverable: true,
-				show: true,
-				borderWidth: 0,
-				tickColor: "#d2d2d2",
-				labelMargin: 12,
-			},
+            series: {
+                lines: {
+                        show: true,
+                        lineWidth: 2
+                       },
+                points: {show: true},
+                shadowSize: 2
+            },
 
-			legend: {
-				show: true,
-				margin: [0,-24],
-				noColumns: 0,
-				labelBoxBorderColor: null,
-			},
+            grid: {
+                hoverable: true,
+                show: true,
+                borderWidth: 0,
+                tickColor: "#d2d2d2",
+                labelMargin: 12
+            },
 
-			yaxis: {},
-			xaxis: {mode:"time", timeformat: "%m-%d", minTickSize: [1, "day"],},
-		});
-	}
-	</script>
+            legend: {
+                show: true,
+                margin: [0,-24],
+                noColumns: 0,
+                labelBoxBorderColor: null
+            },
+
+            yaxis: {},
+
+            xaxis: {
+                mode:"time", 
+                timeformat: "%m-%d", 
+                minTickSize: [1, "day"]
+            }
+        });
+    }
+    </script>
