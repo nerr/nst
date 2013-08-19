@@ -13,11 +13,11 @@ class AdminController extends Controller
     {
         return array(
             array('allow',
-                'actions'=>array('index', 'general', 'swap', 'user'),
+                'actions'=>array('index', 'general', 'swap', 'user', 'report', 'funds'),
                 'users'=>array('leon@nerrsoft.com'),
             ),
             array('deny',
-                'actions'=>array('index', 'general', 'report', 'funds','swap'),
+                'actions'=>array('index', 'general', 'report', 'funds', 'swap'),
                 'users'=>array('?','@'),
             ),
         );
@@ -145,6 +145,15 @@ class AdminController extends Controller
 
         echo $r['detail'][date('Y-m-d', strtotime($s['summary']['lastuptodate']))]['newswap'];
         Debug::dump($r);
+    }
+
+
+    public function actionFunds()
+    {
+        
+
+        $params['menu'] = Menu::make(Yii::app()->user->gid, 'Funds');
+        $this->render('funds', $params);
     }
 
 }
