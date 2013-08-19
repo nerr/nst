@@ -150,8 +150,24 @@ class AdminController extends Controller
 
     public function actionFunds()
     {
-        
+        $criteria = new CDbCriteria;
+        $result = ViewSysAllUsersFundFlow::model()->findAll($criteria);
 
+        if(!$result)
+            return false;
+
+        foreach($result as $val)
+        {
+            $table[$val->email]['row'][] = array(
+                'time' => $val->flowtime,
+                'direction' => $val->directioinname,
+                'amount' => $val->amount,
+                'memo' => $val->memo
+            );
+            $table[$val->email]['total'] += $val->amount;
+        }
+
+        $params['data'] = $table;
         $params['menu'] = Menu::make(Yii::app()->user->gid, 'Funds');
         $this->render('funds', $params);
     }

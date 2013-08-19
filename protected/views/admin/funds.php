@@ -11,11 +11,11 @@
 
 				<div class="g_6 contents_header">
 					<h3 class="i_16_forms tab_label"><?php echo Yii::t('common', 'Funds'); ?></h3>
-					<div><span class="label"><?php echo Yii::t('common', 'Funds options log'); ?></span></div>
+					<div><span class="label"><?php echo Yii::t('common', 'Funds Flow log'); ?></span></div>
 				</div>
 				<div class="g_6 contents_options">
 					<div class="simple_buttons">
-						<div class="bwIcon i_16_help"><?php echo Yii::t('common', 'Help'); ?></div>
+						<div class="bwIcon i_16_help"><?php echo Yii::t('common', 'Excel'); ?></div>
 					</div>
 				</div>
 
@@ -28,23 +28,32 @@
 						<table class="tables">
 							<thead>
 								<tr>
-									<th><?php echo Yii::t('common', 'Option Time'); ?></th>
+									<th><?php echo Yii::t('common', 'Users'); ?></th>
+									<th><?php echo Yii::t('common', 'Time'); ?></th>
 									<th><?php echo Yii::t('common', 'Direction'); ?></th>
 									<th><?php echo Yii::t('common', 'Amount'); ?></th>
-									<th><?php echo Yii::t('common', 'Description'); ?></th>
+									<th><?php echo Yii::t('common', 'Memo'); ?></th>
 								</tr>
 							</thead>
 							<tbody>
 								<?php 
-								if(count($table) > 0){
-								foreach($table as $v){ ?>
+								foreach($data as $key=>$val){
+									foreach($val['row'] as $v){
+								?>
 								<tr>
-									<td><?php echo $v->flowtime; ?></td>
-									<td><?php echo Yii::t('common', $v->directioinname); ?></td>
-									<td><?php echo $v->amount; ?></td>
-									<td><?php echo $v->memo; ?></td>
+									<td><?php echo $key; ?></td>
+									<td><?php echo $v['time']; ?></td>
+									<td><?php echo Yii::t('common', $v['direction']); ?></td>
+									<td><?php echo number_format($v['amount'], 2); ?></td>
+									<td><?php echo $v['memo']; ?></td>
 								</tr>
-								<?php }} ?>
+								<?php } ?>
+								<tr style="background-color:#D4FFFF">
+									<td colspan="3">&nbsp;</td>
+									<td><b><?php echo number_format($val['total'], 2); ?></b></td>
+									<td>&nbsp;</td>
+								</tr>
+								<?php } ?>
 							</tbody>
 						</table>
 					</div>
