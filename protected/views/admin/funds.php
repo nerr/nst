@@ -48,7 +48,7 @@
 									<td><?php echo $v['memo']; ?></td>
 								</tr>
 								<?php } ?>
-								<tr style="background-color:#D4FFFF">
+								<tr style="background-color:#EEF3F6">
 									<td colspan="3">&nbsp;</td>
 									<td><b><?php echo number_format($val['total'], 2); ?></b></td>
 									<td>&nbsp;</td>
