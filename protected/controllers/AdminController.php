@@ -172,4 +172,32 @@ class AdminController extends Controller
         $this->render('funds', $params);
     }
 
+    public function actionReport()
+    {
+        $params = Calculate::getUserReport();
+
+        //-- get menu
+        $params['menu'] = Menu::make(Yii::app()->user->gid, 'Report');
+
+        //-- adjust detail data format
+        if(count($params['detail']) > 0)
+        {
+            foreach($params['detail'] as $k=>$v)
+            {
+                foreach($v as $key => $val)
+                    $params['detail'][$k][$key] = number_format($val, 2);
+            }
+        }
+
+        foreach($params['summary'] as $k=>$v)
+        {
+            $params['summary'][$k] = number_format($v, 2);
+        }
+
+        $params['url']['funds'] = $this->createUrl('admin/funds');
+        $params['url']['excel'] = $this->createUrl('admin/reportexcel');
+
+        $this->render('report', $params);
+    }
+
 }
