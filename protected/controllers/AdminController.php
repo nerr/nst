@@ -158,16 +158,25 @@ class AdminController extends Controller
 
         foreach($result as $val)
         {
-            $table[$val->email]['row'][] = array(
+            $table_detail[$val->email]['row'][] = array(
                 'time' => $val->flowtime,
                 'direction' => $val->directioinname,
                 'amount' => $val->amount,
                 'memo' => $val->memo
             );
-            $table[$val->email]['total'] += $val->amount;
+            $table_detail[$val->email]['total'] += $val->amount;
+
+            
+            if($val->directioinname == 'Deposit')
+                $table_summary['deposit'] += $val->amount;
+            elseif($val->directioinname == 'Withdraw')
+                $table_summary['withdraw'] += $val->amount;
+            elseif($val->directioinname == 'Commission')
+                $table_summary['commission'] += $val->amount;
         }
 
-        $params['data'] = $table;
+        $params['detail'] = $table_detail;
+        $params['summary'] = $table_summary;
         $params['menu'] = Menu::make(Yii::app()->user->gid, 'Funds');
         $this->render('funds', $params);
     }
