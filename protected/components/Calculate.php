@@ -28,6 +28,9 @@ class Calculate
             $criteria->condition = 'userid=:userid';
             $criteria->params = array(':userid' => $uid);
         }
+        else
+            $criteria->condition = 'userid<>2';
+
         $criteria->order  = 'logdatetime';
         $result = ViewTaSwapOrderDetail::model()->findAll($criteria);
 
@@ -88,6 +91,8 @@ class Calculate
                 $criteria->condition = 'userid=:userid';
                 $criteria->params = array(':userid' => $uid);
             }
+            else
+                $criteria->condition = 'userid<>2';
             $criteria->order  = 'flowtime DESC';
             $result = SysCapitalFlow::model()->findAll($criteria);
 
