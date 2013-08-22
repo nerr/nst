@@ -78,6 +78,11 @@ class AdminController extends Controller
         $params['summary']['newswap'] = $reportdata['detail'][date('Y-m-d', strtotime($params['summary']['lastuptodate']))]['newswap'];
         $params['summary']['newswap'] = number_format($params['summary']['newswap'], 2);
 
+        $params['commission'] = Calculate::getAllCommission();
+        //$params['spreadlose'] = Calculate::getAllSpreadlose();
+
+        //Debug::dump($params['summary']);
+
         $params['menu'] = Menu::make(Yii::app()->user->gid, 'General');
 
         $this->render('general', $params);
@@ -136,15 +141,6 @@ class AdminController extends Controller
 
         $params['menu'] = Menu::make(Yii::app()->user->gid, 'Swap');
         $this->render('swap', $params);
-    }
-
-    public function actionTest()
-    {
-        $s = Calculate::getGeneralSummaryData();
-        $r = Calculate::getUserReport();
-
-        echo $r['detail'][date('Y-m-d', strtotime($s['summary']['lastuptodate']))]['newswap'];
-        Debug::dump($r);
     }
 
 
@@ -207,6 +203,12 @@ class AdminController extends Controller
         $params['url']['excel'] = $this->createUrl('admin/reportexcel');
 
         $this->render('report', $params);
+    }
+
+    public function actionTest()
+    {
+        $s = Calculate::getAllCommission();
+        Debug::dump($s);
     }
 
 }
