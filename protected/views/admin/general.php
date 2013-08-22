@@ -58,7 +58,34 @@
                     <div class="widget_contents">
                         <div class="charts"></div>
                     </div>
-                </div>                
+                </div> 
+
+                <div class="g_12 separator under_stat"><span></span></div>
+
+                <!-- Details -->
+                <div class="g_12">
+                    <div class="widget_header">
+                        <h4 class="widget_header_title wwIcon i_16_tables"><?php echo Yii::t('common', 'Cost'); ?></h4>
+                    </div>
+                    <div class="widget_contents noPadding">
+                        <table class="tables">
+                            <thead>
+                                <tr>
+                                    <th><?php echo Yii::t('common', 'Commission'); ?></th>
+                                    <th><?php echo Yii::t('common', 'Lots'); ?></th>
+                                    <!-- <th><?php echo Yii::t('common', 'Spread Loss'); ?></th> -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><?php echo number_format($commission, 2); ?></td>
+                                    <td><?php echo number_format($commission/6*-1, 0); ?></td>
+                                    <!-- <td><?php echo $summary['yieldrate']; ?>%</td> -->
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
 
