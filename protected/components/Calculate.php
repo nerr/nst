@@ -382,4 +382,21 @@ class Calculate
 
         return $avg;
     }
+
+    public static function getAllCommission()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->select='commission';
+        $criteria->condition = 'userid<>2';
+        $result = TaSwapOrder::model()->findAll($criteria);
+
+        if(!$result)
+            return 0;
+        foreach($result as $val)
+        {
+            $commission += $val->commission;
+        }
+
+        return $commission;
+    }
 }
