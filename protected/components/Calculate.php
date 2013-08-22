@@ -55,6 +55,8 @@ class Calculate
                 //-- get searial data
                 $d = date('Y-m-d', strtotime($v->logdatetime));
                 $serial['swap'][$d] += $v->swap;
+                $serial['spread'][$d] += $v->profit;
+                $serial['commission'][$d] += $v->commission;
                 $serial['cost'][$d] += $v->profit + $v->commission;
             }
             $values['lastuptodate'] = $v->logdatetime;
@@ -128,8 +130,9 @@ class Calculate
             $values['cost'] = $serial['cost'][$lastdate];
             $values['netearning'] = $values['cost'] + $values['swap'];
             $values['balance'] = $values['netearning'] + $values['capital'];
+            $values['spread'] = $serial['spread'][$lastdate];
+            $values['commission'] = $serial['commission'][$lastdate] + array_sum($closed['commission']);
             
-
             //--
             $data['summary'] = $values;
             //-- get swap rate chart data
@@ -383,11 +386,14 @@ class Calculate
         return $avg;
     }
 
-    public static function getAllCommission()
+    public static function getAllCommission($uid = 0)
     {
         $criteria = new CDbCriteria;
         $criteria->select='commission';
-        $criteria->condition = 'userid<>2';
+        if($uid > 0 )
+            $criteria->condition = 'userid='.$uid;
+        else
+            $criteria->condition = 'userid<>2';
         $result = TaSwapOrder::model()->findAll($criteria);
 
         if(!$result)
@@ -398,5 +404,10 @@ class Calculate
         }
 
         return $commission;
+    }
+
+    public static function getAllSpreadlose($uid = 0)
+    {
+
     }
 }
