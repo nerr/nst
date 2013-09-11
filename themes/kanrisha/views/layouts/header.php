@@ -4,6 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo Yii::t('common', CHtml::encode($this->pageTitle)); ?></title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+
     <link rel="shortcut icon" href="<?php echo $imgpath; ?>favicon.ico" />
     <!--[if lt IE 9]>
         <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
@@ -56,7 +59,7 @@
     <div class="top_panel">
         <div class="wrapper">
             <div class="user">
-                <span class="label"><?php echo Yii::t('common', 'Welcome'); ?>,&nbsp;<a href="###" id="userform"><?php echo Yii::app()->user->email; ?></a></span>
+                <span class="label_sp"><?php echo Yii::t('common', 'Welcome'); ?>,&nbsp;<a href="###" id="userform"><?php echo Yii::app()->user->email; ?></a></span>
                 <!-- Top Tooltip -->
                 <!-- 
                 <div class="top_tooltip">
@@ -86,29 +89,29 @@
                     </li>
                     <li class="i_22_settings">
                         <a href="#" title="Settings">
-                            <span class="label">Settings</span>
+                            <span class="label_sp">Settings</span>
                         </a>
                     </li>
                     <li class="i_22_upload">
                         <a href="#" title="Upload">
-                            <span class="label">Upload</span>
+                            <span class="label_sp">Upload</span>
                         </a> -->
                         <!-- Drop Menu -->
                         <!--<ul class="drop_menu menu_with_icons right_direction">
                             <li>
                                 <a class="i_16_add" href="#" title="New Flie">
-                                    <span class="label">New File</span>
+                                    <span class="label_sp">New File</span>
                                 </a>                                    
                             </li>
                             <li>
                                 <a class="i_16_progress" href="#" title="2 Files Left">
-                                    <span class="label">Files Left</span>
+                                    <span class="label_sp">Files Left</span>
                                     <span class="small_count">2</span>
                                 </a>
                             </li>
                             <li>
                                 <a class="i_16_files" href="#" title="Browse Files">
-                                    <span class="label">Browse Files</span>
+                                    <span class="label_sp">Browse Files</span>
                                 </a>
                             </li>
                         </ul>
@@ -121,19 +124,19 @@
                     </li>
                     <li class="i_22_pages">
                         <a href="#" title="Pages">
-                            <span class="label">Pages</span>
+                            <span class="label_sp">Pages</span>
                         </a> -->
                         <!-- Drop Menu -->
                         <!--
                         <ul class="drop_menu menu_without_icons">
                             <li>
                                 <a title="403 Page" href="403.html">
-                                    <span class="label">403 Forbidden</span>
+                                    <span class="label_sp">403 Forbidden</span>
                                 </a>                                    
                             </li>
                             <li>
                                 <a href="404.html" title="404 Page">
-                                    <span class="label">404 Not Found</span>
+                                    <span class="label_sp">404 Not Found</span>
                                 </a>
                             </li>
                         </ul>
@@ -210,12 +213,12 @@
                 <div class="g_12">
                     <div class="widget_contents noPadding">
                         <div class="line_grid">
-                            <div class="g_3"><span class="label"><?php echo Yii::t('common', 'Mobile'); ?></span></div>
+                            <div class="g_3"><span class="label_sp"><?php echo Yii::t('common', 'Mobile'); ?></span></div>
                             <div class="g_9">
                                 <input class="simple_field" type="text" id="mobile" name="mobile" />
                                 <div class="field_notice"><?php echo Yii::t('common', 'To receive SMS report'); ?></div>
                             </div>
-                            <div class="g_3"><span class="label"><?php echo Yii::t('common', 'Email List'); ?></span></div>
+                            <div class="g_3"><span class="label_sp"><?php echo Yii::t('common', 'Email List'); ?></span></div>
                             <div class="g_9">
                                 <input class="simple_field" type="text" id="emaillist" name="emaillist" />
                                 <div class="field_notice"><?php echo Yii::t('common', 'To receive Email report'); ?></div>
@@ -223,13 +226,13 @@
                         </div>
 
                         <div class="line_grid">
-                            <div class="g_3"><span class="label"><?php echo Yii::t('common', 'New Password'); ?></span></div>
+                            <div class="g_3"><span class="label_sp"><?php echo Yii::t('common', 'New Password'); ?></span></div>
                             <div class="g_9">
                                 <input class="simple_field" type="text" id="newpass" name="newpass" />
                             </div>
                         </div>
                         <div class="line_grid">
-                            <div class="g_3"><span class="label"><?php echo Yii::t('common', 'Old Password'); ?></span></div>
+                            <div class="g_3"><span class="label_sp"><?php echo Yii::t('common', 'Old Password'); ?></span></div>
                             <div class="g_9">
                                 <input class="simple_field" type="password" id="oldpass" name="oldpass" />
                             </div>
