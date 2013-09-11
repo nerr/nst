@@ -11,7 +11,7 @@
 
 				<div class="g_6 contents_header">
 					<h3 class="i_16_dashboard tab_label"><?php echo Yii::t('common', 'Swap'); ?></h3>
-					<div><span class="label"><?php echo Yii::t('common', 'Swap Rate Chart'); ?></span></div>
+					<div><span class="label_sp"><?php echo Yii::t('common', 'Swap Rate Chart'); ?></span></div>
 				</div>
 				<div class="g_6 contents_options">
 					<div class="simple_buttons">

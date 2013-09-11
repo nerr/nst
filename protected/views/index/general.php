@@ -11,7 +11,7 @@
 
                 <div class="g_6 contents_header">
                     <h3 class="i_16_dashboard tab_label"><?php echo Yii::t('common', 'General'); ?></h3>
-                    <div><span class="label"><?php //echo Yii::t('common', 'General information and Summary'); ?>
+                    <div><span class="label_sp"><?php //echo Yii::t('common', 'General information and Summary'); ?>
                                             (<?php echo Yii::t('common', 'Last up to date: '); echo $summary['lastuptodate']?>)</span></div>
                 </div>
                 <div class="g_6 contents_options">
@@ -53,7 +53,7 @@
                 <!-- Charts -->
                 <div class="g_12">
                     <div class="widget_header">
-                        <h4 class="widget_header_title wwIcon i_16_charts"><?php echo Yii::t('common', 'Earnings Chart'); ?></h4>
+                        <h4 class="widget_header_title icon-bar-chart"><?php echo Yii::t('common', 'Earnings Chart'); ?></h4>
                     </div>
                     <div class="widget_contents">
                         <div class="charts"></div>
