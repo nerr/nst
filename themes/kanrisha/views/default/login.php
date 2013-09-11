@@ -30,7 +30,7 @@
         <div class="wrapper">
             <div class="user">
                 <img src="<?php echo $imgpath; ?>logo_left.png" alt="user_avatar" class="logo_left">
-                <span class="label"><a href="###">Nerr Smart Trader | Login</a></span>
+                <span class="label_sp"><a href="###">Nerr Smart Trader | Login</a></span>
             </div>
         </div>
     </div>
@@ -44,14 +44,14 @@
             <div class="widget_contents lgNoPadding">
                 <form action="<?php echo $formSubmitUrl; ?>" method="post" id="login-form">
                 <div class="line_grid">
-                    <div class="g_2 g_2M"><span class="label"><?php echo Yii::t('common', 'E-mail'); ?></span></div>
+                    <div class="g_2 g_2M"><span class="label_sp"><?php echo Yii::t('common', 'E-mail'); ?></span></div>
                     <div class="g_9 g_9M">
                         <input name="email" class="simple_field tooltip" title="<?php echo Yii::t('common', 'Your email'); ?>" type="text" placeholder="" id="email">
                     </div>
                     <div class="clear"></div>
                 </div>
                 <div class="line_grid">
-                    <div class="g_2 g_2M"><span class="label"><?php echo Yii::t('common', 'Pass'); ?></span></div>
+                    <div class="g_2 g_2M"><span class="label_sp"><?php echo Yii::t('common', 'Pass'); ?></span></div>
                     <div class="g_9 g_9M">
                         <input name="password" class="simple_field tooltip" title="<?php echo Yii::t('common', 'Your Password'); ?>" type="password" value="" id="password">
                     </div>

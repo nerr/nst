@@ -45,6 +45,19 @@
 		outline: none;
 	}
 
+	a:link {
+	 text-decoration: none;
+	}
+	a:visited {
+	 text-decoration: none;
+	}
+	a:hover {
+	 text-decoration: underline;
+	}
+	a:active {
+	 text-decoration: none;
+	}
+
 	a:focus {
 		outline: none;
 	}
@@ -109,7 +122,7 @@
 
 	@media screen and (max-width: 767px) {
 		
-		.user > .label {
+		.user > .label_sp {
 			display: none;
 		}
 
@@ -118,7 +131,7 @@
 			width: 22px;
 		}
 
-		.top_links > ul > li > a > .label {
+		.top_links > ul > li > a > .label_sp {
 			display: none;
 		}
 
@@ -642,7 +655,7 @@
 		background-position: left center;
 	}
 
-	.contents_header .label {
+	.contents_header .label_sp {
 		padding-left: 24px;
 		margin-top: 12px;
 	}
@@ -794,7 +807,7 @@
 
 /* Typography */
 
-	.label {
+	.label_sp {
 		font-family: "Microsoft YaHei", Droid Sans;
 		color: #8f8f8f;
 		font-size: 13px;
