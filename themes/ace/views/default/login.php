@@ -96,7 +96,7 @@
 
                                                     <div class="clearfix">
                                                         <label class="inline">
-                                                            <span class="lbl"><div class="iDialog"></div></span>
+                                                            <span class="lbl" id="returninfo"></span>
                                                         </label>
 
                                                         <input class="width-35 pull-right btn btn-sm btn-primary" value="Login" type="submit" />
@@ -205,14 +205,14 @@
 
         <script type="text/javascript">
             $(document).ready(function(){
-                //$('.iDialog').hide();
+                //$('#returninfo').hide();
                 $('.loadingimg').hide();
 
                 var emailformat = /^[A-Za-z0-9+]+[A-Za-z0-9\.\_\-+]*@([A-Za-z0-9\-]+\.)+[A-Za-z0-9]+$/;
                 $('#login-form').submit(function(){
                     $('.loadingimg').show();
-                    $('.iDialog').hide();
-                    $('.iDialog').removeClass('alert error');
+                    $('#returninfo').hide();
+                    $('#returninfo').removeClass('red green');
 
                     var email = $.trim($('#email').val());
                     var pass  = $.trim($('#password').val());
@@ -220,14 +220,14 @@
                     // checking the form
                     if(!email.match(emailformat))
                     {
-                        $('.iDialog').html('<?php echo Yii::t('common', 'Please enter the right email address.'); ?>').show();
+                        $('#returninfo').html('<?php echo Yii::t('common', 'Please check email address'); ?>').addClass('red').show();
                         $('.loadingimg').hide();
                         return false;
                     }
                     if(pass=='')
                     {
-                        $('.iDialog').html('<?php echo Yii::t('common', 'Please enter the password'); ?>').show();
-                        $('.iDialog').show();
+                        $('#returninfo').html('<?php echo Yii::t('common', 'Please enter the password'); ?>').addClass('red').show();
+                        $('#returninfo').show();
                         $('.loadingimg').hide();
                         return false;
                     }
@@ -235,12 +235,12 @@
                     $.post($('#login-form').attr('action'), {proof:{'password':$.md5($.md5(pass)), 'email':email}}, function(data){
                         if(data>0)
                         {
-                            $('.iDialog').html('<?php echo Yii::t('common', 'Passed'); ?>').show();
+                            $('#returninfo').html('<?php echo Yii::t('common', 'Passed'); ?>').addClass('green').show();
                             window.location.href = '<?php echo $sucessUrl?>';
                         }
                         else
                         {
-                            $('.iDialog').html('<?php echo Yii::t('common', 'Auth failed'); ?>').show();
+                            $('#returninfo').html('<?php echo Yii::t('common', 'Auth failed'); ?>').addClass('red').show();
                             $('.loadingimg').hide();
                         }
                     });
