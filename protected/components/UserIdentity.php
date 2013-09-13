@@ -20,6 +20,8 @@ class UserIdentity extends CUserIdentity
 		else
 		{
 			$this->_id=$record->id;
+			$this->setState('avatar', Tools::tGetGavatar($record->email));
+			$this->setState('name', $record->username);
 			$this->setState('email', $record->email);
 			$this->setState('gid', $record->usergroupid);
 			$this->errorCode = self::ERROR_NONE;
