@@ -406,6 +406,57 @@ class Calculate
         return $commission;
     }
 
+    public static function getOneWeekSwap($week_num, $year, $uid = 0)
+    {
+        //-- check effective week number
+        if($week_num <= 0 and $week_num >= 53)
+            return false;
+        //--
+        $week_start = new DateTime();
+        $week_start->setISODate($year,$week_num);
+
+        $weeks[1]['date'] = $week_start->format('Y-m-d');
+        for($i = 2; $i <= 5; $i++)
+            $weeks[$i]['date'] = date('Y-m-d', strtotime($weeks[$i-1]['date'].'+1 days'));
+
+        foreach($weeks as $k=>$w)
+        {
+            if(date('N', strtotime($w['date'])) == 1)
+                $tomorrow = date('Y-m-d', strtotime($w['date'].'-3 days'));
+            else
+                $tomorrow = date('Y-m-d', strtotime($w['date'].'-1 days'));
+
+            $weeks[$k]['swap_lastday'] = Calculate::getOneDaySwap($tomorrow, $uid);
+            $weeks[$k]['swap_today'] = Calculate::getOneDaySwap($w['date'], $uid);
+            $weeks[$k]['swap_new'] = $weeks[$k]['swap_today'] - $weeks[$k]['swap_lastday'];
+            $weeks['total'] += $weeks[$k]['swap_new'];
+        }
+
+        return $weeks;
+    }
+
+    public static function getOneDaySwap($date, $uid = 0)
+    {
+        $tomorrow = date('Y-m-d', strtotime($date.'+1 days'));
+        $criteria = new CDbCriteria;
+        $criteria->select='swap';
+        if($uid > 0 )
+            $criteria->condition = 'userid='.$uid;
+        else
+            $criteria->condition = 'userid<>2';
+        $criteria->condition .= " and logdatetime > '$date' and logdatetime < '$tomorrow'";
+        $result = ViewTaSwapOrderDetail::model()->findAll($criteria);
+        if($result)
+        {
+            $dayswap = 0;
+            foreach($result as $val)
+            {
+                $dayswap += $val->swap;
+            }
+        }
+        return $dayswap;
+    }
+
     public static function getAllSpreadlose($uid = 0)
     {
 
