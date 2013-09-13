@@ -81,7 +81,7 @@
                                                     <label class="block clearfix">
                                                         <span class="block input-icon input-icon-right">
                                                             <input type="text" class="form-control" placeholder="Email" name="email" id="email" />
-                                                            <i class="icon-envelope-alt"></i>
+                                                            <i class="icon-envelope"></i>
                                                         </span>
                                                     </label>
 
