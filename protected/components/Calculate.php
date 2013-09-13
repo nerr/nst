@@ -146,7 +146,7 @@ class Calculate
             foreach($serial as $c=>$val)
             {
                 foreach($val as $k=>$v)
-                    $data['charts'][$c][] = array(strtotime($k), $v);
+                    $data['charts'][$c][] = array($k, $v);
             }
         }
 
