@@ -406,7 +406,7 @@
                                     <strong class="green">
                                         Last up to date:
                                     </strong>
-                                    <?php echo $summary['lastuptodate']; ?>
+                                    <?php echo $summary['lastuptodate']; ?> (GMT+8)
                                 </div>
 
                                 <div class="row">
