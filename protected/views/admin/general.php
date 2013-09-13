@@ -568,7 +568,7 @@
                                             <div class="widget-header widget-header-flat">
                                                 <h4 class="lighter">
                                                     <i class="icon-star orange"></i>
-                                                    Popular Domains
+                                                    This week detail (Total Swap: <?php echo number_format($weeks['total'], 2); ?>)
                                                 </h4>
 
                                                 <div class="widget-toolbar">
@@ -585,98 +585,38 @@
                                                             <tr>
                                                                 <th>
                                                                     <i class="icon-caret-right blue"></i>
-                                                                    name
+                                                                    date
                                                                 </th>
 
                                                                 <th>
                                                                     <i class="icon-caret-right blue"></i>
-                                                                    price
+                                                                    new swap
                                                                 </th>
 
                                                                 <th class="hidden-480">
                                                                     <i class="icon-caret-right blue"></i>
-                                                                    status
+                                                                    total swap
                                                                 </th>
                                                             </tr>
                                                         </thead>
 
                                                         <tbody>
+                                                            <?php foreach($weeks as $k=>$week){ ?>
+                                                            <?php     if($k>0){ ?>
                                                             <tr>
-                                                                <td>internet.com</td>
+                                                                <td><?php echo $week['date']; ?>
+                                                                    <b><?php echo date('D', strtotime($week['date']));?></b>
+                                                                </td>
 
                                                                 <td>
-                                                                    <small>
-                                                                        <s class="red">$29.99</s>
-                                                                    </small>
-                                                                    <b class="green">$19.99</b>
+                                                                    <?php echo number_format($week['swap_new'], 1); ?>
                                                                 </td>
 
                                                                 <td class="hidden-480">
-                                                                    <span class="label label-info arrowed-right arrowed-in">on sale</span>
+                                                                    <?php echo number_format($week['swap_today'], 1); ?>
                                                                 </td>
                                                             </tr>
-
-                                                            <tr>
-                                                                <td>online.com</td>
-
-                                                                <td>
-                                                                    <small>
-                                                                        <s class="red"></s>
-                                                                    </small>
-                                                                    <b class="green">$16.45</b>
-                                                                </td>
-
-                                                                <td class="hidden-480">
-                                                                    <span class="label label-success arrowed-in arrowed-in-right">approved</span>
-                                                                </td>
-                                                            </tr>
-
-                                                            <tr>
-                                                                <td>newnet.com</td>
-
-                                                                <td>
-                                                                    <small>
-                                                                        <s class="red"></s>
-                                                                    </small>
-                                                                    <b class="green">$15.00</b>
-                                                                </td>
-
-                                                                <td class="hidden-480">
-                                                                    <span class="label label-danger arrowed">pending</span>
-                                                                </td>
-                                                            </tr>
-
-                                                            <tr>
-                                                                <td>web.com</td>
-
-                                                                <td>
-                                                                    <small>
-                                                                        <s class="red">$24.99</s>
-                                                                    </small>
-                                                                    <b class="green">$19.95</b>
-                                                                </td>
-
-                                                                <td class="hidden-480">
-                                                                    <span class="label arrowed">
-                                                                        <s>out of stock</s>
-                                                                    </span>
-                                                                </td>
-                                                            </tr>
-
-                                                            <tr>
-                                                                <td>domain.com</td>
-
-                                                                <td>
-                                                                    <small>
-                                                                        <s class="red"></s>
-                                                                    </small>
-                                                                    <b class="green">$12.00</b>
-                                                                </td>
-
-                                                                <td class="hidden-480">
-                                                                    <span class="label label-warning arrowed arrowed-right">SOLD</span>
-                                                                </td>
-                                                            </tr>
+                                                            <?php }} ?>
                                                         </tbody>
                                                     </table>
                                                 </div><!-- /widget-main -->
