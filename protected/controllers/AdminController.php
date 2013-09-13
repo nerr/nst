@@ -58,11 +58,6 @@ class AdminController extends Controller
 
         //-- params data format
         $params['summary']['yieldrate'] = number_format($params['summary']['yieldrate'], 2);
-        foreach($params['summary'] as $key=>$val)
-        {
-            if($key!='lastuptodate' && $key != 'closedswap' && $key != 'closedprofit' && $key != 'yieldrate')
-                $params['summary'][$key] = number_format($val, 1);
-        }
         foreach($params['charts'] as $key=>$val)
         {
             $params['charts'][$key] = json_encode($val);
