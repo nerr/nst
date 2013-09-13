@@ -77,6 +77,15 @@ class AdminController extends Controller
         //$params['spreadlose'] = Calculate::getAllSpreadlose();
 
         //Debug::dump($params['summary']);
+        $params['weeks'] = Calculate::getOneWeekSwap(date('W'), date('Y'));
+        foreach($params['weeks'] as $k=>$v)
+        {
+            if($k>0 && $k<5)
+                $params['weeks']['chartstr'] .= floor($v['swap_new']).',';
+            elseif($k == 5)
+                $params['weeks']['chartstr'] .= floor($v['swap_new']);
+        }
+        $params['weeks']['returnrate'] = $params['weeks']['total'] / $params['summary']['capital'] * 100;
 
         $params['menu'] = Menu::make(Yii::app()->user->gid, 'General');
 
@@ -202,7 +211,7 @@ class AdminController extends Controller
 
     public function actionTest()
     {
-        $s = Calculate::getAllCommission();
+        $s = Calculate::getOneWeekSwap(date('W'), date('Y'));
         Debug::dump($s);
     }
 
