@@ -452,16 +452,16 @@
                                         <!-- floating profit this week -->
                                         <div class="infobox infobox-pink">
                                             <div class="infobox-chart">
-                                                <span class="sparkline" data-values="196,128,202,177,154"></span>
+                                                <span class="sparkline" data-values="<?php echo $weeks['chartstr']; ?>"></span>
                                             </div>
 
                                             <div class="infobox-data">
-                                                <span class="infobox-data-number">0</span>
-                                                <div class="infobox-content">floating profit this week</div>
+                                                <span class="infobox-data-number"><?php echo number_format($weeks['total'], 1); ?></span>
+                                                <div class="infobox-content">get swap this week</div>
                                             </div>
 
                                             <div class="badge badge-success">
-                                                0%
+                                                <?php echo number_format($weeks['returnrate'], 1); ?>%
                                                 <i class="icon-arrow-up"></i>
                                             </div>
                                         </div>
@@ -513,7 +513,7 @@
 
                                             <div class="infobox-data">
                                                 <div class="infobox-content">spread</div>
-                                                <div class="infobox-content"><?php echo $summary['spread'];?></div>
+                                                <div class="infobox-content"><?php echo number_format($summary['spread'], 1);?></div>
                                             </div>
                                         </div>
 
