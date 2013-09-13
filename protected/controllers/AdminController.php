@@ -71,7 +71,6 @@ class AdminController extends Controller
         $reportdata = Calculate::getUserReport();
 
         $params['summary']['newswap'] = $reportdata['detail'][date('Y-m-d', strtotime($params['summary']['lastuptodate']))]['newswap'];
-        $params['summary']['newswap'] = number_format($params['summary']['newswap'], 2);
 
         $params['commission'] = Calculate::getAllCommission();
         //$params['spreadlose'] = Calculate::getAllSpreadlose();

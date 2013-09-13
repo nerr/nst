@@ -420,7 +420,7 @@
                                             </div>
 
                                             <div class="infobox-data">
-                                                <span class="infobox-data-number"><?php echo number_format($summary['capital'], 1); ?></span>
+                                                <span class="infobox-data-number"><?php echo number_format($summary['capital'], 0); ?></span>
                                                 <div class="infobox-content">principal balance</div>
                                             </div>
                                         </div>
@@ -432,7 +432,7 @@
                                             </div>
 
                                             <div class="infobox-data">
-                                                <span class="infobox-data-number"><?php echo number_format($summary['balance'], 1); ?></span>
+                                                <span class="infobox-data-number"><?php echo number_format($summary['balance'], 0); ?></span>
                                                 <div class="infobox-content">account balance</div>
                                             </div>
                                         </div>
@@ -444,7 +444,7 @@
                                             </div>
 
                                             <div class="infobox-data">
-                                                <span class="infobox-data-number"><?php echo number_format($summary['netearning'], 1); ?></span>
+                                                <span class="infobox-data-number"><?php echo number_format($summary['netearning'], 0); ?></span>
                                                 <div class="infobox-content">total floating profit</div>
                                             </div>
                                         </div>
@@ -456,8 +456,8 @@
                                             </div>
 
                                             <div class="infobox-data">
-                                                <span class="infobox-data-number"><?php echo number_format($weeks['total'], 1); ?></span>
-                                                <div class="infobox-content">get swap this week</div>
+                                                <span class="infobox-data-number"><?php echo number_format($weeks['total'], 0); ?></span>
+                                                <div class="infobox-content">total swap this week</div>
                                             </div>
 
                                             <div class="badge badge-success">
@@ -473,7 +473,7 @@
                                             </div>
 
                                             <div class="infobox-data">
-                                                <span class="infobox-data-number"><?php echo $summary['newswap']; ?></span>
+                                                <span class="infobox-data-number"><?php echo number_format($summary['newswap'], 0); ?></span>
                                                 <div class="infobox-content">swap last trading day</div>
                                             </div>
                                         </div>
@@ -485,7 +485,7 @@
                                             </div>
 
                                             <div class="infobox-data">
-                                                <span class="infobox-data-number"><?php echo number_format($summary['cost'], 1); ?></span>
+                                                <span class="infobox-data-number"><?php echo number_format($summary['cost'], 0); ?></span>
                                                 <div class="infobox-content">transaction costs</div>
                                             </div>
                                         </div>
@@ -524,7 +524,7 @@
 
                                             <div class="infobox-data">
                                                 <div class="infobox-content">commission</div>
-                                                <div class="infobox-content"><?php echo number_format($commission, 2);?></div>
+                                                <div class="infobox-content"><?php echo number_format($commission, 1);?></div>
                                             </div>
                                         </div>
 
