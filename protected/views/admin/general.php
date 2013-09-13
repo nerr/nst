@@ -493,7 +493,7 @@
                                         <div class="infobox infobox-blue2  ">
                                             <div class="infobox-progress">
                                                 <div class="easy-pie-chart percentage" data-percent="<?php echo $summary['yieldrate']; ?>" data-size="46">
-                                                    <span class="percent"><?php echo number_format($summary['yieldrate'], 0); ?></span>%
+                                                    <span class="percent"><?php echo floor($summary['yieldrate']); ?></span>%
                                                 </div>
                                             </div>
 
