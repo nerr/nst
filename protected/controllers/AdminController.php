@@ -48,11 +48,11 @@ class AdminController extends Controller
      */
     public function actionIndex()
     {
-        $this->redirect('admin/general');
+        $this->redirect('admin/dashboard');
     }
 
 
-    public function actionGeneral()
+    public function actionDashboard()
     {
         $params = Calculate::getGeneralSummaryData();
 
@@ -88,7 +88,7 @@ class AdminController extends Controller
 
         $params['menu'] = Menu::make(Yii::app()->user->gid, 'General');
 
-        $this->render('general', $params);
+        $this->render('dashboard', $params);
     }
 
     public function actionUser()

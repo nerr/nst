@@ -28,7 +28,7 @@ class DefaultController extends Controller
     public function actionIndex()
     {
         if(!Yii::app()->user->isGuest && Yii::app()->user->gid==1)
-            $this->redirect('index.php?r=admin/general');
+            $this->redirect('index.php?r=admin/dashboard');
         elseif(!Yii::app()->user->isGuest && Yii::app()->user->gid==2)
             $this->redirect('index.php?r=index/general');
         else
