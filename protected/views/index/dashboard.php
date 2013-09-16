@@ -49,7 +49,7 @@
                         </div>
                     </div><!-- #sidebar-shortcuts -->
 
-                    <?php echo $menu; ?>
+                    <?php echo $menu['html']; ?>
                     <!-- /.nav-list -->
 
                     <div class="sidebar-collapse" id="sidebar-collapse">
@@ -72,7 +72,7 @@
                                 <i class="icon-home home-icon"></i>
                                 <a href="#">Home</a>
                             </li>
-                            <li class="active">Dashboard</li>
+                            <li class="active"><?php echo $menu['info']['name']; ?></li>
                         </ul><!-- .breadcrumb -->
 
                         <div class="nav-search" id="nav-search">
@@ -88,10 +88,10 @@
                     <div class="page-content">
                         <div class="page-header">
                             <h1>
-                                Dashboard
+                                <?php echo $menu['info']['name']; ?>
                                 <small>
                                     <i class="icon-double-angle-right"></i>
-                                    overview &amp; stats
+                                    <?php echo $menu['info']['desc']; ?>
                                 </small>
                             </h1>
                         </div><!-- /.page-header -->
