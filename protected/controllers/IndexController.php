@@ -13,11 +13,11 @@ class IndexController extends Controller
     {
         return array(
             array('deny',
-                'actions'=>array('index', 'general', 'report', 'funds', 'excel'),
+                'actions'=>array('index', 'dashboard', 'report', 'funds', 'excel'),
                 'users'=>array('?'),
             ),
             array('allow',
-                'actions'=>array('index', 'general', 'report', 'funds', 'excel'),
+                'actions'=>array('index', 'dashboard', 'report', 'funds', 'excel'),
                 'users'=>array('@'),
             ),
         );
@@ -48,22 +48,18 @@ class IndexController extends Controller
      */
     public function actionIndex()
     {
-        $this->redirect('index/general');
+        $this->redirect('index/dashboard');
     }
 
     /**
      * This is the user general action
      */
-    public function actionGeneral()
+    public function actionDashboard()
     {
         $params = Calculate::getGeneralSummaryData(Yii::app()->user->id);
 
         //-- params data format
-        foreach($params['summary'] as $key=>$val)
-        {
-            if($key!='lastuptodate' && $key !='closedswap' && $key !='closedprofit')
-                $params['summary'][$key] = number_format($val, 1);
-        }
+        $params['summary']['yieldrate'] = number_format($params['summary']['yieldrate'], 2);
         foreach($params['charts'] as $key=>$val)
         {
             $params['charts'][$key] = json_encode($val);
@@ -74,9 +70,27 @@ class IndexController extends Controller
             $params['swapratechart'][$key] = json_encode($val);
         }
 
-        $params['menu'] = Menu::make(Yii::app()->user->gid, 'General');
+        $reportdata = Calculate::getUserReport(Yii::app()->user->id);
 
-        $this->render('general', $params);
+        $params['summary']['newswap'] = $reportdata['detail'][date('Y-m-d', strtotime($params['summary']['lastuptodate']))]['newswap'];
+
+        $params['commission'] = Calculate::getAllCommission(Yii::app()->user->id);
+        //$params['spreadlose'] = Calculate::getAllSpreadlose();
+
+        //Debug::dump($params['summary']);
+        $params['weeks'] = Calculate::getOneWeekSwap(date('W'), date('Y'), Yii::app()->user->id);
+        foreach($params['weeks'] as $k=>$v)
+        {
+            if($k>0 && $k<5)
+                $params['weeks']['chartstr'] .= floor($v['swap_new']).',';
+            elseif($k == 5)
+                $params['weeks']['chartstr'] .= floor($v['swap_new']);
+        }
+        $params['weeks']['returnrate'] = $params['weeks']['total'] / $params['summary']['capital'] * 100;
+
+        $params['menu'] = Menu::aceMake(Yii::app()->user->gid, 'Dashboard'); //Yii::app()->controller->action->id
+
+        $this->render('dashboard', $params);
     }
 
     public function actionReport()
