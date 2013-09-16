@@ -428,7 +428,10 @@ class Calculate
 
             $weeks[$k]['swap_lastday'] = Calculate::getOneDaySwap($tomorrow, $uid);
             $weeks[$k]['swap_today'] = Calculate::getOneDaySwap($w['date'], $uid);
-            $weeks[$k]['swap_new'] = $weeks[$k]['swap_today'] - $weeks[$k]['swap_lastday'];
+            if($weeks[$k]['swap_today'] > 0)
+                $weeks[$k]['swap_new'] = $weeks[$k]['swap_today'] - $weeks[$k]['swap_lastday'];
+            else
+                $weeks[$k]['swap_new'] = 0;
             $weeks['total'] += $weeks[$k]['swap_new'];
         }
 
