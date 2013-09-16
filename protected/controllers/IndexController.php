@@ -98,7 +98,7 @@ class IndexController extends Controller
         $params = Calculate::getUserReport(Yii::app()->user->id);
 
         //-- get menu
-        $params['menu'] = Menu::make(Yii::app()->user->gid, 'Report');
+        $params['menu'] = Menu::aceMake(Yii::app()->user->gid, 'Report');
 
         //-- adjust detail data format
         if(count($params['detail']) > 0)
