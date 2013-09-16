@@ -86,7 +86,7 @@ class AdminController extends Controller
         }
         $params['weeks']['returnrate'] = $params['weeks']['total'] / $params['summary']['capital'] * 100;
 
-        $params['menu'] = Menu::make(Yii::app()->user->gid, 'Dashboard');
+        $params['menu'] = Menu::aceMake(Yii::app()->user->gid, 'Dashboard'); //Yii::app()->controller->action->id
 
         $this->render('dashboard', $params);
     }
