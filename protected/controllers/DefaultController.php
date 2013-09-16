@@ -30,7 +30,7 @@ class DefaultController extends Controller
         if(!Yii::app()->user->isGuest && Yii::app()->user->gid==1)
             $this->redirect('index.php?r=admin/dashboard');
         elseif(!Yii::app()->user->isGuest && Yii::app()->user->gid==2)
-            $this->redirect('index.php?r=index/general');
+            $this->redirect('index.php?r=index/dashboard');
         else
             $this->redirect('index.php?r=default/login');
     }
