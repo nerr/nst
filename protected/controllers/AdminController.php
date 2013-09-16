@@ -13,11 +13,11 @@ class AdminController extends Controller
     {
         return array(
             array('allow',
-                'actions'=>array('index', 'general', 'swap', 'user', 'report', 'funds'),
+                'actions'=>array('index', 'dashboard', 'swap', 'user', 'report', 'funds'),
                 'users'=>array('leon@nerrsoft.com'),
             ),
             array('deny',
-                'actions'=>array('index', 'general', 'report', 'funds', 'swap'),
+                'actions'=>array('index', 'dashboard', 'report', 'funds', 'swap'),
                 'users'=>array('?','@'),
             ),
         );
@@ -86,7 +86,7 @@ class AdminController extends Controller
         }
         $params['weeks']['returnrate'] = $params['weeks']['total'] / $params['summary']['capital'] * 100;
 
-        $params['menu'] = Menu::make(Yii::app()->user->gid, 'General');
+        $params['menu'] = Menu::make(Yii::app()->user->gid, 'Dashboard');
 
         $this->render('dashboard', $params);
     }
