@@ -60,6 +60,8 @@ class Menu
 
     public static function aceStructureMenu($mdata, $active)
     {
+        //$active = ucwords($active);
+
         if(count($mdata)==0)
             return 'Load menu data error.';
 
@@ -91,7 +93,10 @@ class Menu
             if(count($val['sub']) == 0)
             {
                 if($val['menuname'] == $active)
+                {
                     $html .= '<li class="active">';
+                    $result['info'] = array('name' => $val['menuname'], 'desc' => $val['title']);
+                }
                 else
                     $html .= '<li>';
 
@@ -121,7 +126,10 @@ class Menu
                 foreach($val['sub'] as $val)
                 {
                     if($val['menuname'] == $active)
+                    {
                         $html .= '<li class="active">';
+                        $result['info'] = array('name' => $val['menuname'], 'desc' => $val['title']);
+                    }
                     else
                         $html .= '<li>';
 
@@ -140,7 +148,9 @@ class Menu
         }
         $html .= "\r".'</ul>';
 
-        return $html;
+        $result['html'] = $html;
+
+        return $result;
     }
 
     public static function aceMake($gid, $activeitem)
