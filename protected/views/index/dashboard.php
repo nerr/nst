@@ -192,6 +192,11 @@
                                                 <span class="infobox-data-number"><?php echo number_format($summary['cost'], 0); ?></span>
                                                 <div class="infobox-content">transaction costs</div>
                                             </div>
+
+                                            <div class="badge badge-danger">
+                                                <?php echo number_format($summary['cost']/$summary['capital']*-100, 1); ?>%
+                                                <i class="icon-arrow-down"></i>
+                                            </div>
                                         </div>
 
                                         <div class="infobox infobox-blue2  ">
