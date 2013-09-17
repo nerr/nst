@@ -14,7 +14,7 @@ class AdminController extends Controller
         return array(
             array('allow',
                 'actions'=>array('index', 'dashboard', 'swap', 'user', 'report', 'funds'),
-                'users'=>array('leon@nerrsoft.com'),
+                'users'=>array('leon@nerrsoft.com','vickey@nerrsoft.com'),
             ),
             array('deny',
                 'actions'=>array('index', 'dashboard', 'report', 'funds', 'swap'),
