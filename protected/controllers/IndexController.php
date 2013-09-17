@@ -123,7 +123,7 @@ class IndexController extends Controller
 
     public function actionFunds()
     {
-        $params['menu'] = Menu::make(Yii::app()->user->gid, 'Funds');
+        $params['menu'] = Menu::aceMake(Yii::app()->user->gid, 'Funds');
         $params['table'] = Calculate::getFundLog(Yii::app()->user->id);
         $this->render('funds', $params);
     }
