@@ -13,11 +13,11 @@ class AdminController extends Controller
     {
         return array(
             array('allow',
-                'actions'=>array('index', 'dashboard', 'swap', 'user', 'report', 'funds'),
+                'actions'=>array('index', 'dashboard', 'swap', 'user', 'report', 'funds', 'investors'),
                 'users'=>array('leon@nerrsoft.com','vickey@nerrsoft.com'),
             ),
             array('deny',
-                'actions'=>array('index', 'dashboard', 'report', 'funds', 'swap'),
+                'actions'=>array('index', 'dashboard', 'swap', 'user', 'report', 'funds', 'investors'),
                 'users'=>array('?','@'),
             ),
         );
