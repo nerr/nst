@@ -110,9 +110,41 @@ class Menu
             }
             elseif(count($val['sub']) > 0)
             {
-                $url = Yii::app()->createUrl($val['menuurl']);
+                
+                $open = false;
 
-                $html .= '<li>
+                
+
+                //-- level two
+                $subhtml = '';
+                foreach($val['sub'] as $v)
+                {
+                    if($v['menuname'] == $active)
+                    {
+                        $subhtml .= '<li class="active">';
+                        $result['info'] = array('name' => $v['menuname'], 'desc' => $v['title']);
+                        $open = true;
+                    }
+                    else
+                        $subhtml .= '<li>';
+
+                    $url = Yii::app()->createUrl($v['menuurl']);
+                    $subhtml .= '
+                                    <a href="'.$url.'">
+                                        <i class="'.$v['icon'].'"></i>
+                                        '.$v['menuname'].' 
+                                    </a>
+                                </li>';
+                } 
+
+                
+                if($open === true)
+                    $html .= '<li class="active open">';
+                else
+                    $html .= '<li>';
+
+                $url = Yii::app()->createUrl($val['menuurl']);
+                $html .= '
                             <a href="'.$url.'" class="dropdown-toggle">
                                 <i class="'.$val['icon'].'"></i>
                                 <span class="menu-text"> '.$val['menuname'].' </span>
@@ -121,26 +153,7 @@ class Menu
                             </a>
 
                             <ul class="submenu">';
-
-                //-- level two
-                foreach($val['sub'] as $val)
-                {
-                    if($val['menuname'] == $active)
-                    {
-                        $html .= '<li class="active">';
-                        $result['info'] = array('name' => $val['menuname'], 'desc' => $val['title']);
-                    }
-                    else
-                        $html .= '<li>';
-
-                    $url = Yii::app()->createUrl($val['menuurl']);
-                    $html .= '
-                                    <a href="'.$url.'">
-                                        <i class="'.$val['icon'].'"></i>
-                                        '.$val['menuname'].' 
-                                    </a>
-                                </li>';
-                }                
+                $html .= $subhtml;               
                                 
                 $html .= '</ul>
                         </li>';
