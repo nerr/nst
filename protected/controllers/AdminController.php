@@ -208,6 +208,42 @@ class AdminController extends Controller
         $this->render('report', $params);
     }
 
+    public function actionInvestors()
+    {
+        //-- get user list
+        $criteria = new CDbCriteria;
+        $criteria->select = 'id,email,username';
+        $criteria->condition='usergroupid=2 and id<>2';
+        $criteria->order = 'id';
+        $userlist = ViewSysUserList::model()->findAll($criteria);
+
+        if($userlist)
+        {
+            foreach($userlist as $user)
+            {
+                $data[$user->id]['user'] = array('email'=>$user->email, 'username'=>$user->username);
+                $data[$user->id]['schema'] = Calculate::getGeneralSummaryData($user->id);
+                $data[$user->id]['weeks'] = Calculate::getOneWeekSwap(date('W'), date('Y'), $user->id);
+
+                foreach($data[$user->id]['weeks'] as $k=>$v)
+                {
+                    if($k>0 && $k<5)
+                        $data[$user->id]['weeks']['chartstr'] .= floor($v['swap_new']).',';
+                    elseif($k == 5)
+                        $data[$user->id]['weeks']['chartstr'] .= floor($v['swap_new']);
+                }
+
+                $data[$user->id]['weeks']['returnrate'] = $data[$user->id]['weeks']['total'] / $data[$user->id]['schema']['summary']['capital'] * 100;
+                $data[$user->id]['schema']['summary']['costrate'] = $data[$user->id]['schema']['summary']['cost'] / $data[$user->id]['schema']['summary']['capital'] * -100;
+            }
+        }
+
+        $params['data'] = $data;
+        $params['menu'] = Menu::aceMake(Yii::app()->user->gid, 'Investors'); //Yii::app()->controller->action->id
+
+        $this->render('investors', $params);
+    }
+
     public function actionTest()
     {
         $s = Calculate::getOneWeekSwap(date('W'), date('Y'));
