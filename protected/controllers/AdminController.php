@@ -174,9 +174,14 @@ class AdminController extends Controller
                 $table_summary['commission'] += $val->amount;
         }
 
+        foreach($table_detail as $key=>$val)
+            $chart[] = array('label' => $key, 'data' => $val['total']);
+
         $params['detail'] = $table_detail;
         $params['summary'] = $table_summary;
-        $params['menu'] = Menu::make(Yii::app()->user->gid, 'Funds');
+        $params['chart'] = json_encode($chart);
+        $params['menu'] = Menu::aceMake(Yii::app()->user->gid, 'Funds');
+
         $this->render('funds', $params);
     }
 
