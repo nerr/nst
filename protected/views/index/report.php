@@ -109,6 +109,7 @@
                                                         <th><?php echo Yii::t('common', 'Capital'); ?></th>
                                                         <th><?php echo Yii::t('common', 'Yield'); ?></th>
                                                         <th><?php echo Yii::t('common', 'Yield Rate'); ?></th>
+                                                        <th><?php echo Yii::t('common', 'Export Excel'); ?></th>
                                                     </tr>
                                                 </thead>
 
@@ -117,6 +118,7 @@
                                                         <td><a href="<?php echo $url['funds'];?>"><?php echo $summary['capital']; ?></a></td>
                                                         <td><?php echo $summary['yield']; ?></td>
                                                         <td><?php echo $summary['yieldrate']; ?>%</td>
+                                                        <td><a href="<?php echo $url['excel'];?>"><i class="icon-cloud-download"></i></a></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
