@@ -125,7 +125,7 @@
 
                                             <div class="infobox-data">
                                                 <span class="infobox-data-number"><?php echo number_format($summary['capital'], 0); ?></span>
-                                                <div class="infobox-content">principal balance</div>
+                                                <div class="infobox-content"><?php echo Yii::t('common', 'principal balance'); ?></div>
                                             </div>
                                         </div>
 
@@ -137,7 +137,7 @@
 
                                             <div class="infobox-data">
                                                 <span class="infobox-data-number"><?php echo number_format($summary['balance'], 0); ?></span>
-                                                <div class="infobox-content">account balance</div>
+                                                <div class="infobox-content"><?php echo Yii::t('common', 'account balance'); ?></div>
                                             </div>
                                         </div>
 
@@ -149,7 +149,7 @@
 
                                             <div class="infobox-data">
                                                 <span class="infobox-data-number"><?php echo number_format($summary['netearning'], 0); ?></span>
-                                                <div class="infobox-content">total floating profit</div>
+                                                <div class="infobox-content"><?php echo Yii::t('common', 'total floating profit'); ?></div>
                                             </div>
                                         </div>
 
@@ -161,7 +161,7 @@
 
                                             <div class="infobox-data">
                                                 <span class="infobox-data-number"><?php echo number_format($weeks['total'], 0); ?></span>
-                                                <div class="infobox-content">total swap this week</div>
+                                                <div class="infobox-content"><?php echo Yii::t('common', 'total swap this week'); ?></div>
                                             </div>
 
                                             <div class="badge badge-success">
@@ -178,7 +178,7 @@
 
                                             <div class="infobox-data">
                                                 <span class="infobox-data-number"><?php echo number_format($summary['newswap'], 0); ?></span>
-                                                <div class="infobox-content">swap last trading day</div>
+                                                <div class="infobox-content"><?php echo Yii::t('common', 'swap last trading day'); ?></div>
                                             </div>
                                         </div>
 
@@ -190,7 +190,7 @@
 
                                             <div class="infobox-data">
                                                 <span class="infobox-data-number"><?php echo number_format($summary['cost'], 0); ?></span>
-                                                <div class="infobox-content">transaction costs</div>
+                                                <div class="infobox-content"><?php echo Yii::t('common', 'transaction costs'); ?></div>
                                             </div>
 
                                             <div class="badge badge-danger">
@@ -209,7 +209,7 @@
                                             <div class="infobox-data">
                                                 <span class="infobox-text"><?php echo $summary['yieldrate']; ?>%</span>
 
-                                                <div class="infobox-content">rate of return</div>
+                                                <div class="infobox-content"><?php echo Yii::t('common', 'rate of return'); ?></div>
                                             </div>
                                         </div><!-- /.rate of return -->
 
@@ -221,7 +221,7 @@
                                             </div>
 
                                             <div class="infobox-data">
-                                                <div class="infobox-content">spread</div>
+                                                <div class="infobox-content"><?php echo Yii::t('common', 'spread'); ?></div>
                                                 <div class="infobox-content"><?php echo number_format($summary['spread'], 1);?></div>
                                             </div>
                                         </div>
@@ -232,7 +232,7 @@
                                             </div>
 
                                             <div class="infobox-data">
-                                                <div class="infobox-content">commission</div>
+                                                <div class="infobox-content"><?php echo Yii::t('common', 'commission'); ?></div>
                                                 <div class="infobox-content"><?php echo number_format($commission, 1);?></div>
                                             </div>
                                         </div>
@@ -243,7 +243,7 @@
                                             </div>
 
                                             <div class="infobox-data">
-                                                <div class="infobox-content">lots</div>
+                                                <div class="infobox-content"><?php echo Yii::t('common', 'lots'); ?></div>
                                                 <div class="infobox-content"><?php echo number_format($commission/6*-1, 0);?></div>
                                             </div>
                                         </div>
@@ -277,7 +277,7 @@
                                             <div class="widget-header widget-header-flat">
                                                 <h4 class="lighter">
                                                     <i class="icon-star orange"></i>
-                                                    This week detail (Total Swap: <?php echo number_format($weeks['total'], 2); ?>)
+                                                    <?php echo Yii::t('common', 'This week detail'); ?> (<?php echo Yii::t('common', 'Total Swap'); ?>: <?php echo number_format($weeks['total'], 2); ?>)
                                                 </h4>
 
                                                 <div class="widget-toolbar">
@@ -294,17 +294,17 @@
                                                             <tr>
                                                                 <th>
                                                                     <i class="icon-caret-right blue"></i>
-                                                                    date
+                                                                    <?php echo Yii::t('common', 'date'); ?>
                                                                 </th>
 
                                                                 <th>
                                                                     <i class="icon-caret-right blue"></i>
-                                                                    new swap
+                                                                    <?php echo Yii::t('common', 'new swap'); ?>
                                                                 </th>
 
                                                                 <th class="hidden-480">
                                                                     <i class="icon-caret-right blue"></i>
-                                                                    total swap
+                                                                    <?php echo Yii::t('common', 'total swap'); ?>
                                                                 </th>
                                                             </tr>
                                                         </thead>
@@ -338,7 +338,7 @@
                                             <div class="widget-header widget-header-flat">
                                                 <h4 class="lighter">
                                                     <i class="icon-signal"></i>
-                                                    Strategy Stats
+                                                    <?php echo Yii::t('common', 'Strategy Stats'); ?>
                                                 </h4>
 
                                                 <div class="widget-toolbar">
@@ -523,9 +523,9 @@
             
                 var sales_charts = $('#sales-charts').css({'width':'100%' , 'height':'220px'});
                 $.plot("#sales-charts", [
-                    { label: "Swap", data: d1 },
-                    { label: "Profit", data: d2 },
-                    { label: "Cost", data: d3 }
+                    { label: "<?php echo Yii::t('common', 'Swap'); ?>", data: d1 },
+                    { label: "<?php echo Yii::t('common', 'Profit'); ?>", data: d2 },
+                    { label: "<?php echo Yii::t('common', 'Cost'); ?>", data: d3 }
                 ], {
                     hoverable: true,
                     shadowSize: 0,

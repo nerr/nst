@@ -115,6 +115,25 @@ return array(
     'Email List' => '电子邮件列表',
     'To receive Email report' => '用于接受电子邮件报表',
 
+    //--
+    'principal balance' => '本金',
+    'account balance' => '账户余额',
+    'total floating profit' => '累计浮动收益',
+    'total swap this week' => '本周累计掉期收益',
+    'swap last trading day' => '上个交易日获得掉期',
+    'transaction costs' => '交易成本',
+    'rate of return' => '收益率',
+    'spread' => '点差成本',
+    'commission' => '手续费',
+    'lots' => '交易手数',
+    'Strategy Stats' => '策略收益情况',
+    'date' => '日期',
+    'new swap' => '新增掉期',
+    'total swap' => '累计掉期',
+    'This week detail' => '本周明细',
+    'Total Swap' => '累计',
+    'Profit' => '收益',
+
 
 );
 
