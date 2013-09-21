@@ -96,28 +96,32 @@
                             </h1>
                         </div><!-- /.page-header -->
 
-                        <div class="row">
-                            <div class="col-sm-5">
-                                <div class="widget-box">
-                                    <div class="widget-header widget-header-flat widget-header-small">
-                                        <h5>
-                                            <i class="icon-signal"></i>
-                                            Percentage of funds
-                                        </h5>
-                                    </div>
-
-                                    <div class="widget-body">
-                                        <div class="widget-main">
-                                            <div id="piechart-placeholder"></div>
-                                        </div><!-- /widget-main -->
-                                    </div><!-- /widget-body -->
-                                </div><!-- /widget-box -->
-                            </div><!-- /span -->
-                        </div><!-- /pie chart -->
+                        
 
                         <div class="row">
                             <div class="col-xs-12">
                                 <!-- PAGE CONTENT BEGINS -->
+                                <div class="row">
+                                    <div class="col-sm-5">
+                                        <div class="widget-box">
+                                            <div class="widget-header widget-header-flat widget-header-small">
+                                                <h5>
+                                                    <i class="icon-signal"></i>
+                                                    Percentage of funds
+                                                </h5>
+                                            </div>
+
+                                            <div class="widget-body">
+                                                <div class="widget-main">
+                                                    <div id="piechart-placeholder"></div>
+                                                </div><!-- /widget-main -->
+                                            </div><!-- /widget-body -->
+                                        </div><!-- /widget-box -->
+                                    </div><!-- /span -->
+                                </div><!-- /pie chart -->
+
+                                <div class="hr hr32 hr-dotted"></div>
+
                                 <div class="row">
                                     <div class="col-xs-12">
                                         <div class="table-responsive">
