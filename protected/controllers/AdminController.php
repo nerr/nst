@@ -131,7 +131,7 @@ class AdminController extends Controller
         $this->render('user', $params);*/
     }
 
-    public function actionSwap()
+    public function actionSwaprate()
     {   
         //-- get swap rate avg (two main symbols)
         $params['swapavg'] = Calculate::getSwapAvg();
@@ -142,7 +142,7 @@ class AdminController extends Controller
         foreach($data['swapratechart'] as $key=>$val)
             $params['swapratechart'][$key] = json_encode($val);
 
-        $params['menu'] = Menu::make(Yii::app()->user->gid, 'Swap');
+        $params['menu'] = Menu::aceMake(Yii::app()->user->gid, 'Swap Rate');
         $this->render('swap', $params);
     }
 
