@@ -460,6 +460,25 @@ class Calculate
         return $dayswap;
     }
 
+    public static function getMovingAverage($sourceArr, $period)
+    {
+        $c = count($sourceArr);
+        if($c<=0)
+            return false;
+
+        $begin = $period - 1;
+        for($i = $begin; $i < $c; $i++)
+        {
+            $total = 0;
+            for($ii = 0; $ii < $begin; $ii++)
+                $total += $sourceArr[$i-$ii][1];
+
+            $avg[] = array($sourceArr[$i][0], $total / $period);
+        }
+
+        return $avg;
+    }
+
     public static function getAllSpreadlose($uid = 0)
     {
 
