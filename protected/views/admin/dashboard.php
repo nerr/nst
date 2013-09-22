@@ -415,6 +415,7 @@
         <script src="<?php echo $jspath; ?>jquery.easy-pie-chart.min.js"></script>
         <script src="<?php echo $jspath; ?>jquery.sparkline.min.js"></script>
         <script src="<?php echo $jspath; ?>flot/jquery.flot.min.js"></script>
+        <script src="<?php echo $jspath; ?>flot/jquery.flot.time.js"></script>
         <script src="<?php echo $jspath; ?>flot/jquery.flot.pie.min.js"></script>
         <script src="<?php echo $jspath; ?>flot/jquery.flot.resize.min.js"></script>
 
@@ -551,9 +552,8 @@
                         noColumns: 0,
                     },
                     xaxis: {
-                        //mode: "time",
-                        /*timeformat: "%m-%d", 
-                        minTickSize: [3, "day"]*/
+                        mode: "time",
+                        timeformat: "%m-%d"
                     },
                     yaxis: {}
                 });//-- line chart end
