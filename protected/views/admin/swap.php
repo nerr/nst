@@ -216,6 +216,8 @@
                 var d3 = <?php echo $swapratechart['MXNJPYshort']; ?>;
                 var d4 = <?php echo $swapratechart['USDJPYlong']; ?>;
                 var d5 = <?php echo $swapratechart['EURJPYlong']; ?>;
+                var d6 = <?php echo $movingaverage['EURMXNshort']; ?>;
+                var d7 = <?php echo $movingaverage['USDMXNshort']; ?>;
 
                 for(var i = 0; i < d1.length; i++)
                 {
@@ -225,6 +227,12 @@
                     d4[i][0] = (new Date(d4[i][0])).getTime();
                     d5[i][0] = (new Date(d5[i][0])).getTime();
                 }
+
+                for(var i = 0; i < d6.length; i++)
+                {
+                    d6[i][0] = (new Date(d6[i][0])).getTime();
+                    d7[i][0] = (new Date(d7[i][0])).getTime();
+                }
             
                 var sales_charts = $('#swap-rate-chart').css({'width':'100%' , 'height':'420px'});
                 $.plot("#swap-rate-chart", [
@@ -232,7 +240,9 @@
                     { label: "SymbolB", data: d2 },
                     { label: "SymbolC", data: d3 },
                     { label: "SymbolD", data: d4 },
-                    { label: "SymbolE", data: d5 }
+                    { label: "SymbolE", data: d5 },
+                    { label: "SymbolA-MA", data: d6 },
+                    { label: "SymbolB-MA", data: d7 }
                 ], {
                     hoverable: true,
                     shadowSize: 0,
