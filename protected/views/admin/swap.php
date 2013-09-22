@@ -198,7 +198,7 @@
         <script src="<?php echo $jspath; ?>jquery.easy-pie-chart.min.js"></script>
         <script src="<?php echo $jspath; ?>jquery.sparkline.min.js"></script>
         <script src="<?php echo $jspath; ?>flot/jquery.flot.min.js"></script>
-        <script src="<?php echo $jspath; ?>flot/jquery.flot.pie.min.js"></script>
+        <script src="<?php echo $jspath; ?>flot/jquery.flot.time.js"></script>
         <script src="<?php echo $jspath; ?>flot/jquery.flot.resize.min.js"></script>
 
         <!-- ace scripts -->
@@ -221,32 +221,38 @@
 
                 for(var i = 0; i < d1.length; i++)
                 {
-                    d1[i][0] = (new Date(d1[i][0])).getTime();
+                    /*d1[i][0] = (new Date(d1[i][0])).getTime();
                     d2[i][0] = (new Date(d2[i][0])).getTime();
                     d3[i][0] = (new Date(d3[i][0])).getTime();
                     d4[i][0] = (new Date(d4[i][0])).getTime();
-                    d5[i][0] = (new Date(d5[i][0])).getTime();
+                    d5[i][0] = (new Date(d5[i][0])).getTime();*/
+
+                    d1[i][0] = d1[i][0]*1000;
+                    d2[i][0] = d2[i][0]*1000;
+                    d3[i][0] = d3[i][0]*1000;
+                    d4[i][0] = d4[i][0]*1000;
+                    d5[i][0] = d5[i][0]*1000;
                 }
 
                 for(var i = 0; i < d6.length; i++)
                 {
-                    d6[i][0] = (new Date(d6[i][0])).getTime();
-                    d7[i][0] = (new Date(d7[i][0])).getTime();
+                    d6[i][0] = d6[i][0]*1000;
+                    d7[i][0] = d7[i][0]*1000;
                 }
             
                 var sales_charts = $('#swap-rate-chart').css({'width':'100%' , 'height':'420px'});
                 $.plot("#swap-rate-chart", [
                     { label: "SymbolA", data: d1 },
+                    { label: "SymbolA-MA", data: d6 },
                     { label: "SymbolB", data: d2 },
+                    { label: "SymbolB-MA", data: d7 },
                     { label: "SymbolC", data: d3 },
                     { label: "SymbolD", data: d4 },
-                    { label: "SymbolE", data: d5 },
-                    { label: "SymbolA-MA", data: d6 },
-                    { label: "SymbolB-MA", data: d7 }
+                    { label: "SymbolE", data: d5 }
                 ], {
                     hoverable: true,
                     shadowSize: 0,
-                    colors: ["#cccc33", "#00AADD", "#cc3333"],
+                    colors: ["#0000FF", "#00AAFF", "#FF0000", "#FF5500", "#7FFFAA", "#FFAAAA", "#AAAAFF"],
                     series: {
                         lines: {
                                 show: true,
@@ -268,9 +274,9 @@
                         noColumns: 0,
                     },
                     xaxis: {
-                        //mode: "time",
-                        /*timeformat: "%m-%d", 
-                        minTickSize: [3, "day"]*/
+                        mode: "time",
+                        timeformat: "%y-%m-%d",
+                        tickLength: 10
                     },
                     yaxis: {}
                 });//-- line chart end
