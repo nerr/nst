@@ -9,7 +9,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>Dashboard | <?php echo Yii::t('common', CHtml::encode($this->pageTitle)); ?></title>
+        <title><?php echo Yii::t('common', CHtml::encode($this->pageTitle)); ?></title>
 
         <meta name="description" content="overview &amp; stats" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
