@@ -133,6 +133,9 @@ return array(
     'This week detail' => '本周明细',
     'Total Swap' => '累计',
     'Profit' => '收益',
+    'Percentage of principal and profit' => '本金与收益比例',
+    'profit' => '收益',
+    'principal' => '本金',
 
 
 );
