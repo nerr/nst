@@ -42,10 +42,13 @@ class DefaultController extends Controller
     {
         if($error=Yii::app()->errorHandler->error)
         {
+            $params['menu'] = Menu::aceMake(Yii::app()->user->gid, 'Report');
+            $params['error']= $error;
+
             if(Yii::app()->request->isAjaxRequest)
                 echo $error['message'];
             else
-                $this->render('error', $error);
+                $this->render('error', $params);
         }
     }
 
