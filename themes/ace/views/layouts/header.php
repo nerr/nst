@@ -92,7 +92,7 @@
                                 </li>
 
                                 <li>
-                                    <a href="#">
+                                    <a href="<?php echo $this->createUrl('user/profile');?>">
                                         <i class="icon-user"></i>
                                         Profile
                                     </a>
