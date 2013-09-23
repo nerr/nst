@@ -225,6 +225,10 @@
                             pie: {
                                 show: true,
                                 tilt:0.8,
+                                /*combine: {
+                                    color: '#999',
+                                    threshold: 0.0001
+                                },*/
                                 highlight: {
                                     opacity: 0.25
                                 },
