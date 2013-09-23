@@ -256,7 +256,7 @@
                                             <div class="widget-header widget-header-flat widget-header-small">
                                                 <h5>
                                                     <i class="icon-signal"></i>
-                                                    Percentage of principal and profit
+                                                    <?php echo Yii::t('common', 'Percentage of principal and profit'); ?>
                                                 </h5>
                                             </div>
 
@@ -452,14 +452,18 @@
             
                 var placeholder = $('#piechart-placeholder').css({'width':'90%' , 'min-height':'175px'});
                 var data = [
-                    { label: "profit",  data: <?php echo $summary['netearning']; ?>, color: "#8cc2e6"},
-                    { label: "principal ",  data: <?php echo $summary['capital']; ?>, color: "#edc140"}
+                    { label: "<?php echo Yii::t('common', 'profit'); ?>",  data: <?php echo $summary['netearning']; ?>, color: "#8cc2e6"},
+                    { label: "<?php echo Yii::t('common', 'principal'); ?>",  data: <?php echo $summary['capital']; ?>, color: "#edc140"}
                 ]
                 function drawPieChart(placeholder, data, position) {
                     $.plot(placeholder, data, {
                         series: {
                             pie: {
                                 show: true,
+                                combine: {
+                                    color: '#999',
+                                    threshold: 0.1
+                                },
                                 tilt:0.8,
                                 highlight: {
                                     opacity: 0.25
@@ -472,10 +476,10 @@
                             }
                         },
                         legend: {
-                            show: true,
-                            position: position || "ne", 
+                            show: false,
+                            /*position: position || "ne", 
                             labelBoxBorderColor: null,
-                            margin:[-30,15]
+                            margin:[-30,15]*/
                         },
                         grid: {
                             hoverable: true,
