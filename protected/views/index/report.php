@@ -70,7 +70,7 @@
                         <ul class="breadcrumb">
                             <li>
                                 <i class="icon-home home-icon"></i>
-                                <a href="#">Home</a>
+                                <a href="/nst">Home</a>
                             </li>
                             <li class="active"><?php echo $menu['info']['name']; ?></li>
                         </ul><!-- .breadcrumb -->
