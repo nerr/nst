@@ -460,6 +460,10 @@
                         series: {
                             pie: {
                                 show: true,
+                                combine: {
+                                    color: '#999',
+                                    threshold: 0.1
+                                },
                                 tilt:0.8,
                                 highlight: {
                                     opacity: 0.25
@@ -472,10 +476,10 @@
                             }
                         },
                         legend: {
-                            show: true,
-                            position: position || "ne", 
+                            show: false,
+                            /*position: position || "ne", 
                             labelBoxBorderColor: null,
-                            margin:[-30,15]
+                            margin:[-30,15]*/
                         },
                         grid: {
                             hoverable: true,
