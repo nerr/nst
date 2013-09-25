@@ -91,10 +91,10 @@ class AdminController extends Controller
         $this->render('dashboard', $params);
     }
 
-    public function actionUser()
+    public function actionUsers()
     {
         //--  get menu data
-        $params['menu'] = Menu::make(Yii::app()->user->gid, 'User');
+        $params['menu'] = Menu::aceMake(Yii::app()->user->gid, 'Users');
         //-- get user list
         $criteria = new CDbCriteria;
         $criteria->order = 'id';
