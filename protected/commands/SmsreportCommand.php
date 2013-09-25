@@ -12,10 +12,12 @@ class SmsreportCommand extends CConsoleCommand
         foreach($result as $val)
         {
             $data = Calculate::getGeneralSummaryData($val->id);
+            $weeks= Calculate::getOneWeekSwap(date('W'), date('Y'), $val->id);
 
             $msg = '截止'.$data['summary']['lastuptodate']."\r\n";
             $msg .= '账户余额: '.number_format($data['summary']['balance'], 2)."\r\n";
             $msg .= '交易成本: '.number_format($data['summary']['cost'], 2)."\r\n";
+            $msg .= '本周获得掉期: '.number_format($weeks['total'], 2)."\r\n";
             $msg .= '累计获得掉期: '.number_format($data['summary']['swap'], 2)."\r\n";
             $msg .= '浮动收益: '.number_format($data['summary']['netearning'], 2)."\r\n";
             if(($data['summary']['balance'] - $data['summary']['netearning']) > 0)
