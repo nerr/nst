@@ -227,8 +227,11 @@ class AdminController extends Controller
                         $data[$user->id]['weeks']['chartstr'] .= floor($v['swap_new']);
                 }
 
-                $data[$user->id]['weeks']['returnrate'] = $data[$user->id]['weeks']['total'] / $data[$user->id]['schema']['summary']['capital'] * 100;
-                $data[$user->id]['schema']['summary']['costrate'] = $data[$user->id]['schema']['summary']['cost'] / $data[$user->id]['schema']['summary']['capital'] * -100;
+                if($data[$user->id]['schema']['summary']['capital'] > 0)
+                {
+                    $data[$user->id]['weeks']['returnrate'] = $data[$user->id]['weeks']['total'] / $data[$user->id]['schema']['summary']['capital'] * 100;
+                    $data[$user->id]['schema']['summary']['costrate'] = $data[$user->id]['schema']['summary']['cost'] / $data[$user->id]['schema']['summary']['capital'] * -100;
+                }
             }
         }
 
