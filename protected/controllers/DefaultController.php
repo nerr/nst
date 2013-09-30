@@ -115,4 +115,15 @@ class DefaultController extends Controller
         $model->attributes = $attr;
         $model->save();
     }
+
+    public function actionFindpass()
+    {
+        $proof = $_POST['proof'];
+        $record = SysUser::model()->findByAttributes(array('email' => $proof['email']));
+
+        if($record===null)
+            $this->errorCode=self::ERROR_USERNAME_INVALID;
+        else if($record->password!==$this->password)
+            $this->errorCode=self::ERROR_PASSWORD_INVALID;
+    }
 }
