@@ -122,7 +122,7 @@
 
                                     <div class="col-sm-12 infobox-container">
                                         <!-- account balance -->
-                                        <div class="infobox infobox-green  ">
+                                        <div class="infobox infobox-green">
                                             <div class="infobox-icon">
                                                 <i class="icon-user"></i>
                                             </div>
@@ -134,7 +134,7 @@
                                         </div>
 
                                         <!-- principal balance -->
-                                        <div class="infobox infobox-orange  ">
+                                        <div class="infobox infobox-orange">
                                             <div class="infobox-icon">
                                                 <i class="icon-money"></i>
                                             </div>
@@ -146,7 +146,7 @@
                                         </div>
 
                                         <!-- total floating profit -->
-                                        <div class="infobox infobox-blue  ">
+                                        <div class="infobox infobox-blue">
                                             <div class="infobox-progress">
                                                 <div class="easy-pie-chart percentage" data-percent="<?php echo $summary['yieldrate']; ?>" data-size="46">
                                                     <span class="percent"></span>%
