@@ -197,8 +197,9 @@
                                                 <i class="icon-arrow-down"></i>
                                             </div>
                                         </div>
-                                        <?php } ?>
+                                        
                                     </div>
+                                    <?php } ?>
                                 </div><!-- /row -->
 
                                 <div class="hr hr32 hr-dotted"></div>
