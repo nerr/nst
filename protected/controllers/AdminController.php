@@ -54,31 +54,40 @@ class AdminController extends Controller
 
     public function actionDashboard()
     {
-        $params = Calculate::getGeneralSummaryData();
-
-        //-- params data format
-        $params['summary']['yieldrate'] = number_format($params['summary']['yieldrate'], 2);
-        foreach($params['charts'] as $key=>$val)
-            $params['charts'][$key] = json_encode($val);
-
-        foreach($params['swapratechart'] as $key=>$val)
-            $params['swapratechart'][$key] = json_encode($val);
-
-        $params['commission'] = Calculate::getAllCommission();
-
-        $params['weeks'] = Calculate::getOneWeekSwap(date('W'), date('Y'));
-        foreach($params['weeks'] as $k=>$v)
+        $trace = debug_backtrace();
+        $cacheId = $trace[0]["class"].'_'.$trace[0]["function"].'_'.Yii::app()->user->id;
+        $params = Yii::app()->cache->get($cacheId);
+        //-- check cache            
+        if($params===false)
         {
-            if($k>0 && $k<5)
-                $params['weeks']['chartstr'] .= floor($v['swap_new']).',';
-            elseif($k == 5)
-                $params['weeks']['chartstr'] .= floor($v['swap_new']);
+            $params = Calculate::getGeneralSummaryData();
+
+            //-- params data format
+            $params['summary']['yieldrate'] = number_format($params['summary']['yieldrate'], 2);
+            foreach($params['charts'] as $key=>$val)
+                $params['charts'][$key] = json_encode($val);
+
+            foreach($params['swapratechart'] as $key=>$val)
+                $params['swapratechart'][$key] = json_encode($val);
+
+            $params['commission'] = Calculate::getAllCommission();
+
+            $params['weeks'] = Calculate::getOneWeekSwap(date('W'), date('Y'));
+            foreach($params['weeks'] as $k=>$v)
+            {
+                if($k>0 && $k<5)
+                    $params['weeks']['chartstr'] .= floor($v['swap_new']).',';
+                elseif($k == 5)
+                    $params['weeks']['chartstr'] .= floor($v['swap_new']);
+            }
+            $params['weeks']['returnrate'] = $params['weeks']['total'] / $params['summary']['capital'] * 100;
+
+            $params['summary']['newswap'] = $params['weeks'][date('N', strtotime($params['summary']['lastuptodate']))]['swap_new'];
+
+            $params['menu'] = Menu::aceMake(Yii::app()->user->gid, 'Dashboard'); //Yii::app()->controller->action->id
+
+            Yii::app()->cache->set($cacheId, $params, 300);
         }
-        $params['weeks']['returnrate'] = $params['weeks']['total'] / $params['summary']['capital'] * 100;
-
-        $params['summary']['newswap'] = $params['weeks'][date('N', strtotime($params['summary']['lastuptodate']))]['swap_new'];
-
-        $params['menu'] = Menu::aceMake(Yii::app()->user->gid, 'Dashboard'); //Yii::app()->controller->action->id
 
         $this->render('dashboard', $params);
     }
@@ -176,47 +185,68 @@ class AdminController extends Controller
 
     public function actionInvestors()
     {
-        //-- get user list
-        $criteria = new CDbCriteria;
-        $criteria->select = 'id,email,username';
-        $criteria->condition='usergroupid=2 and id<>2';
-        $criteria->order = 'id';
-        $userlist = ViewSysUserList::model()->findAll($criteria);
+        $trace = debug_backtrace();
+        $cacheId = $trace[0]["class"].'_'.$trace[0]["function"].'_'.Yii::app()->user->id;
+        $params = Yii::app()->cache->get($cacheId);
 
-        if($userlist)
+        if($params===false)
         {
-            foreach($userlist as $user)
+            //-- get user list
+            $criteria = new CDbCriteria;
+            $criteria->select = 'id,email,username';
+            $criteria->condition='usergroupid=2 and id<>2';
+            $criteria->order = 'id';
+            $userlist = ViewSysUserList::model()->findAll($criteria);
+
+            if($userlist)
             {
-                $data[$user->id]['user'] = array('email'=>$user->email, 'username'=>$user->username);
-                $data[$user->id]['schema'] = Calculate::getGeneralSummaryData($user->id);
-                $data[$user->id]['weeks'] = Calculate::getOneWeekSwap(date('W'), date('Y'), $user->id);
-
-                foreach($data[$user->id]['weeks'] as $k=>$v)
+                foreach($userlist as $user)
                 {
-                    if($k>0 && $k<5)
-                        $data[$user->id]['weeks']['chartstr'] .= floor($v['swap_new']).',';
-                    elseif($k == 5)
-                        $data[$user->id]['weeks']['chartstr'] .= floor($v['swap_new']);
-                }
+                    $data[$user->id]['user'] = array('email'=>$user->email, 'username'=>$user->username);
+                    $data[$user->id]['schema'] = Calculate::getGeneralSummaryData($user->id);
+                    $data[$user->id]['weeks'] = Calculate::getOneWeekSwap(date('W'), date('Y'), $user->id);
 
-                if($data[$user->id]['schema']['summary']['capital'] > 0)
-                {
-                    $data[$user->id]['weeks']['returnrate'] = $data[$user->id]['weeks']['total'] / $data[$user->id]['schema']['summary']['capital'] * 100;
-                    $data[$user->id]['schema']['summary']['costrate'] = $data[$user->id]['schema']['summary']['cost'] / $data[$user->id]['schema']['summary']['capital'] * -100;
+                    foreach($data[$user->id]['weeks'] as $k=>$v)
+                    {
+                        if($k>0 && $k<5)
+                            $data[$user->id]['weeks']['chartstr'] .= floor($v['swap_new']).',';
+                        elseif($k == 5)
+                            $data[$user->id]['weeks']['chartstr'] .= floor($v['swap_new']);
+                    }
+
+                    if($data[$user->id]['schema']['summary']['capital'] > 0)
+                    {
+                        $data[$user->id]['weeks']['returnrate'] = $data[$user->id]['weeks']['total'] / $data[$user->id]['schema']['summary']['capital'] * 100;
+                        $data[$user->id]['schema']['summary']['costrate'] = $data[$user->id]['schema']['summary']['cost'] / $data[$user->id]['schema']['summary']['capital'] * -100;
+                    }
                 }
             }
-        }
 
-        $params['data'] = $data;
-        $params['menu'] = Menu::aceMake(Yii::app()->user->gid, 'Investors'); //Yii::app()->controller->action->id
+            $params['data'] = $data;
+            $params['menu'] = Menu::aceMake(Yii::app()->user->gid, 'Investors'); //Yii::app()->controller->action->id
+
+            Yii::app()->cache->set($cacheId, $params, 300);
+        }
 
         $this->render('investors', $params);
     }
 
     public function actionTest()
     {
-        $s = Calculate::getOneWeekSwap(date('W'), date('Y'));
-        Debug::dump($s);
+        //-- get cache
+        $trace = debug_backtrace();
+        $cacheId = $trace[0]["class"].'_'.$trace[0]["function"].'_'.Yii::app()->user->id;
+
+        $data = Yii::app()->cache->get($cacheId);
+        //-- check cache            
+        if($data===false) 
+        {
+            $data = array(1,2,3,4,5);
+            Yii::app()->cache->set($cacheId, $data, 10);
+            echo 'set';
+        }
+        else
+            Debug::dump($data);
     }
 
 }
