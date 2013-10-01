@@ -59,23 +59,13 @@ class AdminController extends Controller
         //-- params data format
         $params['summary']['yieldrate'] = number_format($params['summary']['yieldrate'], 2);
         foreach($params['charts'] as $key=>$val)
-        {
             $params['charts'][$key] = json_encode($val);
-        }
 
         foreach($params['swapratechart'] as $key=>$val)
-        {
             $params['swapratechart'][$key] = json_encode($val);
-        }
-
-        $reportdata = Calculate::getUserReport();
-
-        $params['summary']['newswap'] = $reportdata['detail'][date('Y-m-d', strtotime($params['summary']['lastuptodate']))]['newswap'];
 
         $params['commission'] = Calculate::getAllCommission();
-        //$params['spreadlose'] = Calculate::getAllSpreadlose();
 
-        //Debug::dump($params['summary']);
         $params['weeks'] = Calculate::getOneWeekSwap(date('W'), date('Y'));
         foreach($params['weeks'] as $k=>$v)
         {
@@ -85,6 +75,8 @@ class AdminController extends Controller
                 $params['weeks']['chartstr'] .= floor($v['swap_new']);
         }
         $params['weeks']['returnrate'] = $params['weeks']['total'] / $params['summary']['capital'] * 100;
+
+        $params['summary']['newswap'] = $params['weeks'][date('N', strtotime($params['summary']['lastuptodate']))]['swap_new'];
 
         $params['menu'] = Menu::aceMake(Yii::app()->user->gid, 'Dashboard'); //Yii::app()->controller->action->id
 
@@ -109,26 +101,6 @@ class AdminController extends Controller
         $params['userinfourl'] = $this->createUrl('admin/userinfo');
 
         $this->render('user', $params);
-    }
-
-    public function actionUserinfo()
-    {
-        //--  get menu data
-        $params['menu'] = Menu::make(Yii::app()->user->gid, 'User');
-        echo $_GET['uid'];
-        /*//-- get user list
-        $criteria = new CDbCriteria;
-        $criteria->order = 'id';
-        $userlist = ViewSysUserList::model()->findAll($criteria);
-        //-- get login log
-        $criteria = new CDbCriteria;
-        $criteria->order = 'logintime';
-        $loginlog = SysLoginLog::model()->findAll($criteria);
-
-        $params['loginlog'] = $loginlog;
-        $params['userlist'] = $userlist;
-
-        $this->render('user', $params);*/
     }
 
     public function actionSwaprate()

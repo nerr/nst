@@ -61,23 +61,13 @@ class IndexController extends Controller
         //-- params data format
         $params['summary']['yieldrate'] = number_format($params['summary']['yieldrate'], 2);
         foreach($params['charts'] as $key=>$val)
-        {
             $params['charts'][$key] = json_encode($val);
-        }
 
         foreach($params['swapratechart'] as $key=>$val)
-        {
             $params['swapratechart'][$key] = json_encode($val);
-        }
-
-        $reportdata = Calculate::getUserReport(Yii::app()->user->id);
-
-        $params['summary']['newswap'] = $reportdata['detail'][date('Y-m-d', strtotime($params['summary']['lastuptodate']))]['newswap'];
 
         $params['commission'] = Calculate::getAllCommission(Yii::app()->user->id);
-        //$params['spreadlose'] = Calculate::getAllSpreadlose();
 
-        //Debug::dump($params['summary']);
         $params['weeks'] = Calculate::getOneWeekSwap(date('W'), date('Y'), Yii::app()->user->id);
         foreach($params['weeks'] as $k=>$v)
         {
@@ -87,6 +77,8 @@ class IndexController extends Controller
                 $params['weeks']['chartstr'] .= floor($v['swap_new']);
         }
         $params['weeks']['returnrate'] = $params['weeks']['total'] / $params['summary']['capital'] * 100;
+
+        $params['summary']['newswap'] = $params['weeks'][date('N', strtotime($params['summary']['lastuptodate']))]['swap_new'];
 
         $params['menu'] = Menu::aceMake(Yii::app()->user->gid, 'Dashboard'); //Yii::app()->controller->action->id
 
