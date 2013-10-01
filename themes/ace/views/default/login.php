@@ -99,7 +99,12 @@
                                                             <span class="lbl" id="returninfo"></span>
                                                         </label>
 
-                                                        <input class="width-35 pull-right btn btn-sm btn-primary" value="Login" type="submit" />
+                                                        <!-- <input class="width-35 pull-right btn btn-sm btn-primary" value="Login" type="submit" data-loading-text="Loading..." id="submit-btn" /> -->
+
+                                                        <button type="button" class="width-35 pull-right btn btn-sm btn-primary" data-loading-text="Loading..." id="submit-btn">
+                                                            <i class="icon-key"></i>
+                                                            Login
+                                                        </button>
                                                     </div>
 
                                                     <div class="space-4"></div>
@@ -196,10 +201,16 @@
         <script type="text/javascript">
             if("ontouchend" in document) document.write("<script src='<?php echo $jspath; ?>jquery.mobile.custom.min.js'>"+"<"+"/script>");
         </script>
+        <script src="<?php echo $jspath; ?>bootstrap.min.js"></script>
+        <script src="<?php echo $jspath; ?>typeahead-bs2.min.js"></script>
 
         <!-- include jquery md5 plugin -->
 
         <script src="<?php echo $jspath; ?>jquery.md5.js"></script>
+
+        <!-- ace scripts -->
+
+        <script src="<?php echo $jspath; ?>ace-elements.min.js"></script>
 
         <!-- login script -->
 
@@ -209,7 +220,10 @@
                 $('.loadingimg').hide();
 
                 var emailformat = /^[A-Za-z0-9+]+[A-Za-z0-9\.\_\-+]*@([A-Za-z0-9\-]+\.)+[A-Za-z0-9]+$/;
-                $('#login-form').submit(function(){
+                 $('#submit-btn').on(ace.click_event, function () {
+                    var btn = $(this);
+                    btn.button('loading')
+
                     $('.loadingimg').show();
                     $('#returninfo').hide();
                     $('#returninfo').removeClass('red green');
@@ -221,14 +235,15 @@
                     if(!email.match(emailformat))
                     {
                         $('#returninfo').html('<?php echo Yii::t('common', 'Please check email address'); ?>').addClass('red').show();
-                        $('.loadingimg').hide();
+
+                        btn.button('reset')
                         return false;
                     }
                     if(pass=='')
                     {
                         $('#returninfo').html('<?php echo Yii::t('common', 'Please enter the password'); ?>').addClass('red').show();
                         $('#returninfo').show();
-                        $('.loadingimg').hide();
+                        btn.button('reset')
                         return false;
                     }
                     
@@ -241,7 +256,7 @@
                         else
                         {
                             $('#returninfo').html('<?php echo Yii::t('common', 'Auth failed'); ?>').addClass('red').show();
-                            $('.loadingimg').hide();
+                            btn.button('reset')
                         }
                     });
 
