@@ -19,14 +19,6 @@ class Calculate
     {
         //-- init data
         $data = array();
-        /*
-        //-- make cache id
-        $trace = debug_backtrace();
-        $cacheId = $trace[0]["function"].'_'.$uid;
-        //-- check cache
-        $data = Yii::app()->cache->get($cacheId);
-        if(count($data) > 0)
-            return $data;*/
 
         //-- get data if no cache 
         $criteria = new CDbCriteria;
@@ -158,7 +150,6 @@ class Calculate
             }
         }
 
-        // Yii::app()->cache->set($cacheId, $data, 60);
         return $data;
     }
 
