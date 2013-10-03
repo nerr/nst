@@ -86,7 +86,7 @@ class AdminController extends Controller
 
             $params['menu'] = Menu::aceMake(Yii::app()->user->gid, 'Dashboard'); //Yii::app()->controller->action->id
 
-            Yii::app()->cache->set($cacheId, $params, 300);
+            Yii::app()->cache->set($cacheId, $params, Yii::app()->params->cachePeriodTime);
         }
 
         $this->render('dashboard', $params);
@@ -225,7 +225,7 @@ class AdminController extends Controller
             $params['data'] = $data;
             $params['menu'] = Menu::aceMake(Yii::app()->user->gid, 'Investors'); //Yii::app()->controller->action->id
 
-            Yii::app()->cache->set($cacheId, $params, 300);
+            Yii::app()->cache->set($cacheId, $params, Yii::app()->params->cachePeriodTime);
         }
 
         $this->render('investors', $params);
