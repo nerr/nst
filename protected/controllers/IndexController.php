@@ -56,31 +56,40 @@ class IndexController extends Controller
      */
     public function actionDashboard()
     {
-        $params = Calculate::getGeneralSummaryData(Yii::app()->user->id);
-
-        //-- params data format
-        $params['summary']['yieldrate'] = number_format($params['summary']['yieldrate'], 2);
-        foreach($params['charts'] as $key=>$val)
-            $params['charts'][$key] = json_encode($val);
-
-        foreach($params['swapratechart'] as $key=>$val)
-            $params['swapratechart'][$key] = json_encode($val);
-
-        $params['commission'] = Calculate::getAllCommission(Yii::app()->user->id);
-
-        $params['weeks'] = Calculate::getOneWeekSwap(date('W'), date('Y'), Yii::app()->user->id);
-        foreach($params['weeks'] as $k=>$v)
+        $trace = debug_backtrace();
+        $cacheId = $trace[0]["class"].'_'.$trace[0]["function"].'_'.Yii::app()->user->id;
+        $params = Yii::app()->cache->get($cacheId);
+        //-- check cache            
+        if($params===false)
         {
-            if($k>0 && $k<5)
-                $params['weeks']['chartstr'] .= floor($v['swap_new']).',';
-            elseif($k == 5)
-                $params['weeks']['chartstr'] .= floor($v['swap_new']);
+            $params = Calculate::getGeneralSummaryData(Yii::app()->user->id);
+
+            //-- params data format
+            $params['summary']['yieldrate'] = number_format($params['summary']['yieldrate'], 2);
+            foreach($params['charts'] as $key=>$val)
+                $params['charts'][$key] = json_encode($val);
+
+            foreach($params['swapratechart'] as $key=>$val)
+                $params['swapratechart'][$key] = json_encode($val);
+
+            $params['commission'] = Calculate::getAllCommission(Yii::app()->user->id);
+
+            $params['weeks'] = Calculate::getOneWeekSwap(date('W'), date('Y'), Yii::app()->user->id);
+            foreach($params['weeks'] as $k=>$v)
+            {
+                if($k>0 && $k<5)
+                    $params['weeks']['chartstr'] .= floor($v['swap_new']).',';
+                elseif($k == 5)
+                    $params['weeks']['chartstr'] .= floor($v['swap_new']);
+            }
+            $params['weeks']['returnrate'] = $params['weeks']['total'] / $params['summary']['capital'] * 100;
+
+            $params['summary']['newswap'] = $params['weeks'][date('N', strtotime($params['summary']['lastuptodate']))]['swap_new'];
+
+            $params['menu'] = Menu::aceMake(Yii::app()->user->gid, 'Dashboard'); //Yii::app()->controller->action->id
+
+            Yii::app()->cache->set($cacheId, $params, Yii::app()->params->cachePeriodTime);
         }
-        $params['weeks']['returnrate'] = $params['weeks']['total'] / $params['summary']['capital'] * 100;
-
-        $params['summary']['newswap'] = $params['weeks'][date('N', strtotime($params['summary']['lastuptodate']))]['swap_new'];
-
-        $params['menu'] = Menu::aceMake(Yii::app()->user->gid, 'Dashboard'); //Yii::app()->controller->action->id
 
         $this->render('dashboard', $params);
     }
