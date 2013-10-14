@@ -122,8 +122,8 @@ class AdminController extends Controller
         foreach($data['swapratechart'] as $key=>$val)
             $params['swapratechart'][$key] = json_encode($val);
 
-        $movingaverage['EURMXNshort'] = Calculate::getMovingAverage($data['swapratechart']['EURMXNshort'], 7);
-        $movingaverage['USDMXNshort'] = Calculate::getMovingAverage($data['swapratechart']['USDMXNshort'], 7);
+        $movingaverage['EURMXNshort'] = Calculate::getMovingAverage($data['swapratechart']['EURMXNshort'], 30);
+        $movingaverage['USDMXNshort'] = Calculate::getMovingAverage($data['swapratechart']['USDMXNshort'], 30);
         foreach($movingaverage as $key=>$val)
             $params['movingaverage'][$key] = json_encode($val);
 
@@ -229,6 +229,12 @@ class AdminController extends Controller
         }
 
         $this->render('investors', $params);
+    }
+
+    public function actionSnowball()
+    {
+        $params['menu'] = Menu::aceMake(Yii::app()->user->gid, 'Snowball');
+        
     }
 
     public function actionTest()
