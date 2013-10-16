@@ -125,16 +125,12 @@
                                                     foreach($userlist as $key=>$val){ ?>
                                                     <tr>
                                                         <td><?php echo $val->id; ?></td>
-                                                        <td><a href="<?php echo $userinfourl.'/uid/'.$val->id; ?>"><?php echo $val->email; ?></a></td>
+                                                        <td><?php echo $val->email; ?></a></td>
                                                         <td><?php echo $val->groupname; ?></td>
                                                         <td><?php echo $val->memo; ?></td>
                                                         <td>
                                                             <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
-                                                                <a class="blue" href="#">
-                                                                    <i class="icon-zoom-in bigger-130"></i>
-                                                                </a>
-
-                                                                <a class="green" href="#">
+                                                                <a class="green" href="<?php echo $this->createUrl('admin/useredit', array('id'=>$val->id));?>">
                                                                     <i class="icon-pencil bigger-130"></i>
                                                                 </a>
 
@@ -148,6 +144,11 @@
                                                 </tbody>
                                             </table>
                                         </div><!-- /.table-responsive -->
+
+                                        <button type="button" class="btn btn-sm btn-yellow">
+                                            <i class="icon-plus-sign-alt"></i>
+                                            Add New User
+                                        </button>
                                     </div><!-- /span -->
                                 </div><!-- /pie chart -->
 

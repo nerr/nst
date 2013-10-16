@@ -107,9 +107,39 @@ class AdminController extends Controller
 
         $params['loginlog'] = $loginlog;
         $params['userlist'] = $userlist;
-        $params['userinfourl'] = $this->createUrl('admin/userinfo');
 
         $this->render('user', $params);
+    }
+
+    public function actionUseredit()
+    {
+        //--  get menu data
+        $params['menu'] = Menu::aceMake(Yii::app()->user->gid, 'Users');
+        //-- get date
+        $user = SysUser::model()->findByAttributes(array('id'=>$_GET['id']));
+
+        $params['user'] = $user;
+        $params['avatar'] = Tools::tGetGavatar($user->email);
+        $this->render('useredit', $params);
+    }
+
+    public function actionUserupdate()
+    {
+        $res['updatestatus'] = false;
+
+        $user = SysUser::model()->findByPk($_POST['userid']);
+
+        $user->mobile = $_POST['mobile'];
+        $user->emaillist = $_POST['emaillist'];
+
+        if($_POST['newpass'] != '' && $user->password == trim($_POST['oldpass']))
+            $user->password = trim($_POST['newpass']);
+
+        $user->save();
+
+        $res['updatestatus'] = true;
+
+        echo json_encode($res);
     }
 
     public function actionSwaprate()
