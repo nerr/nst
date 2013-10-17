@@ -19,7 +19,8 @@ class Calculate
     {
         //-- init data
         $data = array();
-        
+
+        //-- get data if no cache 
         $criteria = new CDbCriteria;
         $criteria->select = 'orderticket,profit,swap,logdatetime,orderstatus,closedate,getswap,endprofit,commission';
         if($uid > 0)
@@ -30,11 +31,9 @@ class Calculate
         else
             $criteria->condition = 'userid<>2';
 
-        //$criteria->order  = 'logdatetime';
+        $criteria->order  = 'logdatetime';
         $result = ViewTaSwapOrderDetail::model()->findAll($criteria);
 
-        Debug::dump($result);
-        /*
         if($result)
         {
             //--  init var
@@ -149,7 +148,7 @@ class Calculate
                 foreach($val as $k=>$v)
                     $data['charts'][$c][] = array($k, $v);
             }
-        }*/
+        }
 
         return $data;
     }
