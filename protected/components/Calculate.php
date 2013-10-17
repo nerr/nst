@@ -19,10 +19,9 @@ class Calculate
     {
         //-- init data
         $data = array();
-        /*
-        //-- get data if no cache 
+        
         $criteria = new CDbCriteria;
-        $criteria->select = 'orderticket,profit,swap,logdatetime,orderstatus,closedate,getswap,endprofit,commission';
+        $criteria->select = 'orderticket';
         if($uid > 0)
         {
             $criteria->condition = 'userid=:userid';
@@ -31,10 +30,10 @@ class Calculate
         else
             $criteria->condition = 'userid<>2';
 
-        $criteria->order  = 'logdatetime';
+        //$criteria->order  = 'logdatetime';
         $result = ViewTaSwapOrderDetail::model()->findAll($criteria);
 
-        Debug::dump($result);*/
+        Debug::dump($result);
         /*
         if($result)
         {
