@@ -271,13 +271,19 @@ class AdminController extends Controller
     {
         $trace = debug_backtrace();
         $cacheId = $trace[0]["class"].'_'.$trace[0]["function"].'_'.Yii::app()->user->id;
+
+        echo $cacheId;
+
+
         $params = Yii::app()->cache->get($cacheId);
         //-- check cache            
         if($params===false)
         {
-            $params = Calculate::getGeneralSummaryData();
+            echo "no cached data";
 
-            Debug::dump($params);
+            /*$params = Calculate::getGeneralSummaryData();
+
+            Debug::dump($params);*/
 
             /*//-- params data format
             $params['summary']['yieldrate'] = number_format($params['summary']['yieldrate'], 2);
