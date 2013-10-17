@@ -21,7 +21,7 @@ class Calculate
         $data = array();
         
         $criteria = new CDbCriteria;
-        $criteria->select = 'orderticket';
+        $criteria->select = 'orderticket,profit,swap,logdatetime,orderstatus,closedate,getswap,endprofit,commission';
         if($uid > 0)
         {
             $criteria->condition = 'userid=:userid';
