@@ -277,6 +277,8 @@ class AdminController extends Controller
         {
             $params = Calculate::getGeneralSummaryData(0);
 
+            Debug::dump($params);
+
             /*//-- params data format
             $params['summary']['yieldrate'] = number_format($params['summary']['yieldrate'], 2);
             foreach($params['charts'] as $key=>$val)

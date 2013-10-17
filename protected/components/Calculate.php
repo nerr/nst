@@ -19,7 +19,7 @@ class Calculate
     {
         //-- init data
         $data = array();
-
+        /*
         //-- get data if no cache 
         $criteria = new CDbCriteria;
         $criteria->select = 'orderticket,profit,swap,logdatetime,orderstatus,closedate,getswap,endprofit,commission';
@@ -34,7 +34,7 @@ class Calculate
         $criteria->order  = 'logdatetime';
         $result = ViewTaSwapOrderDetail::model()->findAll($criteria);
 
-        Debug::dump($result);
+        Debug::dump($result);*/
         /*
         if($result)
         {
