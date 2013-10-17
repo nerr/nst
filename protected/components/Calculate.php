@@ -34,6 +34,8 @@ class Calculate
         $criteria->order  = 'logdatetime';
         $result = ViewTaSwapOrderDetail::model()->findAll($criteria);
 
+        Debug::dump($result);
+        /*
         if($result)
         {
             //--  init var
@@ -148,7 +150,7 @@ class Calculate
                 foreach($val as $k=>$v)
                     $data['charts'][$c][] = array($k, $v);
             }
-        }
+        }*/
 
         return $data;
     }
