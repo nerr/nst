@@ -6,7 +6,7 @@ class SmsdailyCommand extends CConsoleCommand
     {
         $criteria = new CDbCriteria;
         $criteria->select = 'id,mobile';
-        $criteria->condition='id in (5)';
+        $criteria->condition='id in (5,18)';
         $result = SysUser::model()->findAll($criteria);
 
         foreach($result as $val)
