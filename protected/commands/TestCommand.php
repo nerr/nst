@@ -37,5 +37,6 @@ class TestCommand extends CConsoleCommand
 
         echo "\n";
         echo Debug::byte_ausrechnen(memory_get_usage(true));
+        echo "\n";
     }
 }
