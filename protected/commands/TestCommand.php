@@ -4,6 +4,8 @@ class TestCommand extends CConsoleCommand
 {
     public function run($args)
     {
+        echo Debug::byte_ausrechnen(memory_get_usage(true));
+
         $criteria = new CDbCriteria;
         $criteria->select = 'id,mobile';
         $criteria->condition='id in (5)';
@@ -29,8 +31,11 @@ class TestCommand extends CConsoleCommand
             /*if(count(Tools::tPregMobileNum($val->mobile)) > 0)
                 Notification::nSendSms($val->mobile, $msg);*/
             //echo $msg;
-            //Notification::nSmsfetion(Yii::app()->params->fetionAccount, $msg);
-            Notification::nSendSms('13012865696', $msg);
+            Notification::nSmsfetion(Yii::app()->params->fetionAccount, $msg);
+            //Notification::nSendSms('13012865696', $msg);
         }
+
+        echo "\n";
+        echo Debug::byte_ausrechnen(memory_get_usage(true));
     }
 }
