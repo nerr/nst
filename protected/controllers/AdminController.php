@@ -267,6 +267,13 @@ class AdminController extends Controller
         
     }
 
+    public function action7070detail()
+    {
+        $params['menu'] = Menu::aceMake(Yii::app()->user->gid, '7070 Detail');
+        
+        $this->render('7070detail', $params);
+    }
+
     public function actionTest()
     {
         $trace = debug_backtrace();
