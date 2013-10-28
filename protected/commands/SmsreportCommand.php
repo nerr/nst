@@ -6,7 +6,7 @@ class SmsreportCommand extends CConsoleCommand
     {
         $criteria = new CDbCriteria;
         $criteria->select = 'id,mobile';
-        $criteria->condition='id in (1,5,8,12)';
+        $criteria->condition='id in (1,5,8,12,18)';
         $result = SysUser::model()->findAll($criteria);
 
         foreach($result as $val)
