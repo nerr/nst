@@ -182,7 +182,7 @@
                                         </div>
 
                                         <!-- transaction costs -->
-                                        <div class="infobox infobox-red">
+                                        <div class="infobox infobox-red hidden-md hidden-sm hidden-xs">
                                             <div class="infobox-icon">
                                                 <i class="icon-usd"></i>
                                             </div>
