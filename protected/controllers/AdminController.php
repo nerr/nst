@@ -277,8 +277,40 @@ class AdminController extends Controller
     public function actionTestswap()
     {
         $params['menu'] = Menu::aceMake(Yii::app()->user->gid, 'Test Swap');
+
+        //-- get user list
+        $criteria = new CDbCriteria;
+        $criteria->select = '*';
+        $criteria->order = 'broker,accountnum,orderticket';
+        $result = TestOrderinfo::model()->findAll($criteria);
+
+        //
+        if($result)
+        {
+            foreach($result as $val)
+            {
+                $info[$val->broker][$val->accountnum][$val->symbol][$val->ordertype] = array(
+                    'lots' => $val->lots,
+                    'swap' => $val->swap,
+                    'openprice' => $val->openprice,
+                    'profit' => $val->profit,
+                    'longswap' => $val->longswap, 
+                    'shortswap' => $val->shortswap             
+                );
+            }
+        }
+
+        foreach($info as $broker=>$accounts)
+        {
+            foreach($accounts as $account=>$val)
+            {
+                $params['data'][$broker][$account] = Calculate::findProfitableRings($val);
+            }
+        }
+
+        //Debug::dump($params['data']);
         
-        $this->render('7070detail', $params);
+        $this->render('testswap', $params);
     }
 
     public function actionTest()
