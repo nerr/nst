@@ -136,7 +136,7 @@
                                                         <td><span <?php echo $class; ?>><?php echo $v['long']; ?></span></td>
                                                         <?php if($v['short'] > 0) $class = $profitable; else $class = ''; ?>
                                                         <td><span <?php echo $class; ?>><?php echo $v['short']; ?></span></td>
-                                                        <td><span><?php echo '3 '.$v['maincurrency']; ?></span></td>
+                                                        <td><span><?php echo '30K '.$v['maincurrency']; ?></span></td>
                                                         <td><span><?php echo number_format($v['profitrate'], 2).'%'; ?></span></td>
                                                     </tr>
                                                     <?php } } } } } ?>
