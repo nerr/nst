@@ -519,6 +519,32 @@ class Calculate
                     if(isset($data[$symbola][1]['swap']) && isset($data[$symbolb][0]['swap']) && isset($data[$b2.$a2.$ext][0]['swap']))
                         $ring['short'] = $data[$symbola][1]['swap'] + $data[$symbolb][0]['swap'] + $data[$b2.$a2.$ext][0]['swap'] * $data[$symbolb][0]['openprice'];
 
+                    //-- 
+                    $ring['maincurrency'] = $a1;
+
+                    //--
+                    $ring['cost'] = 3;
+                    if(isset($data[$a1.'USD'.$ext][0]['openprice']))
+                        $ring['cost'] *= $data[$a1.'USD'.$ext][0]['openprice'];
+                    elseif(isset($data[$a1.'USD'.$ext][1]['openprice']))
+                        $ring['cost'] *= $data[$a1.'USD'.$ext][1]['openprice'];
+                    elseif(isset($data['USD'.$a1.$ext][0]['openprice']))
+                        $ring['cost'] /= $data['USD'.$a1.$ext][0]['openprice'];
+                    elseif(isset($data['USD'.$a1.$ext][1]['openprice']))
+                        $ring['cost'] /= $data['USD'.$a1.$ext][1]['openprice'];
+
+                    $ring['cost'] *= 100000;
+
+                    //--
+                    if($ring['long'] > 0)
+                        $ring['oneswapuse'] = $ring['cost'] / $ring['long'];
+                    elseif($ring['short'] > 0)
+                        $ring['oneswapuse'] = $ring['cost'] / $ring['short'];
+
+
+
+
+
                     if($ring['long'] > 0 || $ring['short'] > 0)
                         $rings[] = $ring;
                 }
