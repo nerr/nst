@@ -483,4 +483,49 @@ class Calculate
     {
 
     }
+
+    public static function findProfitableRings($data)
+    {
+        if(count($data) <= 0)
+            return false;
+
+        foreach($data as $symbola=>$detaila)
+        {
+            $a1 = substr($symbola, 0, 3);
+            $a2 = substr($symbola, 3, 3);
+            $ext = substr($symbola, 6);
+
+            foreach($data as $symbolb=>$detailb)
+            {
+                if($symbola == $symbolb) break;
+
+                $b1 = substr($symbolb, 0, 3);
+                $b2 = substr($symbolb, 3, 3);
+
+                if(count($data[$b2.$a2.$ext]) > 1 && $a1 == $b1)
+                {
+                    unset($ring);
+                    $ring = array(
+                        'symbols' => array(
+                            'A' => $symbola,
+                            'B' => $symbolb,
+                            'C' => $b2.$a2.$ext
+                        ),
+                        /*'long' => $data[$symbola][0]['longswap'] + $data[$symbolb][1]['shortswap'] + $data[$b2.$a2.$ext][1]['shortswap'] * $data[$symbolb][1]['openprice'],
+                        'short'=> $data[$symbola][1]['shortswap'] + $data[$symbolb][0]['longswap'] + $data[$b2.$a2.$ext][0]['longswap'] * $data[$symbolb][0]['openprice'],*/
+                    );
+
+                    if(isset($data[$symbola][0]['longswap']) && isset($data[$symbolb][1]['shortswap']) && isset($data[$b2.$a2.$ext][1]['shortswap']))
+                        $ring['long'] = $data[$symbola][0]['longswap'] + $data[$symbolb][1]['shortswap'] + $data[$b2.$a2.$ext][1]['shortswap'] * $data[$symbolb][1]['openprice'];
+
+                    if(isset($data[$symbola][1]['shortswap']) && isset($data[$symbolb][0]['longswap']) && isset($data[$b2.$a2.$ext][0]['longswap']))
+                    $ring['short'] = $data[$symbola][1]['shortswap'] + $data[$symbolb][0]['longswap'] + $data[$b2.$a2.$ext][0]['longswap'] * $data[$symbolb][0]['openprice'];
+
+                    if($ring['long'] > 0 || $ring['short'] > 0)
+                        $rings[] = $ring;
+                }
+            }
+        }
+        return $rings;
+    }
 }
