@@ -274,6 +274,13 @@ class AdminController extends Controller
         $this->render('7070detail', $params);
     }
 
+    public function actionTestswap()
+    {
+        $params['menu'] = Menu::aceMake(Yii::app()->user->gid, 'Test Swap');
+        
+        $this->render('7070detail', $params);
+    }
+
     public function actionTest()
     {
         $trace = debug_backtrace();
