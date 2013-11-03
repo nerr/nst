@@ -537,10 +537,17 @@ class Calculate
 
                     //--
                     if($ring['long'] > 0)
+                    {
                         $ring['oneswapuse'] = $ring['cost'] / $ring['long'];
+                        $ring['profitrate'] = 360 / ( $ring['oneswapuse'] / $data[$symbola][0]['leverage'] ) * 100;
+                    }
                     elseif($ring['short'] > 0)
+                    {
                         $ring['oneswapuse'] = $ring['cost'] / $ring['short'];
+                        $ring['profitrate'] = 360 / ( $ring['oneswapuse'] / $data[$symbola][0]['leverage'] ) * 100;
+                    }
 
+                    //-- 
 
 
 

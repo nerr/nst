@@ -295,7 +295,8 @@ class AdminController extends Controller
                     'openprice' => $val->openprice,
                     'profit' => $val->profit,
                     'longswap' => $val->longswap, 
-                    'shortswap' => $val->shortswap             
+                    'shortswap' => $val->shortswap,
+                    'leverage' => $val->leverage           
                 );
             }
         }

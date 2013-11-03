@@ -116,7 +116,7 @@
                                                         <th><?php echo Yii::t('common', 'Long Swap Total'); ?></th>
                                                         <th><?php echo Yii::t('common', 'Short Swap Total'); ?></th>
                                                         <th><?php echo Yii::t('common', 'Total Lots'); ?></th>
-                                                        <th><?php echo Yii::t('common', 'One Swap Cost'); ?></th>
+                                                        <th><?php echo Yii::t('common', 'Expected rate of return'); ?></th>
                                                     </tr>
                                                 </thead>
 
@@ -137,7 +137,7 @@
                                                         <?php if($v['short'] > 0) $class = $profitable; else $class = ''; ?>
                                                         <td><span <?php echo $class; ?>><?php echo $v['short']; ?></span></td>
                                                         <td><span><?php echo '3 '.$v['maincurrency']; ?></span></td>
-                                                        <td><span><?php echo number_format($v['oneswapuse'], 0).'USD'; ?></span></td>
+                                                        <td><span><?php echo number_format($v['profitrate'], 2).'%'; ?></span></td>
                                                     </tr>
                                                     <?php } } } } } ?>
                                                 </tbody>
