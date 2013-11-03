@@ -510,9 +510,7 @@ class Calculate
                             'A' => $symbola,
                             'B' => $symbolb,
                             'C' => $b2.$a2.$ext
-                        ),
-                        /*'long' => $data[$symbola][0]['longswap'] + $data[$symbolb][1]['shortswap'] + $data[$b2.$a2.$ext][1]['shortswap'] * $data[$symbolb][1]['openprice'],
-                        'short'=> $data[$symbola][1]['shortswap'] + $data[$symbolb][0]['longswap'] + $data[$b2.$a2.$ext][0]['longswap'] * $data[$symbolb][0]['openprice'],*/
+                        )
                     );
 
                     if(isset($data[$symbola][0]['swap']) && isset($data[$symbolb][1]['swap']) && isset($data[$b2.$a2.$ext][1]['swap']))
