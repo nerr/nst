@@ -519,7 +519,7 @@ class Calculate
                         $ring['long'] = $data[$symbola][0]['swap'] + $data[$symbolb][1]['swap'] + $data[$b2.$a2.$ext][1]['swap'] * $data[$symbolb][1]['openprice'];
 
                     if(isset($data[$symbola][1]['swap']) && isset($data[$symbolb][0]['swap']) && isset($data[$b2.$a2.$ext][0]['swap']))
-                    $ring['short'] = $data[$symbola][1]['swap'] + $data[$symbolb][0]['swap'] + $data[$b2.$a2.$ext][0]['swap'] * $data[$symbolb][0]['openprice'];
+                        $ring['short'] = $data[$symbola][1]['swap'] + $data[$symbolb][0]['swap'] + $data[$b2.$a2.$ext][0]['swap'] * $data[$symbolb][0]['openprice'];
 
                     if($ring['long'] > 0 || $ring['short'] > 0)
                         $rings[] = $ring;
