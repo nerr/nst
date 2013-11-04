@@ -314,6 +314,74 @@ class AdminController extends Controller
         $this->render('testswap', $params);
     }
 
+    public function actionLogProfitableRings()
+    {
+        //-- get user list
+        $criteria = new CDbCriteria;
+        $criteria->select = '*';
+        $criteria->order = 'broker,accountnum,orderticket';
+        $result = TestOrderinfo::model()->findAll($criteria);
+
+        //
+        if($result)
+        {
+            foreach($result as $val)
+            {
+                $info[$val->broker][$val->accountnum][$val->symbol][$val->ordertype] = array(
+                    'lots' => $val->lots,
+                    'swap' => $val->swap,
+                    'openprice' => $val->openprice,
+                    'profit' => $val->profit,
+                    'longswap' => $val->longswap, 
+                    'shortswap' => $val->shortswap,
+                    'leverage' => $val->leverage           
+                );
+            }
+        }
+
+        foreach($info as $broker=>$accounts)
+        {
+            foreach($accounts as $account=>$val)
+            {
+                $params['data'][$broker][$account] = Calculate::findProfitableRings($val);
+            }
+        }
+
+        $data = $params['data'];
+        //--
+        
+        foreach($data as $broker=>$accounts){
+            foreach($accounts as $account=>$val){
+                if(is_array($val)){
+                    foreach($val as $v){
+                        unset($attr);
+                        $attr = array(
+                            'broker' => $broker,
+                            'accountnum' => $account,
+                            'symbol_a' => $v['symbols']['A'],
+                            'symbol_b' => $v['symbols']['B'],
+                            'symbol_c' => $v['symbols']['B'],
+                            'longswaptotal' => $v['long'],
+                            'shortswaptotal' => $v['short'],
+                            'expected' => $v['profitrate']
+                        );
+                        $model = new TestProfitableRings;
+                        $model->attributes = $attr;
+                        $model->save();
+
+                        //Debug::dump($attr);
+                    }
+                }
+            }
+        }
+
+
+
+
+        
+
+    }
+
     public function actionTest()
     {
         $trace = debug_backtrace();
