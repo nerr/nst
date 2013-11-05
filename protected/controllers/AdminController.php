@@ -360,7 +360,7 @@ class AdminController extends Controller
                             'accountnum' => $account,
                             'symbol_a' => $v['symbols']['A'],
                             'symbol_b' => $v['symbols']['B'],
-                            'symbol_c' => $v['symbols']['B'],
+                            'symbol_c' => $v['symbols']['C'],
                             'longswaptotal' => $v['long'],
                             'shortswaptotal' => $v['short'],
                             'expected' => $v['profitrate']
