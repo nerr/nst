@@ -513,11 +513,26 @@ class Calculate
                         )
                     );
 
+
+                    $bPriceLong = $data[$symbolb][1]['openprice'];
+                    $bPriceShort= $data[$symbolb][0]['openprice'];
+
+                    if($a1 == 'XAU')
+                    {
+                        $bPriceLong /= 10000;
+                        $bPriceShort/= 10000;
+                    }
+                    elseif($a1 == 'XAG')
+                    {
+                        $bPriceLong /= 20;
+                        $bPriceShort/= 20;
+                    }
+
                     if(isset($data[$symbola][0]['swap']) && isset($data[$symbolb][1]['swap']) && isset($data[$b2.$a2.$ext][1]['swap']))
-                        $ring['long'] = $data[$symbola][0]['swap'] + $data[$symbolb][1]['swap'] + $data[$b2.$a2.$ext][1]['swap'] * $data[$symbolb][1]['openprice'];
+                        $ring['long'] = $data[$symbola][0]['swap'] + $data[$symbolb][1]['swap'] + $data[$b2.$a2.$ext][1]['swap'] * $bPriceLong;
 
                     if(isset($data[$symbola][1]['swap']) && isset($data[$symbolb][0]['swap']) && isset($data[$b2.$a2.$ext][0]['swap']))
-                        $ring['short'] = $data[$symbola][1]['swap'] + $data[$symbolb][0]['swap'] + $data[$b2.$a2.$ext][0]['swap'] * $data[$symbolb][0]['openprice'];
+                        $ring['short'] = $data[$symbola][1]['swap'] + $data[$symbolb][0]['swap'] + $data[$b2.$a2.$ext][0]['swap'] * $bPriceShort;
 
                     //-- 
                     $ring['maincurrency'] = $a1;
